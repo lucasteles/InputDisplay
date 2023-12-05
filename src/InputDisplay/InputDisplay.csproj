@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <PublishRelease>true</PublishRelease>
+    <TieredCompilation>false</TieredCompilation>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <WarningsAsErrors>CS8600;CS8602;CS8603;CS8604;CS8625;CS8618;CS8620</WarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
+    <DebugType>None</DebugType>
+    <DebugSymbols>False</DebugSymbols>
+    <PublishSingleFile>true</PublishSingleFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Icon.ico"/>
+    <None Remove="Icon.bmp"/>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icon.ico"/>
+    <EmbeddedResource Include="Icon.bmp"/>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303"/>
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303"/>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.14.0.81108">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
+    <Message Text="Restoring dotnet tools" Importance="High"/>
+    <Exec Command="dotnet tool restore"/>
+  </Target>
+</Project>
