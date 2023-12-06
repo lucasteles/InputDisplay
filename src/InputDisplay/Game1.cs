@@ -34,7 +34,7 @@ public class Game1 : Game
         IsMouseVisible = true;
         Window.AllowUserResizing = true;
         Window.ClientSizeChanged += OnResize;
-        Window.Title = "Input Display 🕹️";
+        Window.Title = "Input Display";
     }
 
     protected override void LoadContent()

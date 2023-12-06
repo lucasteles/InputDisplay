@@ -27,15 +27,19 @@ public class InputEntry
         {
             var frameString = HoldingFrames.ToString().PadLeft(2);
             var stringSize = font.MeasureString(MaxFramesString);
-            var scale = config.ButtonIconSize / stringSize.Y * 0.9f;
+            var scale = config.MaxIconSize / stringSize.Y * 0.9f;
 
             Vector2 textMiddlePoint = new(
                 config.SpaceBetweenInputs * -2,
-                ((float)-config.MaxIconSize / 2) + (stringSize.Y * scale / 2)
+                ((float)config.MaxIconSize / 2) - (stringSize.Y / 2)
             );
 
+            batch.DrawString(font, frameString, position, Color.Black, 0,
+                textMiddlePoint,
+                scale + 0.05f, SpriteEffects.None, 0.5f);
+
             batch.DrawString(font, frameString, position, Color.White, 0,
-                textMiddlePoint, scale, SpriteEffects.None, 0.5f);
+                textMiddlePoint, scale, SpriteEffects.None, 1f);
 
             if (config.Horizontal)
                 rect.Y += (int)(stringSize.Y * scale * 1.2) + (config.SpaceBetweenInputs * 3);

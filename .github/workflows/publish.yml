@@ -39,7 +39,7 @@ jobs:
               with:
                   global-json-file: global.json
 
-            - name: Build and Pack NuGet package
+            - name: Build and Publish Package
               run: dotnet publish src/InputDisplay --configuration Release --self-contained -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ./Publish
 
             - name: Upload lib NuGet package artifact to GitHub
