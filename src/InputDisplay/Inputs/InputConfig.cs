@@ -11,6 +11,7 @@ public class InputConfig
     public int DirectionIconSize { get; set; }
     public bool ShadowHolding { get; set; }
     public bool ShowFrames { get; set; } = true;
+    public int DirectionSpace { get; set; } = 10;
 
     public bool AutoCorrectMultiple { get; set; }
     public int ValidDirectionSize => DirectionIconSize is 0 ? ButtonIconSize : DirectionIconSize;
@@ -18,7 +19,7 @@ public class InputConfig
     public bool InvertHistory { get; set; }
     public bool HideButtonRelease { get; set; }
     public bool Horizontal { get; set; }
-    public Color BackgroundColor { get; set; } = Color.DarkGray;
+    public Color BackgroundColor { get; set; } = Color.DarkOliveGreen;
 
     public void ConfigureForWindow(GameWindow window)
     {

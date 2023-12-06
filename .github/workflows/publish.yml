@@ -40,7 +40,7 @@ jobs:
                   global-json-file: global.json
 
             - name: Build and Publish Package
-              run: dotnet publish src/InputDisplay --configuration Release --self-contained -r win-x64 -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ./Publish
+              run: dotnet publish src/InputDisplay --configuration Release --self-contained -r win-x64  -p:DebugType=None -p:DebugSymbols=false -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ./Publish
 
             - name: Zip Package
               run: cd ./Publish; zip -r ../input_display_${{ steps.gitversion.outputs.SemVer  }}.zip *

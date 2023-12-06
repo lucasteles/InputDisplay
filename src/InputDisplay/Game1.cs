@@ -11,8 +11,6 @@ public class Game1 : Game
     SpriteBatch spriteBatch = null!;
     InputBuffer buffer = default!;
 
-    readonly ThemeCycle themeCycle = new();
-
     readonly InputConfig config = new()
     {
         ButtonIconSize = 40,
@@ -26,6 +24,10 @@ public class Game1 : Game
         InvertHistory = false,
         Horizontal = false,
     };
+
+    PlayerIndex? player;
+    SpriteFont font = null!;
+    readonly ThemeCycle themeCycle = new();
 
     public Game1()
     {
@@ -43,14 +45,11 @@ public class Game1 : Game
         ThemeManager.LoadContent(Content);
 
         config.FallbackTheme = ThemeManager.Get("XBOX");
-#pragma warning disable S125
         config.Theme = ThemeManager.Get("Street Fighter");
-        // config.Theme = ThemeManager.Get("Tekken - XBox", "dpad");
-        // config.Theme = ThemeManager.Get("Guilty Gear", "small");
-#pragma warning restore S125
 
         themeCycle.StartWith(config.Theme);
-        buffer = new(config, Content.Load<SpriteFont>("numbers"));
+        font = Content.Load<SpriteFont>("numbers");
+        buffer = new(config, font);
         config.ConfigureForWindow(Window);
     }
 
@@ -64,7 +63,19 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
-        var state = GamePad.GetState(PlayerIndex.One);
+        if (player is null)
+        {
+            DetectController();
+
+            return;
+        }
+
+        var state = GamePad.GetState(player.Value);
+        if (!state.IsConnected)
+        {
+            player = null;
+            return;
+        }
 
         buffer.Update(state);
         KeyboardManager.Update();
@@ -75,9 +86,31 @@ public class Game1 : Game
         if (KeyboardManager.IsKeyPressed(Keys.Space))
             config.InvertHistory = !config.InvertHistory;
 
+        if (KeyboardManager.IsKeyDown(Keys.Back) || KeyboardManager.IsKeyDown(Keys.Delete))
+            buffer.Clear();
+
         UpdateTheme();
 
         base.Update(gameTime);
+    }
+
+    void DetectController()
+    {
+        foreach (var i in Enum.GetValues<PlayerIndex>())
+        {
+            var state = GamePad.GetState(i);
+            if (!state.IsConnected) continue;
+            foreach (var button in Enum.GetValues<Buttons>())
+            {
+                if (!state.IsButtonDown(button)) continue;
+                player = i;
+
+                var caps = GamePad.GetCapabilities(i);
+                Console.WriteLine($"Selected: {caps.DisplayName}");
+
+                return;
+            }
+        }
     }
 
     void UpdateTheme()
@@ -101,7 +134,10 @@ public class Game1 : Game
 
         spriteBatch.Begin();
 
-        buffer.Draw(spriteBatch, Window.ClientBounds);
+        if (player is null)
+            spriteBatch.DrawString(font, "Press any button...", new(20), Color.White);
+        else
+            buffer.Draw(spriteBatch, Window.ClientBounds);
 
         spriteBatch.End();
         base.Draw(gameTime);

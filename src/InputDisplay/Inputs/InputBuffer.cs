@@ -13,9 +13,6 @@ public class InputBuffer(InputConfig config, SpriteFont font)
         gameInput.Update(state);
         var controllerState = gameInput.CurrentState;
 
-        if (!config.Theme.Known(controllerState))
-            return;
-
         if (Last is { } last)
         {
             if (last.State.EquivalentTo(controllerState))
@@ -39,6 +36,8 @@ public class InputBuffer(InputConfig config, SpriteFont font)
 
         ShrinkBuffer();
     }
+
+    public void Clear() => entries.Clear();
 
     void ShrinkBuffer()
     {

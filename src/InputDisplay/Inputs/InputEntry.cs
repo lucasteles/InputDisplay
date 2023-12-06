@@ -49,14 +49,14 @@ public class InputEntry
 
         if (theme.GetTexture(State.Stick.Direction) is { } dirTexture)
         {
-            var stickColor = State.Stick.Holding && config.ShadowHolding ? Color.Gray : Color.White;
+            var stickColor = State.Stick.Holding && config.ShadowHolding ? Color.LightGray : Color.White;
             batch.Draw(dirTexture, rect, stickColor);
         }
 
         if (config.Horizontal)
-            rect.Y += config.ValidDirectionSize + config.SpaceBetweenInputs;
+            rect.Y += config.ValidDirectionSize + config.SpaceBetweenInputs + config.DirectionSpace;
         else
-            rect.X += config.ValidDirectionSize + config.SpaceBetweenInputs;
+            rect.X += config.ValidDirectionSize + config.SpaceBetweenInputs + config.DirectionSpace;
 
         List<ButtonName> holding = new();
         List<ButtonName> currentButtons = new();
