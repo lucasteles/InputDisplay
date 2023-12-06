@@ -40,12 +40,12 @@ jobs:
                   global-json-file: global.json
 
             - name: Build and Publish Package
-              run: dotnet publish src/InputDisplay --configuration Release --self-contained -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ./Publish
+              run: dotnet publish src/InputDisplay --configuration Release --self-contained -r win-x64 -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ./Publish
 
             - name: Zip Package
-              run: zip release.zip ./Publish -r
+              run: zip release.zip ./Publish/* -r
 
-            - name: Upload lib NuGet package artifact to GitHub
+            - name: Upload artifact
               uses: actions/upload-artifact@v3
               with:
                   name: app
