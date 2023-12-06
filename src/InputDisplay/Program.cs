@@ -1,3 +1,2 @@
-
-using var game = new InputDisplay.Game1();
+using InputDisplay.Game1 game = new();
 game.Run();

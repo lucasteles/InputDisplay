@@ -1,13 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
+    <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <Title>Input Display</Title>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Authors>Lucas Teles</Authors>
+    <Company>lucasteles.dev</Company>
+    <Description>Show your joystick inputs like a fighting game training mode</Description>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageProjectUrl>https://github.com/lucasteles/InputDisplay</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/lucasteles/InputDisplay</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
 
-    <PublishReadyToRun>false</PublishReadyToRun>
     <PublishRelease>true</PublishRelease>
     <PublishSingleFile>true</PublishSingleFile>
     <DebugType>None</DebugType>
