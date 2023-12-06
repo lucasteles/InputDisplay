@@ -42,11 +42,14 @@ jobs:
             - name: Build and Publish Package
               run: dotnet publish src/InputDisplay --configuration Release --self-contained -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ./Publish
 
+            - name: Zip Package
+              run: zip release.zip ./Publish -r
+
             - name: Upload lib NuGet package artifact to GitHub
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v3
               with:
                   name: app
-                  path: ./Publish
+                  path: ./release.zip
 
     release:
         runs-on: ubuntu-latest
