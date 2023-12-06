@@ -34,7 +34,7 @@ public class Theme
             ? ThemeManager.Direction.DefaultNeutral
             : new[]
             {
-                Stick.Path, name
+                Stick.Path, name,
             }.CombinePath();
     }
 
@@ -43,7 +43,7 @@ public class Theme
         if (Buttons.Textures.TryGetValue(btn, out var name))
             return new[]
             {
-                Buttons.Path, name
+                Buttons.Path, name,
             }.CombinePath();
 
         return null;

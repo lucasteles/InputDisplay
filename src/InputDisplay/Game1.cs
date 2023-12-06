@@ -42,6 +42,7 @@ public class Game1 : Game
         spriteBatch = new(GraphicsDevice);
         ThemeManager.LoadContent(Content);
 
+        config.FallbackTheme = ThemeManager.Get("XBOX");
 #pragma warning disable S125
         config.Theme = ThemeManager.Get("Street Fighter");
         // config.Theme = ThemeManager.Get("Tekken - XBox", "dpad");

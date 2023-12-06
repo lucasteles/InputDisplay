@@ -58,19 +58,26 @@ public static class ThemeManager
 
     static readonly Dictionary<string, Texture2D> textures = [];
 
+    public const string Unknown = "unknown";
+
     public static void LoadContent(ContentManager content)
     {
         textures.Clear();
         var neutral = content.LoadTexture(Direction.DefaultNeutral);
         textures.Add(neutral.Name, neutral);
+        var unknown = content.LoadTexture(Unknown);
+        textures.Add(unknown.Name, unknown);
         foreach (var dir in Themes.DirectionMap.Values)
-            foreach (var texture in dir.LoadTextures(content))
-                textures.Add(texture.Name, texture);
+        foreach (var texture in dir.LoadTextures(content))
+            textures.Add(texture.Name, texture);
 
         foreach (var btn in Themes.ButtonMap.Values)
-            foreach (var texture in btn.LoadTextures(content))
-                textures.Add(texture.Name, texture);
+        foreach (var texture in btn.LoadTextures(content))
+            textures.Add(texture.Name, texture);
     }
 
-    public static Texture2D? GetTexture(string name) => textures.GetValueOrDefault(name);
+    public static Texture2D? GetTexture(string name) =>
+        textures.GetValueOrDefault(name);
+
+    public static Texture2D UnknownButton => textures[Unknown];
 }

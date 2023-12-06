@@ -43,13 +43,13 @@ jobs:
               run: dotnet publish src/InputDisplay --configuration Release --self-contained -r win-x64 -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ./Publish
 
             - name: Zip Package
-              run: zip release.zip ./Publish/* -r
+              run: cd ./Publish; zip -r ../input_display_${{ steps.gitversion.outputs.SemVer  }}.zip *
 
             - name: Upload artifact
               uses: actions/upload-artifact@v3
               with:
                   name: app
-                  path: ./release.zip
+                  path: ./input_display_${{ steps.gitversion.outputs.SemVer  }}.zip
 
     release:
         runs-on: ubuntu-latest

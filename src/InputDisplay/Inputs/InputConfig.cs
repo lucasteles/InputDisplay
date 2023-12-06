@@ -6,6 +6,7 @@ public class InputConfig
     public required int SpaceBetweenInputs { get; set; }
     public required int MaxEntries { get; set; }
     public required Theme.Theme Theme { get; set; }
+    public Theme.Theme? FallbackTheme { get; set; }
     public required int SpaceBetweenCommands { get; set; }
     public int DirectionIconSize { get; set; }
     public bool ShadowHolding { get; set; }

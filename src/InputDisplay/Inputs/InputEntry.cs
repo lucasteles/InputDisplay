@@ -90,7 +90,10 @@ public class InputEntry
         foreach (var btn in currentButtons.Order().Distinct())
         {
             if (theme.GetTexture(btn) is not { } texture)
-                continue;
+                if (config.FallbackTheme?.GetTexture(btn) is { } fallbackTexture)
+                    texture = fallbackTexture;
+                else
+                    texture = ThemeManager.UnknownButton;
 
             var color = holding.Contains(btn) ? Color.Gray : Color.White;
             batch.Draw(texture, rect, color);
