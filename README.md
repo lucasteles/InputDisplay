@@ -1,4 +1,4 @@
-﻿![](assets/logo.png)
+<img src="assets/logo.png" width="250">
 
 # 🕹️ Input Display ⬇️↘️➡️+👊
 
