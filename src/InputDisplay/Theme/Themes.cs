@@ -21,7 +21,7 @@ public static class Themes
         {
             Name = "sf",
             Textures = ForStreetFighter(),
-            InputTemplate = DefaultTripleMacro(),
+            Macros = DefaultTripleMacro(),
         },
         ["PlayStation"] = new()
         {
@@ -122,13 +122,13 @@ public static class Themes
         {
             Name = "sf5",
             Textures = ForStreetFighter(),
-            InputTemplate = DefaultTripleMacro(),
+            Macros = DefaultTripleMacro(),
         },
         ["SF4"] = new()
         {
             Name = "sf4",
             Textures = ForStreetFighter(),
-            InputTemplate = DefaultTripleMacro(),
+            Macros = DefaultTripleMacro(),
         },
     };
 
@@ -184,7 +184,7 @@ public static class Themes
         [ButtonName.KK] = "lt",
     };
 
-    static InputMap DefaultTripleMacro() => new()
+    static InputMacro DefaultTripleMacro() => new()
     {
         [ButtonName.PP] = [ButtonName.LP, ButtonName.MP, ButtonName.HP],
         [ButtonName.KK] = [ButtonName.LK, ButtonName.MK, ButtonName.HK],

@@ -11,52 +11,42 @@ public class Game1 : Game
     SpriteBatch spriteBatch = null!;
     InputBuffer buffer = default!;
 
-
-    readonly InputConfig config = new()
-    {
-        IconSize = 40,
-        SpaceBetweenInputs = 2,
-        SpaceBetweenCommands = 4,
-        AutoCorrectMultiple = true,
-        MaxEntries = 100,
-        ShadowHolding = true,
-        HideButtonRelease = false,
-        InvertHistory = false,
-        Horizontal = false,
-        Theme = null!,
-    };
+    readonly GameConfig config;
 
     PlayerIndex? player;
     SpriteFont font = null!;
+
     readonly ThemeCycle themeCycle = new();
 
     public Game1()
     {
+        config = GameConfig.Load();
         graphics = new(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        Window.Title = "Input Display";
         Window.AllowUserResizing = true;
         Window.ClientSizeChanged += OnResize;
-        Window.Title = "Input Display";
     }
 
     protected override void LoadContent()
     {
         spriteBatch = new(GraphicsDevice);
-        ThemeManager.LoadContent(Content);
-
-        config.Theme = ThemeManager.Get("Street Fighter");
-
-        themeCycle.StartWith(config.Theme);
         font = Content.Load<SpriteFont>("fonts/numbers");
+
+        ThemeManager.LoadContent(Content);
+        themeCycle.StartWith(config.Theme);
         buffer = new(config, font);
-        config.ConfigureForWindow(Window);
     }
 
     protected override void Initialize()
     {
-        graphics.PreferredBackBufferWidth = 480;
-        graphics.PreferredBackBufferHeight = 1024;
+        graphics.PreferredBackBufferWidth = config.Width;
+        graphics.PreferredBackBufferHeight = config.Height;
+
+        if (config.Top + config.Left > 0)
+            Window.Position = new(config.Left, config.Top);
+
         graphics.ApplyChanges();
         base.Initialize();
     }
@@ -81,8 +71,14 @@ public class Game1 : Game
         HandleKeyboard();
         HandleMouse();
         UpdateTheme();
-
+        UpdateConfig();
         base.Update(gameTime);
+    }
+
+    void UpdateConfig()
+    {
+        if (Window.Position.X != config.Left || Window.Position.Y != config.Top)
+            config.UpdateWindowSize(Window);
     }
 
     void HandleKeyboard()
@@ -93,7 +89,10 @@ public class Game1 : Game
             Exit();
 
         if (KeyboardManager.IsKeyPressed(Keys.Space))
+        {
             config.InvertHistory = !config.InvertHistory;
+            config.Save();
+        }
 
         if (KeyboardManager.IsKeyDown(Keys.Back) || KeyboardManager.IsKeyDown(Keys.Delete))
             buffer.Clear();
@@ -136,6 +135,7 @@ public class Game1 : Game
 
     void UpdateTheme()
     {
+        var theme = config.Theme;
         if (KeyboardManager.IsKeyPressed(Keys.Up))
             config.Theme = themeCycle.NextStick();
 
@@ -147,6 +147,8 @@ public class Game1 : Game
 
         else if (KeyboardManager.IsKeyPressed(Keys.Right))
             config.Theme = themeCycle.PrevButtons();
+
+        if (config.Theme != theme) config.Save();
     }
 
     protected override void Draw(GameTime gameTime)
@@ -164,7 +166,7 @@ public class Game1 : Game
         base.Draw(gameTime);
     }
 
-    void OnResize(object? sender, EventArgs e) => config.ConfigureForWindow(Window);
+    void OnResize(object? sender, EventArgs e) => config.UpdateWindowSize(Window);
 
     protected override void OnExiting(object sender, EventArgs args)
     {

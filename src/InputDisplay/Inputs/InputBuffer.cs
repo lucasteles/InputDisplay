@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace InputDisplay.Inputs;
 
-public class InputBuffer(InputConfig config, SpriteFont font)
+public class InputBuffer(GameConfig config, SpriteFont font)
 {
     readonly GameInput gameInput = new();
     readonly List<InputEntry> entries = new(config.MaxEntries);

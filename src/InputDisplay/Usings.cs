@@ -2,7 +2,7 @@ global using InputDisplay.Util;
 global using Microsoft.Xna.Framework;
 global using Microsoft.Xna.Framework.Content;
 global using Microsoft.Xna.Framework.Graphics;
-global using InputMap =
+global using InputMacro =
     System.Collections.Generic.Dictionary<
         InputDisplay.Theme.ButtonName,
         InputDisplay.Theme.ButtonName[]

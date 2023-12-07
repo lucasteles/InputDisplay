@@ -57,9 +57,8 @@ public static class ThemeManager
         public const string Unknown = @"themes\unknown";
 
         public string Name { get; init; } = "";
-
         public string Path => ContentPath.Combine(BasePath, Name);
-        public InputMap InputTemplate { get; init; } = new();
+        public InputMacro Macros { get; init; } = new();
         public required ButtonImage Textures { get; init; } = new();
 
         public IEnumerable<Texture2D> LoadTextures(ContentManager content)
@@ -75,6 +74,7 @@ public static class ThemeManager
     }
 
 
+    public const string DefaultButtons = "Street Fighter";
     public const string DefaultDirection = "default";
 
     public static Theme Get(string buttons, string direction = DefaultDirection) =>
@@ -82,8 +82,12 @@ public static class ThemeManager
         {
             Buttons = Themes.ButtonMap[buttons],
             Stick = Themes.DirectionMap[direction],
-            InputMap = Themes.ButtonMap[buttons].InputTemplate,
+            ButtonsName = buttons,
+            StickName = direction,
         };
+
+    public static Theme Get(GameConfig.SelectedTheme selected) =>
+        Get(selected.Buttons, selected.Direction);
 
     static readonly Dictionary<string, Texture2D> textures = [];
 

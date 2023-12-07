@@ -4,8 +4,8 @@ namespace InputDisplay.Theme;
 
 public class ThemeCycle
 {
-    readonly Cycle<ThemeManager.Direction> stick = new(Themes.DirectionMap.Values);
-    readonly Cycle<ThemeManager.Buttons> buttons = new(Themes.ButtonMap.Values);
+    readonly Cycle<KeyValuePair<string, ThemeManager.Direction>> stick = new(Themes.DirectionMap);
+    readonly Cycle<KeyValuePair<string, ThemeManager.Buttons>> buttons = new(Themes.ButtonMap);
 
     public void StartWith(Theme theme)
     {
@@ -18,16 +18,18 @@ public class ThemeCycle
 
     public Theme NextStick() => new()
     {
-        Stick = stick.Next(),
-        Buttons = buttons.Current,
-        InputMap = buttons.Current.InputTemplate,
+        Stick = stick.Next().Value,
+        StickName = stick.Current.Key,
+        Buttons = buttons.Current.Value,
+        ButtonsName = buttons.Current.Key,
     };
 
     public Theme PrevStick() => new()
     {
-        Stick = stick.Previous(),
-        Buttons = buttons.Current,
-        InputMap = buttons.Current.InputTemplate,
+        Stick = stick.Previous().Value,
+        StickName = stick.Current.Key,
+        Buttons = buttons.Current.Value,
+        ButtonsName = buttons.Current.Key,
     };
 
     public Theme NextButtons()
@@ -35,9 +37,10 @@ public class ThemeCycle
         var next = buttons.Next();
         return new()
         {
-            Stick = stick.Current,
-            Buttons = next,
-            InputMap = next.InputTemplate,
+            Stick = stick.Current.Value,
+            StickName = stick.Current.Key,
+            Buttons = next.Value,
+            ButtonsName = next.Key,
         };
     }
 
@@ -46,9 +49,10 @@ public class ThemeCycle
         var next = buttons.Previous();
         return new()
         {
-            Stick = stick.Current,
-            Buttons = next,
-            InputMap = next.InputTemplate,
+            Stick = stick.Current.Value,
+            StickName = stick.Current.Key,
+            Buttons = next.Value,
+            ButtonsName = next.Key,
         };
     }
 }

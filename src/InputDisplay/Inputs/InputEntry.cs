@@ -13,11 +13,12 @@ public class InputEntry
 
     public void IncrementFrame() => HoldingFrames = Math.Min(HoldingFrames + 1, MaxHoldingFrames);
 
-    public void Draw(InputConfig config, SpriteFont font, SpriteBatch batch, Vector2 position)
+    public void Draw(GameConfig config, SpriteFont font, SpriteBatch batch, Vector2 position)
     {
         var paddingLeft = Vector2.UnitX * config.SpaceBetweenInputs * 3;
         Vector2 offset = position + paddingLeft;
         var theme = config.Theme;
+
         var commandDir = config.Horizontal ? Vector2.UnitY : Vector2.UnitX;
 
         if (config.ShowFrames)
@@ -110,7 +111,7 @@ public class InputEntry
             if (!config.ShadowHolding && button.Status is GameInput.ButtonStatus.Holding)
                 return;
 
-            var buttons = theme.GetMapped(name);
+            var buttons = theme.GetMacro(name);
             for (var index = 0; index < buttons.Length; index++)
             {
                 var btn = buttons[index];

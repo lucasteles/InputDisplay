@@ -29,6 +29,9 @@
   <ItemGroup>
     <None Remove="Icon.ico"/>
     <None Remove="Icon.bmp"/>
+    <None Update="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.bmp">

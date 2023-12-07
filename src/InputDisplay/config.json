@@ -1,0 +1,25 @@
+{
+    "iconSize": 40,
+    "spaceBetweenInputs": 2,
+    "currentTheme": {
+        "buttons": "Street Fighter",
+        "direction": "default"
+    },
+    "spaceBetweenCommands": 4,
+    "shadowHolding": true,
+    "showFrames": true,
+    "directionSpace": 10,
+    "autoCorrectMultiple": true,
+    "invertHistory": false,
+    "hideButtonRelease": false,
+    "horizontal": false,
+    "width": 480,
+    "height": 1024,
+    "backgroundColor": {
+        "b": 47,
+        "g": 107,
+        "r": 85,
+        "a": 255,
+        "packedValue": 4281297749
+    }
+}
