@@ -57,6 +57,8 @@ public class GameConfig
         set => ClearColor = new(uint.Parse(value, System.Globalization.NumberStyles.HexNumber));
     }
 
+    public InputMacro Macros { get; init; } = new();
+
     [JsonIgnore]
     public Color ClearColor { get; set; } = Color.DarkOliveGreen;
 
@@ -132,4 +134,7 @@ public class GameConfig
         var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(this, jsonOptions);
         File.WriteAllBytes(fileName, jsonBytes);
     }
+
+    public ButtonName[] GetMacro(ButtonName name) =>
+        Macros.TryGetValue(name, out var customMacro) ? customMacro : Theme.GetMacro(name);
 }

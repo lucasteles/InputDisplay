@@ -21,7 +21,7 @@ public static class Themes
         {
             Name = "sf",
             Textures = ForStreetFighter(),
-            Macros = DefaultTripleMacro(),
+            MacrosTemplate = DefaultTripleMacro(),
         },
         ["PlayStation"] = new()
         {
@@ -122,13 +122,13 @@ public static class Themes
         {
             Name = "sf5",
             Textures = ForStreetFighter(),
-            Macros = DefaultTripleMacro(),
+            MacrosTemplate = DefaultTripleMacro(),
         },
         ["SF4"] = new()
         {
             Name = "sf4",
             Textures = ForStreetFighter(),
-            Macros = DefaultTripleMacro(),
+            MacrosTemplate = DefaultTripleMacro(),
         },
     };
 

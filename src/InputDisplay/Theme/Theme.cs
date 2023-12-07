@@ -16,5 +16,5 @@ public record Theme
         Buttons.GetTexturePath(btn) is { } path ? ThemeManager.GetTexture(path) : null;
 
     public ButtonName[] GetMacro(ButtonName name) =>
-        Buttons.Macros.TryGetValue(name, out var names) ? names : [name];
+        Buttons.MacrosTemplate.TryGetValue(name, out var names) ? names : [name];
 }

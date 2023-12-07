@@ -4,7 +4,8 @@
 
 Display your gamepad inputs in a fighting game training mode style! ⬇️↘️➡️+👊
 
-It is amazing to be used as a streaming widget ([see here](https://github.com/lucasteles/InputDisplay/blob/master/how_to_obs.md)) or any video content.
+It is amazing to be used as a streaming
+widget ([see here](https://github.com/lucasteles/InputDisplay/blob/master/how_to_obs.md)) or any video content.
 
 💡 **Oficial successor** of [FGInputLogger](https://github.com/lucasteles/FGInputLogger)
 
@@ -14,10 +15,35 @@ It is amazing to be used as a streaming widget ([see here](https://github.com/lu
 
 - ⬇️/⬆️: Change directions theme
 - ⬅️/➡️: Change buttons theme
+- **Mouse Scroll**: Zoom In / Zoom Out
+- ️**BACK**: Clear window
+- ️**DEL** : Disconnect controller
 - ️**SPACE**: Invert order
 - ️**ESC**: Exit
 
 ## 🎥 Setting up [OBS Studio](https://obsproject.com)
+
+## ⚙️ Configuration:
+
+You need first to open the `exe` and press any button on the controller. You should be able to see your inputs.
+
+After this. a file called `config.json` should be updated with your controller information,
+you can change mappings and parameters in this file.
+
+You can also change the `macro` key to set-up multiple images on a single input.
+
+Example:
+> setting `LB/L1` to show symbols for `HP`+`HK`
+
+```
+{
+    ...
+    "macros": {
+        "PP": [ "HP", "HK" ]
+    }
+    ...
+}
+```
 
 [How to configure Input Display on OBS Studio](https://github.com/lucasteles/InputDisplay/blob/master/how_to_obs.md)
 

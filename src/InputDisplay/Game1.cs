@@ -96,7 +96,13 @@ public class Game1 : Game
             config.Save();
         }
 
-        if (KeyboardManager.IsKeyDown(Keys.Back) || KeyboardManager.IsKeyDown(Keys.Delete))
+        if (KeyboardManager.IsKeyDown(Keys.Delete))
+        {
+            currentPad = string.Empty;
+            player = null;
+        }
+
+        if (KeyboardManager.IsKeyDown(Keys.Back))
             buffer.Clear();
     }
 

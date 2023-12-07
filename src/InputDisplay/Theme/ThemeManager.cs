@@ -58,7 +58,7 @@ public static class ThemeManager
 
         public string Name { get; init; } = "";
         public string Path => ContentPath.Combine(BasePath, Name);
-        public InputMacro Macros { get; init; } = new();
+        public InputMacro MacrosTemplate { get; init; } = new();
         public required ButtonImage Textures { get; init; } = new();
 
         public IEnumerable<Texture2D> LoadTextures(ContentManager content)

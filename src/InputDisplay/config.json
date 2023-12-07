@@ -15,5 +15,6 @@
     "horizontal": false,
     "width": 480,
     "height": 1024,
-    "backgroundColor": "FF2F6B55"
+    "backgroundColor": "FF2F6B55",
+    "macros": {}
 }

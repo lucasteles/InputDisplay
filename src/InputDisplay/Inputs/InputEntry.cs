@@ -111,7 +111,7 @@ public class InputEntry
             if (!config.ShadowHolding && button.Status is GameInput.ButtonStatus.Holding)
                 return;
 
-            var buttons = theme.GetMacro(name);
+            var buttons = config.GetMacro(name);
             for (var index = 0; index < buttons.Length; index++)
             {
                 var btn = buttons[index];
