@@ -2,11 +2,11 @@ namespace InputDisplay.Theme;
 
 public static class ThemeManager
 {
-    public class Direction(string path, bool neutral = false)
+    public class Direction(string name, bool neutral = false)
     {
-        public const string DefaultNeutral = "n";
+        const string BasePath = "themes/dir";
+        public const string DefaultNeutral = "themes/n";
 
-        public string Path { get; } = path;
         public string? Neutral { get; } = neutral ? "n" : null;
         public string Up { get; } = "u";
         public string Down { get; } = "d";
@@ -16,6 +16,8 @@ public static class ThemeManager
         public string UpBackward { get; } = "ub";
         public string DownForward { get; } = "df";
         public string DownBackward { get; } = "db";
+
+        public string Path { get; } = $"{BasePath}/{name}";
 
         public IEnumerable<Texture2D> LoadTextures(ContentManager content)
         {
@@ -35,7 +37,12 @@ public static class ThemeManager
 
     public class Buttons
     {
-        public string Path { get; init; } = "";
+        const string BasePath = "themes/btn";
+        public const string Unkwnown = "themes/unknown";
+
+        public string Name { get; init; } = "";
+
+        public string Path => ContentPath.Combine(BasePath, Name);
         public InputMap InputTemplate { get; init; } = new();
         public required ButtonImage Textures { get; init; } = new();
 
@@ -46,9 +53,9 @@ public static class ThemeManager
         }
     }
 
-    public const string DefaultName = "default";
+    public const string DefaultDirection = "default";
 
-    public static Theme Get(string buttons, string direction = DefaultName) =>
+    public static Theme Get(string buttons, string direction = DefaultDirection) =>
         new()
         {
             Buttons = Themes.ButtonMap[buttons],
@@ -58,26 +65,24 @@ public static class ThemeManager
 
     static readonly Dictionary<string, Texture2D> textures = [];
 
-    public const string Unknown = "unknown";
-
     public static void LoadContent(ContentManager content)
     {
         textures.Clear();
         var neutral = content.LoadTexture(Direction.DefaultNeutral);
         textures.Add(neutral.Name, neutral);
-        var unknown = content.LoadTexture(Unknown);
+        var unknown = content.LoadTexture(Buttons.Unkwnown);
         textures.Add(unknown.Name, unknown);
         foreach (var dir in Themes.DirectionMap.Values)
-            foreach (var texture in dir.LoadTextures(content))
-                textures.Add(texture.Name, texture);
+        foreach (var texture in dir.LoadTextures(content))
+            textures.Add(texture.Name, texture);
 
         foreach (var btn in Themes.ButtonMap.Values)
-            foreach (var texture in btn.LoadTextures(content))
-                textures.Add(texture.Name, texture);
+        foreach (var texture in btn.LoadTextures(content))
+            textures.Add(texture.Name, texture);
     }
 
     public static Texture2D? GetTexture(string name) =>
         textures.GetValueOrDefault(name);
 
-    public static Texture2D UnknownButton => textures[Unknown];
+    public static Texture2D UnknownButton => textures[Buttons.Unkwnown];
 }

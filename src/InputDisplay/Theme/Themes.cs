@@ -4,37 +4,38 @@ public static class Themes
 {
     public static Dictionary<string, ThemeManager.Direction> DirectionMap { get; } = new()
     {
-        [ThemeManager.DefaultName] = new("stick/arrows"),
-        ["small"] = new("stick/arrows_sm"),
-        ["dpad"] = new("stick/dpad", neutral: true),
-        ["dpad2"] = new("stick/dpad2", neutral: true),
-        ["dpad3"] = new("stick/dpad3", neutral: true),
-        ["stick"] = new("stick/stick", neutral: true),
-        ["stick2"] = new("stick/stick2", neutral: true),
-        ["tekken"] = new("stick/arrows_tekken", neutral: true),
+        [ThemeManager.DefaultDirection] = new("arrows"),
+        ["small"] = new("arrows_sm"),
+        ["numpad"] = new("numpad", neutral: true),
+        ["dpad"] = new("dpad", neutral: true),
+        ["dpad2"] = new("dpad2", neutral: true),
+        ["dpad3"] = new("dpad3", neutral: true),
+        ["stick"] = new("stick", neutral: true),
+        ["stick2"] = new("stick2", neutral: true),
+        ["tekken"] = new("arrows_tekken", neutral: true),
     };
 
     public static Dictionary<string, ThemeManager.Buttons> ButtonMap { get; } = new()
     {
         ["Street Fighter"] = new()
         {
-            Path = "sf",
+            Name = "sf",
             Textures = ForStreetFighter(),
             InputTemplate = DefaultTripleMacro(),
         },
         ["PlayStation"] = new()
         {
-            Path = "ps",
+            Name = "ps",
             Textures = ForPlayStation(),
         },
         ["XBOX"] = new()
         {
-            Path = "xbox",
+            Name = "xbox",
             Textures = ForXBox(),
         },
         ["MVC3"] = new()
         {
-            Path = "mvc3",
+            Name = "mvc3",
             Textures = new()
             {
                 [ButtonName.LP] = "l",
@@ -47,7 +48,7 @@ public static class Themes
         },
         ["Guilty Gear"] = new()
         {
-            Path = "gg",
+            Name = "gg",
             Textures = new()
             {
                 [ButtonName.LP] = "p",
@@ -60,7 +61,7 @@ public static class Themes
         },
         ["KOF"] = new()
         {
-            Path = "kof",
+            Name = "kof",
             Textures = new()
             {
                 [ButtonName.LP] = "lp",
@@ -71,7 +72,7 @@ public static class Themes
         },
         ["NeoGeo"] = new()
         {
-            Path = "neogeo",
+            Name = "neogeo",
             Textures = new()
             {
                 [ButtonName.LP] = "a",
@@ -82,7 +83,7 @@ public static class Themes
         },
         ["NeoGeo Clear"] = new()
         {
-            Path = "neogeo2",
+            Name = "neogeo2",
             Textures = new()
             {
                 [ButtonName.LP] = "a",
@@ -93,7 +94,7 @@ public static class Themes
         },
         ["Numbers"] = new()
         {
-            Path = "numbers",
+            Name = "numbers",
             Textures = new()
             {
                 [ButtonName.LP] = "1",
@@ -104,28 +105,28 @@ public static class Themes
         },
         ["Tekken - XBox"] = new()
         {
-            Path = "tekken_xb",
+            Name = "tekken_xb",
             Textures = ForTekken(),
         },
         ["Tekken - PlayStation"] = new()
         {
-            Path = "tekken_ps",
+            Name = "tekken_ps",
             Textures = ForTekken(),
         },
         ["Tekken - Steam"] = new()
         {
-            Path = "tekken_steam",
+            Name = "tekken_steam",
             Textures = ForTekken(),
         },
         ["SF5"] = new()
         {
-            Path = "sf5",
+            Name = "sf5",
             Textures = ForStreetFighter(),
             InputTemplate = DefaultTripleMacro(),
         },
         ["SF4"] = new()
         {
-            Path = "sf4",
+            Name = "sf4",
             Textures = ForStreetFighter(),
             InputTemplate = DefaultTripleMacro(),
         },

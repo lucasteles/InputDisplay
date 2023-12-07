@@ -32,19 +32,13 @@ public class Theme
 
         return string.IsNullOrWhiteSpace(name)
             ? ThemeManager.Direction.DefaultNeutral
-            : new[]
-            {
-                Stick.Path, name,
-            }.CombinePath();
+            : ContentPath.Combine(Stick.Path, name);
     }
 
     public string? GetTexturePath(ButtonName btn)
     {
         if (Buttons.Textures.TryGetValue(btn, out var name))
-            return new[]
-            {
-                Buttons.Path, name,
-            }.CombinePath();
+            return ContentPath.Combine(Buttons.Path, name);
 
         return null;
     }

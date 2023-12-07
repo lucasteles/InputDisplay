@@ -48,7 +48,7 @@ public class Game1 : Game
         config.Theme = ThemeManager.Get("Street Fighter");
 
         themeCycle.StartWith(config.Theme);
-        font = Content.Load<SpriteFont>("numbers");
+        font = Content.Load<SpriteFont>("fonts/numbers");
         buffer = new(config, font);
         config.ConfigureForWindow(Window);
     }
