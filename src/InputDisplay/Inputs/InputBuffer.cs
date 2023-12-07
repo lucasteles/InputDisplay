@@ -49,8 +49,8 @@ public class InputBuffer(InputConfig config, SpriteFont font)
     {
         var dir = config.InvertHistory ? -1 : 1;
         var step = config.Horizontal
-            ? new Vector2(config.SpaceBetweenCommands + config.MaxIconSize, 0)
-            : new Vector2(0, config.SpaceBetweenCommands + config.MaxIconSize);
+            ? new Vector2(config.SpaceBetweenCommands + config.IconSize, 0)
+            : new Vector2(0, config.SpaceBetweenCommands + config.IconSize);
 
         var padding = new Vector2(config.SpaceBetweenInputs, config.SpaceBetweenCommands) * 2;
 

@@ -10,53 +10,12 @@ public class Theme
 
     public bool CustomMap { get; set; }
 
-    public string GetTexturePath(GameInput.Direction state)
-    {
-        var name = state switch
-        {
-            GameInput.Direction.Neutral
-                or (GameInput.Direction.Up | GameInput.Direction.Down)
-                or (GameInput.Direction.Forward | GameInput.Direction.Backward) =>
-                Stick.Neutral,
-            GameInput.Direction.Up | GameInput.Direction.Forward => Stick.UpForward,
-            GameInput.Direction.Up | GameInput.Direction.Backward => Stick.UpBackward,
-            GameInput.Direction.Down | GameInput.Direction.Forward => Stick.DownForward,
-            GameInput.Direction.Down | GameInput.Direction.Backward => Stick
-                .DownBackward,
-            GameInput.Direction.Down => Stick.Down,
-            GameInput.Direction.Up => Stick.Up,
-            GameInput.Direction.Forward => Stick.Forward,
-            GameInput.Direction.Backward => Stick.Backward,
-            _ => Stick.Neutral,
-        };
-
-        return string.IsNullOrWhiteSpace(name)
-            ? ThemeManager.Direction.DefaultNeutral
-            : ContentPath.Combine(Stick.Path, name);
-    }
-
-    public string? GetTexturePath(ButtonName btn)
-    {
-        if (Buttons.Textures.TryGetValue(btn, out var name))
-            return ContentPath.Combine(Buttons.Path, name);
-
-        return null;
-    }
-
     public Texture2D? GetTexture(GameInput.Direction dir) =>
-        ThemeManager.GetTexture(GetTexturePath(dir));
+        ThemeManager.GetTexture(Stick.GetTexturePath(dir));
 
     public Texture2D? GetTexture(ButtonName btn) =>
-        GetTexturePath(btn) is { } path ? ThemeManager.GetTexture(path) : null;
+        Buttons.GetTexturePath(btn) is { } path ? ThemeManager.GetTexture(path) : null;
 
     public ButtonName[] GetMapped(ButtonName name) =>
         InputMap.TryGetValue(name, out var names) ? names : [name];
-
-    public bool Known(GameInput.State state)
-    {
-        var bts = state.GetActiveButtons().ToArray();
-        return bts.Length is 0 || Array.Exists(bts, b =>
-            Buttons.Textures.ContainsKey(b)
-            || InputMap.ContainsKey(b));
-    }
 }

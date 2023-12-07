@@ -15,48 +15,43 @@ public class InputEntry
 
     public void Draw(InputConfig config, SpriteFont font, SpriteBatch batch, Vector2 position)
     {
-        Rectangle rect = new(
-            (int)position.X,
-            (int)position.Y,
-            config.ButtonIconSize, config.ButtonIconSize
-        );
-
+        var paddingLeft = Vector2.UnitX * config.SpaceBetweenInputs * 3;
+        Vector2 offset = position + paddingLeft;
         var theme = config.Theme;
+        var commandDir = config.Horizontal ? Vector2.UnitY : Vector2.UnitX;
 
         if (config.ShowFrames)
         {
             var frameString = HoldingFrames.ToString().PadLeft(2);
             var stringSize = font.MeasureString(MaxFramesString);
-            var scale = config.MaxIconSize / stringSize.Y * 0.9f;
+            var scale = config.IconSize / stringSize.Length();
+            var padTop = config.IconSize * 0.15f * Vector2.UnitY;
 
-            Vector2 textMiddlePoint = new(
-                config.SpaceBetweenInputs * -2,
-                ((float)config.MaxIconSize / 2) - (stringSize.Y / 2)
+            batch.DrawString(
+                font, frameString, offset + padTop, Color.Black,
+                0, Vector2.Zero, scale + 0.08f, SpriteEffects.None, 0.1f
             );
 
-            batch.DrawString(font, frameString, position, Color.Black, 0,
-                textMiddlePoint,
-                scale + 0.05f, SpriteEffects.None, 0.5f);
+            batch.DrawString(
+                font, frameString, offset + padTop, Color.White, 0,
+                Vector2.Zero, scale, SpriteEffects.None, 0.5f
+            );
 
-            batch.DrawString(font, frameString, position, Color.White, 0,
-                textMiddlePoint, scale, SpriteEffects.None, 1f);
-
-            if (config.Horizontal)
-                rect.Y += (int)(stringSize.Y * scale * 1.2) + (config.SpaceBetweenInputs * 3);
-            else
-                rect.X += (int)(stringSize.X * scale * 1.2) + (config.SpaceBetweenInputs * 3);
+            var space = (stringSize * scale) + new Vector2(config.SpaceBetweenInputs * 3);
+            offset += commandDir * space;
         }
 
         if (theme.GetTexture(State.Stick.Direction) is { } dirTexture)
         {
-            var stickColor = State.Stick.Holding && config.ShadowHolding ? Color.LightGray : Color.White;
-            batch.Draw(dirTexture, rect, stickColor);
+            var dirColor = State.Stick.Holding && config.ShadowHolding ? Color.LightGray : Color.White;
+            Rectangle dirRect = new(
+                (int)offset.X, (int)offset.Y,
+                config.IconSize, config.IconSize
+            );
+            batch.Draw(dirTexture, dirRect, dirColor);
         }
 
-        if (config.Horizontal)
-            rect.Y += config.ValidDirectionSize + config.SpaceBetweenInputs + config.DirectionSpace;
-        else
-            rect.X += config.ValidDirectionSize + config.SpaceBetweenInputs + config.DirectionSpace;
+        offset += commandDir * (config.IconSize + config.SpaceBetweenInputs + config.DirectionSpace);
 
         List<ButtonName> holding = new();
         List<ButtonName> currentButtons = new();
@@ -83,7 +78,11 @@ public class InputEntry
 
         if (theme.GetTexture(combined) is { } multiTexture)
         {
-            batch.Draw(multiTexture, rect, State.HasNoPressed ? Color.Gray : Color.White);
+            Rectangle btnRect = new(
+                (int)offset.X, (int)offset.Y,
+                config.IconSize, config.IconSize
+            );
+            batch.Draw(multiTexture, btnRect, State.HasNoPressed ? Color.Gray : Color.White);
             return;
         }
 
@@ -95,13 +94,14 @@ public class InputEntry
                 else
                     texture = ThemeManager.UnknownButton;
 
-            var color = holding.Contains(btn) ? Color.Gray : Color.White;
-            batch.Draw(texture, rect, color);
+            Rectangle btnRect = new(
+                (int)offset.X, (int)offset.Y,
+                config.IconSize, config.IconSize
+            );
 
-            if (config.Horizontal)
-                rect.Y += config.ButtonIconSize + config.SpaceBetweenInputs;
-            else
-                rect.X += config.ButtonIconSize + config.SpaceBetweenInputs;
+            var color = holding.Contains(btn) ? Color.Gray : Color.White;
+            batch.Draw(texture, btnRect, color);
+            offset += commandDir * (config.IconSize + config.SpaceBetweenInputs);
         }
 
         void Check(GameInput.Button button, ButtonName name)

@@ -11,18 +11,19 @@ public class Game1 : Game
     SpriteBatch spriteBatch = null!;
     InputBuffer buffer = default!;
 
+
     readonly InputConfig config = new()
     {
-        ButtonIconSize = 40,
+        IconSize = 40,
         SpaceBetweenInputs = 2,
         SpaceBetweenCommands = 4,
-        Theme = null!,
         AutoCorrectMultiple = true,
         MaxEntries = 100,
         ShadowHolding = true,
         HideButtonRelease = false,
         InvertHistory = false,
         Horizontal = false,
+        Theme = null!,
     };
 
     PlayerIndex? player;
@@ -44,7 +45,6 @@ public class Game1 : Game
         spriteBatch = new(GraphicsDevice);
         ThemeManager.LoadContent(Content);
 
-        config.FallbackTheme = ThemeManager.Get("XBOX");
         config.Theme = ThemeManager.Get("Street Fighter");
 
         themeCycle.StartWith(config.Theme);
@@ -66,7 +66,6 @@ public class Game1 : Game
         if (player is null)
         {
             DetectController();
-
             return;
         }
 
@@ -78,6 +77,16 @@ public class Game1 : Game
         }
 
         buffer.Update(state);
+
+        HandleKeyboard();
+        HandleMouse();
+        UpdateTheme();
+
+        base.Update(gameTime);
+    }
+
+    void HandleKeyboard()
+    {
         KeyboardManager.Update();
 
         if (KeyboardManager.IsKeyDown(Keys.Escape))
@@ -88,10 +97,17 @@ public class Game1 : Game
 
         if (KeyboardManager.IsKeyDown(Keys.Back) || KeyboardManager.IsKeyDown(Keys.Delete))
             buffer.Clear();
+    }
 
-        UpdateTheme();
+    void HandleMouse()
+    {
+        MouseManager.Update();
+        var wheel = MouseManager.DeltaWheelValue;
+        if (wheel is 0) return;
 
-        base.Update(gameTime);
+        var step = Math.Sign(wheel) * 5;
+        var newSize = MathHelper.Clamp(config.IconSize + step, 20, 100);
+        config.IconSize = newSize;
     }
 
     void DetectController()
@@ -107,6 +123,11 @@ public class Game1 : Game
 
                 var caps = GamePad.GetCapabilities(i);
                 Console.WriteLine($"Selected: {caps.DisplayName}");
+                var name = caps.DisplayName.ToLower();
+                config.FallbackTheme =
+                    !name.Contains("xbox") && name.Contains("ps")
+                        ? ThemeManager.Get("PlayStation")
+                        : ThemeManager.Get("XBOX");
 
                 return;
             }

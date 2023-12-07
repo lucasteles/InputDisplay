@@ -37,6 +37,7 @@
     <EmbeddedResource Include="Icon.ico">
       <LogicalName>Icon.ico</LogicalName>
     </EmbeddedResource>
+    <!--    <None Include="$(ProjectDir)Content\themes\**" CopyToOutputDirectory="PreserveNewest" />-->
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303"/>

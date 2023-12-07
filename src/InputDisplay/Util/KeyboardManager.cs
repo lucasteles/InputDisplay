@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework.Input;
 
-namespace InputDisplay;
+namespace InputDisplay.Util;
 
 public static class KeyboardManager
 {

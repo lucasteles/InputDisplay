@@ -1,44 +1,60 @@
+using InputDisplay.Inputs;
+
 namespace InputDisplay.Theme;
 
 public static class ThemeManager
 {
-    public class Direction(string name, bool neutral = false)
+    public class Direction(string name, bool hasNeutral = false)
     {
-        const string BasePath = "themes/dir";
-        public const string DefaultNeutral = "themes/n";
-
-        public string? Neutral { get; } = neutral ? "n" : null;
-        public string Up { get; } = "u";
-        public string Down { get; } = "d";
-        public string Backward { get; } = "b";
-        public string Forward { get; } = "f";
-        public string UpForward { get; } = "uf";
-        public string UpBackward { get; } = "ub";
-        public string DownForward { get; } = "df";
-        public string DownBackward { get; } = "db";
-
+        const string BasePath = @"themes\dir";
+        public const string DefaultNeutral = @"themes\n";
+        public bool Neutral { get; } = hasNeutral;
         public string Path { get; } = $"{BasePath}/{name}";
 
         public IEnumerable<Texture2D> LoadTextures(ContentManager content)
         {
-            if (Neutral is not null)
-                yield return content.LoadTexture(Path, Neutral);
+            if (Neutral)
+                yield return content.LoadTexture(Path, NumpadNotation.Neutral);
 
-            yield return content.LoadTexture(Path, Up);
-            yield return content.LoadTexture(Path, Down);
-            yield return content.LoadTexture(Path, Backward);
-            yield return content.LoadTexture(Path, Forward);
-            yield return content.LoadTexture(Path, UpForward);
-            yield return content.LoadTexture(Path, UpBackward);
-            yield return content.LoadTexture(Path, DownForward);
-            yield return content.LoadTexture(Path, DownBackward);
+            yield return content.LoadTexture(Path, NumpadNotation.Up);
+            yield return content.LoadTexture(Path, NumpadNotation.Down);
+            yield return content.LoadTexture(Path, NumpadNotation.Backward);
+            yield return content.LoadTexture(Path, NumpadNotation.Forward);
+            yield return content.LoadTexture(Path, NumpadNotation.UpForward);
+            yield return content.LoadTexture(Path, NumpadNotation.UpBackward);
+            yield return content.LoadTexture(Path, NumpadNotation.DownForward);
+            yield return content.LoadTexture(Path, NumpadNotation.DownBackward);
+        }
+
+        public string GetTexturePath(GameInput.Direction dir)
+        {
+            var dirName = dir switch
+            {
+                GameInput.Direction.Neutral
+                    or (GameInput.Direction.Up | GameInput.Direction.Down)
+                    or (GameInput.Direction.Forward | GameInput.Direction.Backward) =>
+                    Neutral ? NumpadNotation.Neutral : null,
+                GameInput.Direction.Up | GameInput.Direction.Forward => NumpadNotation.UpForward,
+                GameInput.Direction.Up | GameInput.Direction.Backward => NumpadNotation.UpBackward,
+                GameInput.Direction.Down | GameInput.Direction.Forward => NumpadNotation.DownForward,
+                GameInput.Direction.Down | GameInput.Direction.Backward => NumpadNotation.DownBackward,
+                GameInput.Direction.Down => NumpadNotation.Down,
+                GameInput.Direction.Up => NumpadNotation.Up,
+                GameInput.Direction.Forward => NumpadNotation.Forward,
+                GameInput.Direction.Backward => NumpadNotation.Backward,
+                _ => Neutral ? NumpadNotation.Neutral : null,
+            };
+
+            return string.IsNullOrWhiteSpace(dirName)
+                ? DefaultNeutral
+                : ContentPath.Combine(Path, dirName);
         }
     }
 
     public class Buttons
     {
-        const string BasePath = "themes/btn";
-        public const string Unkwnown = "themes/unknown";
+        const string BasePath = @"themes\btn";
+        public const string Unknown = @"themes\unknown";
 
         public string Name { get; init; } = "";
 
@@ -51,7 +67,13 @@ public static class ThemeManager
             foreach (var (_, name) in Textures)
                 yield return content.LoadTexture(Path, name);
         }
+
+        public string? GetTexturePath(ButtonName btn) =>
+            Textures.TryGetValue(btn, out var name)
+                ? ContentPath.Combine(Path, name)
+                : null;
     }
+
 
     public const string DefaultDirection = "default";
 
@@ -70,19 +92,17 @@ public static class ThemeManager
         textures.Clear();
         var neutral = content.LoadTexture(Direction.DefaultNeutral);
         textures.Add(neutral.Name, neutral);
-        var unknown = content.LoadTexture(Buttons.Unkwnown);
+        var unknown = content.LoadTexture(Buttons.Unknown);
         textures.Add(unknown.Name, unknown);
         foreach (var dir in Themes.DirectionMap.Values)
-        foreach (var texture in dir.LoadTextures(content))
-            textures.Add(texture.Name, texture);
+            foreach (var texture in dir.LoadTextures(content))
+                textures.Add(texture.Name, texture);
 
         foreach (var btn in Themes.ButtonMap.Values)
-        foreach (var texture in btn.LoadTextures(content))
-            textures.Add(texture.Name, texture);
+            foreach (var texture in btn.LoadTextures(content))
+                textures.Add(texture.Name, texture);
     }
 
-    public static Texture2D? GetTexture(string name) =>
-        textures.GetValueOrDefault(name);
-
-    public static Texture2D UnknownButton => textures[Buttons.Unkwnown];
+    public static Texture2D? GetTexture(string name) => textures.GetValueOrDefault(name);
+    public static Texture2D UnknownButton => textures[Buttons.Unknown];
 }

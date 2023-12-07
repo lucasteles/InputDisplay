@@ -6,13 +6,13 @@ public static class Themes
     {
         [ThemeManager.DefaultDirection] = new("arrows"),
         ["small"] = new("arrows_sm"),
-        ["numpad"] = new("numpad", neutral: true),
-        ["dpad"] = new("dpad", neutral: true),
-        ["dpad2"] = new("dpad2", neutral: true),
-        ["dpad3"] = new("dpad3", neutral: true),
-        ["stick"] = new("stick", neutral: true),
-        ["stick2"] = new("stick2", neutral: true),
-        ["tekken"] = new("arrows_tekken", neutral: true),
+        ["numpad"] = new("numpad", hasNeutral: true),
+        ["dpad"] = new("dpad", hasNeutral: true),
+        ["dpad2"] = new("dpad2", hasNeutral: true),
+        ["dpad3"] = new("dpad3", hasNeutral: true),
+        ["stick"] = new("stick", hasNeutral: true),
+        ["stick2"] = new("stick2", hasNeutral: true),
+        ["tekken"] = new("arrows_tekken", hasNeutral: true),
     };
 
     public static Dictionary<string, ThemeManager.Buttons> ButtonMap { get; } = new()
