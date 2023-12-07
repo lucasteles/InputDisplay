@@ -6,6 +6,8 @@ Display your gamepad inputs in a fighting game training mode style! ⬇️↘️
 
 It is amazing to be used as a streaming widget ([see here](https://github.com/lucasteles/InputDisplay/blob/master/how_to_obs.md)) or any video content.
 
+💡 **Oficial successor** of [FGInputLogger](https://github.com/lucasteles/FGInputLogger)
+
 > **⚠️:** _this project is beta, it is missing some configuration features for now_
 
 ## ⌨️ Shortcuts:
