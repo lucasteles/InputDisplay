@@ -1,4 +1,3 @@
-using InputDisplay.Theme;
 using Microsoft.Xna.Framework.Input;
 
 namespace InputDisplay.Inputs;
@@ -97,19 +96,6 @@ public class GameInput
                 KK.Pressed: false,
             };
 
-        public IEnumerable<ButtonName> GetActiveButtons()
-        {
-            if (LP.Active) yield return ButtonName.LP;
-            if (MP.Active) yield return ButtonName.MP;
-            if (HP.Active) yield return ButtonName.HP;
-            if (PP.Active) yield return ButtonName.PP;
-
-            if (LK.Active) yield return ButtonName.LK;
-            if (MK.Active) yield return ButtonName.MK;
-            if (HK.Active) yield return ButtonName.HK;
-            if (KK.Active) yield return ButtonName.KK;
-        }
-
         public void Combine(State other)
         {
             LP = LP.Combine(other.LP);
@@ -180,17 +166,19 @@ public class GameInput
         currentState.Stick.Direction = direction;
     }
 
-    public void Update(GamePadState state)
+    public void Update(GamePadState state, string currentPadId, InputMap mapper)
     {
         UpdateStick(state);
 
-        UpdateButton(state, Buttons.X, ref currentState.LP);
-        UpdateButton(state, Buttons.Y, ref currentState.MP);
-        UpdateButton(state, Buttons.RightShoulder, ref currentState.HP);
-        UpdateButton(state, Buttons.LeftShoulder, ref currentState.PP);
-        UpdateButton(state, Buttons.A, ref currentState.LK);
-        UpdateButton(state, Buttons.B, ref currentState.MK);
-        UpdateButton(state, Buttons.RightTrigger, ref currentState.HK);
-        UpdateButton(state, Buttons.LeftTrigger, ref currentState.KK);
+        Buttons M(Buttons bts) => mapper.GetButton(currentPadId, bts);
+
+        UpdateButton(state, M(Buttons.X), ref currentState.LP);
+        UpdateButton(state, M(Buttons.Y), ref currentState.MP);
+        UpdateButton(state, M(Buttons.RightShoulder), ref currentState.HP);
+        UpdateButton(state, M(Buttons.LeftShoulder), ref currentState.PP);
+        UpdateButton(state, M(Buttons.A), ref currentState.LK);
+        UpdateButton(state, M(Buttons.B), ref currentState.MK);
+        UpdateButton(state, M(Buttons.RightTrigger), ref currentState.HK);
+        UpdateButton(state, M(Buttons.LeftTrigger), ref currentState.KK);
     }
 }

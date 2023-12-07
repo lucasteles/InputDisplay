@@ -14,6 +14,8 @@ public class Game1 : Game
     readonly GameConfig config;
 
     PlayerIndex? player;
+    string currentPad = string.Empty;
+
     SpriteFont font = null!;
 
     readonly ThemeCycle themeCycle = new();
@@ -66,7 +68,7 @@ public class Game1 : Game
             return;
         }
 
-        buffer.Update(state);
+        buffer.Update(state, currentPad);
 
         HandleKeyboard();
         HandleMouse();
@@ -118,10 +120,17 @@ public class Game1 : Game
             foreach (var button in Enum.GetValues<Buttons>())
             {
                 if (!state.IsButtonDown(button)) continue;
-                player = i;
-
                 var caps = GamePad.GetCapabilities(i);
+                player = i;
+                currentPad = caps.Identifier;
                 Console.WriteLine($"Selected: {caps.DisplayName}");
+
+                if (!config.InputMap.Contains(caps.Identifier))
+                {
+                    config.InputMap.AddGamePad(caps);
+                    config.Save();
+                }
+
                 var name = caps.DisplayName.ToLower();
                 config.FallbackTheme =
                     !name.Contains("xbox") && name.Contains("ps")
@@ -153,7 +162,7 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(config.BackgroundColor);
+        GraphicsDevice.Clear(config.ClearColor);
 
         spriteBatch.Begin();
 

@@ -8,9 +8,9 @@ public class InputBuffer(GameConfig config, SpriteFont font)
     readonly List<InputEntry> entries = new(config.MaxEntries);
     public InputEntry? Last => entries.LastOrDefault();
 
-    public void Update(GamePadState state)
+    public void Update(GamePadState state, string padId)
     {
-        gameInput.Update(state);
+        gameInput.Update(state, padId, config.InputMap);
         var controllerState = gameInput.CurrentState;
 
         if (Last is { } last)

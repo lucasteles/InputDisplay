@@ -15,11 +15,5 @@
     "horizontal": false,
     "width": 480,
     "height": 1024,
-    "backgroundColor": {
-        "b": 47,
-        "g": 107,
-        "r": 85,
-        "a": 255,
-        "packedValue": 4281297749
-    }
+    "backgroundColor": "FF2F6B55"
 }

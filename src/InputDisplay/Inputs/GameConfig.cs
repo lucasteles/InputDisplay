@@ -4,6 +4,7 @@ using InputDisplay.Theme;
 
 namespace InputDisplay.Inputs;
 
+[Serializable]
 public class GameConfig
 {
     public record SelectedTheme(string Buttons, string Direction = ThemeManager.DefaultDirection);
@@ -48,7 +49,16 @@ public class GameConfig
     public int Top { get; set; }
     public int Left { get; set; }
 
-    public Color BackgroundColor { get; set; } = Color.DarkOliveGreen;
+    public InputMap InputMap { get; set; } = new();
+
+    public string BackgroundColor
+    {
+        get => ClearColor.PackedValue.ToString("X");
+        set => ClearColor = new(uint.Parse(value, System.Globalization.NumberStyles.HexNumber));
+    }
+
+    [JsonIgnore]
+    public Color ClearColor { get; set; } = Color.DarkOliveGreen;
 
     [JsonIgnore]
     public bool Horizontal => Width > Height;
@@ -107,6 +117,9 @@ public class GameConfig
         }
         catch
         {
+#if DEBUG
+            throw;
+#endif
             File.Delete(fileName);
         }
 
