@@ -1,6 +1,6 @@
 # 🕹️ Input Display
 
-<img src="assets/img/social_preview.png" height="400">
+![](assets/img/social_preview.png)
 
 Display your gamepad inputs in a fighting game training mode style! ⬇️↘️➡️+👊
 
