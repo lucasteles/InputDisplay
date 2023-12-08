@@ -1,6 +1,7 @@
+using InputDisplay.Config;
 using InputDisplay.Inputs;
 
-namespace InputDisplay.Theme;
+namespace InputDisplay.Themes;
 
 public record Theme
 {
@@ -8,6 +9,7 @@ public record Theme
     public required string StickName { get; set; }
     public required FaceButtons Buttons { get; set; }
     public required Direction Stick { get; set; }
+    public Theme? Fallback { get; set; }
 
     public Texture2D? GetTexture(StickDirection dir) =>
         ThemeManager.GetTexture(Stick.GetTexturePath(dir));
@@ -18,6 +20,11 @@ public record Theme
     public ButtonName[] GetMacro(ButtonName name) =>
         Buttons.MacrosTemplate.TryGetValue(name, out var names) ? names : [name];
 
+    public ButtonName[] GetMacro(ButtonName name, InputMacro macros) =>
+        macros.TryGetValue(name, out var customMacro) ? customMacro : GetMacro(name);
+
+    public static implicit operator GameConfig.SelectedTheme(Theme theme) =>
+        new(theme.ButtonsName, theme.StickName);
 
     public class Direction(string name, bool hasNeutral = false)
     {

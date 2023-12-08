@@ -1,5 +1,5 @@
 using InputDisplay.Config;
-using InputDisplay.Theme;
+using InputDisplay.Themes;
 
 namespace InputDisplay.Inputs.Entities;
 
@@ -14,11 +14,16 @@ public class InputEntry
 
     public void IncrementFrame() => HoldingFrames = Math.Min(HoldingFrames + 1, MaxHoldingFrames);
 
-    public void Draw(GameConfig config, SpriteFont font, SpriteBatch batch, Vector2 position)
+    public void Draw(
+        GameConfig config,
+        Theme theme,
+        SpriteFont font,
+        SpriteBatch batch,
+        Vector2 position
+    )
     {
         var paddingLeft = Vector2.UnitX * config.SpaceBetweenInputs * 3;
         Vector2 offset = position + paddingLeft;
-        var theme = config.Theme;
 
         var commandDir = config.Horizontal ? Vector2.UnitY : Vector2.UnitX;
 
@@ -91,7 +96,7 @@ public class InputEntry
         foreach (var btn in currentButtons.Order().Distinct())
         {
             if (theme.GetTexture(btn) is not { } texture)
-                if (config.FallbackTheme?.GetTexture(btn) is { } fallbackTexture)
+                if (theme.Fallback?.GetTexture(btn) is { } fallbackTexture)
                     texture = fallbackTexture;
                 else
                     texture = ThemeManager.UnknownButton;
@@ -112,7 +117,7 @@ public class InputEntry
             if (!config.ShadowHolding && button.Status is GameInput.ButtonStatus.Holding)
                 return;
 
-            var buttons = config.GetMacro(name);
+            var buttons = theme.GetMacro(name, config.Macros);
             for (var index = 0; index < buttons.Length; index++)
             {
                 var btn = buttons[index];

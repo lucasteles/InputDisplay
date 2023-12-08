@@ -1,8 +1,8 @@
 using InputDisplay.Inputs;
 
-namespace InputDisplay.Theme;
+namespace InputDisplay.Themes;
 
-public static class Themes
+public static class ThemeConfig
 {
     public static Dictionary<string, Theme.Direction> DirectionMap { get; } =
         new(StringComparer.InvariantCultureIgnoreCase)

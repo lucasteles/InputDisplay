@@ -1,7 +1,7 @@
 using InputDisplay.Config;
 using InputDisplay.Inputs;
 using InputDisplay.Inputs.Entities;
-using InputDisplay.Theme;
+using InputDisplay.Themes;
 using Microsoft.Xna.Framework.Input;
 
 namespace InputDisplay;
@@ -10,13 +10,14 @@ public class Game1 : Game
 {
     readonly GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch = default!;
-
-    InputBuffer buffer = default!;
     GameResources resources = default!;
 
-    readonly ThemeCycle themeCycle = new();
     readonly GameConfigManager configManager = new();
+    readonly InputBuffer buffer;
+    readonly ThemeManager themeManager;
+
     PlayerPad? player;
+    bool configUpdated;
 
     GameConfig Config => configManager.CurrentConfig;
 
@@ -25,6 +26,9 @@ public class Game1 : Game
         graphics = new(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+
+        themeManager = new(Config.CurrentTheme);
+        buffer = new(Config);
     }
 
     protected override void Initialize()
@@ -51,12 +55,11 @@ public class Game1 : Game
         resources = new(Content);
 
         ThemeManager.LoadContent(Content);
-        themeCycle.StartWith(Config.Theme);
-        buffer = new(Config);
     }
 
     protected override void Update(GameTime gameTime)
     {
+        configUpdated = false;
         if (player is null)
         {
             DetectController();
@@ -77,13 +80,26 @@ public class Game1 : Game
         HandleMouse();
         UpdateTheme();
         UpdateConfig();
+        configManager.Update();
         base.Update(gameTime);
+    }
+
+    public void UpdateTheme()
+    {
+        if (!themeManager.Update()) return;
+        configUpdated = true;
+        Config.CurrentTheme = themeManager.CurrentTheme;
     }
 
     void UpdateConfig()
     {
         if (Window.Position.X != Config.Left || Window.Position.Y != Config.Top)
+        {
             Config.UpdateWindowSize(Window);
+            configUpdated = true;
+        }
+
+        if (configUpdated) configManager.Save();
     }
 
     void HandleKeyboard()
@@ -96,12 +112,14 @@ public class Game1 : Game
         if (KeyboardManager.IsKeyPressed(Keys.Space))
         {
             Config.InvertHistory = !Config.InvertHistory;
-            configManager.Save();
+            configUpdated = true;
+            return;
         }
 
         if (KeyboardManager.IsKeyDown(Keys.Delete))
         {
             player?.Disconnect();
+            return;
         }
 
         if (KeyboardManager.IsKeyDown(Keys.Back))
@@ -125,7 +143,7 @@ public class Game1 : Game
 
         player = playerPad;
 
-        Config.FallbackTheme = ThemeManager.Get(
+        themeManager.SetFallback(
             player.GetPadKind() switch
             {
                 PlayerPad.Kind.PlayStation => "PlayStation",
@@ -138,23 +156,6 @@ public class Game1 : Game
         configManager.Save();
     }
 
-    void UpdateTheme()
-    {
-        var theme = Config.Theme;
-        if (KeyboardManager.IsKeyPressed(Keys.Up))
-            Config.Theme = themeCycle.NextStick();
-
-        else if (KeyboardManager.IsKeyPressed(Keys.Down))
-            Config.Theme = themeCycle.PrevStick();
-
-        else if (KeyboardManager.IsKeyPressed(Keys.Left))
-            Config.Theme = themeCycle.NextButtons();
-
-        else if (KeyboardManager.IsKeyPressed(Keys.Right))
-            Config.Theme = themeCycle.PrevButtons();
-
-        if (Config.Theme != theme) configManager.Save();
-    }
 
     protected override void Draw(GameTime gameTime)
     {
@@ -165,7 +166,12 @@ public class Game1 : Game
         if (player is null)
             spriteBatch.DrawString(resources.NumbersFont, "Press any button...", new(20), Color.White);
         else
-            buffer.Draw(spriteBatch, resources.NumbersFont, Window.ClientBounds);
+            buffer.Draw(
+                spriteBatch,
+                themeManager.CurrentTheme,
+                resources.NumbersFont,
+                Window.ClientBounds
+            );
 
         spriteBatch.End();
         base.Draw(gameTime);

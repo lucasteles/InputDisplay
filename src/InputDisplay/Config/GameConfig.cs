@@ -1,47 +1,20 @@
 using System.Text.Json.Serialization;
 using InputDisplay.Inputs;
-using InputDisplay.Theme;
+using InputDisplay.Themes;
 
 namespace InputDisplay.Config;
 
 [Serializable]
 public class GameConfig
 {
-    public record SelectedTheme(string Buttons, string Direction = ThemeManager.DefaultDirection);
+    public record SelectedTheme(
+        string Buttons = ThemeManager.DefaultButtons,
+        string Direction = ThemeManager.DefaultDirection
+    );
 
-    Theme.Theme? currentTheme;
-    SelectedTheme selectedTheme = new(ThemeManager.DefaultButtons);
-
+    public SelectedTheme CurrentTheme { get; set; } = new();
     public int IconSize { get; set; } = 40;
     public int SpaceBetweenInputs { get; set; } = 2;
-
-    public SelectedTheme CurrentTheme
-    {
-        get => selectedTheme;
-        set
-        {
-            selectedTheme = value;
-            currentTheme = null;
-        }
-    }
-
-    [JsonIgnore]
-    public Theme.Theme Theme
-    {
-        get
-        {
-            currentTheme ??= ThemeManager.Get(CurrentTheme);
-            return currentTheme;
-        }
-        set
-        {
-            CurrentTheme = new(value.ButtonsName, value.StickName);
-            currentTheme = value;
-        }
-    }
-
-    [JsonIgnore]
-    public Theme.Theme? FallbackTheme { get; set; }
 
     public int SpaceBetweenCommands { get; set; } = 4;
     public bool ShadowHolding { get; set; } = true;
@@ -94,9 +67,6 @@ public class GameConfig
         Width = window.ClientBounds.Size.X;
         Height = window.ClientBounds.Size.Y;
     }
-
-    public ButtonName[] GetMacro(ButtonName name) =>
-        Macros.TryGetValue(name, out var customMacro) ? customMacro : Theme.GetMacro(name);
 
     public void CopyFrom(GameConfig config)
     {

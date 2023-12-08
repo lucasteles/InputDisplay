@@ -1,16 +1,17 @@
-namespace InputDisplay.Theme;
+
+namespace InputDisplay.Themes;
 
 public class ThemeCycle
 {
-    readonly Cycle<KeyValuePair<string, Theme.Direction>> stick = new(Themes.DirectionMap);
-    readonly Cycle<KeyValuePair<string, Theme.FaceButtons>> buttons = new(Themes.ButtonMap);
+    readonly Cycle<KeyValuePair<string, Theme.Direction>> stick = new(ThemeConfig.DirectionMap);
+    readonly Cycle<KeyValuePair<string, Theme.FaceButtons>> buttons = new(ThemeConfig.ButtonMap);
 
-    public void StartWith(Theme theme)
+    public void StartAt(Theme theme)
     {
-        if (Themes.DirectionMap.Values.ToList().IndexOf(theme.Stick) is not -1 and var s)
+        if (ThemeConfig.DirectionMap.Values.ToList().IndexOf(theme.Stick) is not -1 and var s)
             stick.SetIndex(s);
 
-        if (Themes.ButtonMap.Values.ToList().IndexOf(theme.Buttons) is not -1 and var b)
+        if (ThemeConfig.ButtonMap.Values.ToList().IndexOf(theme.Buttons) is not -1 and var b)
             buttons.SetIndex(b);
     }
 

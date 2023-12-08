@@ -1,4 +1,5 @@
 using InputDisplay.Config;
+using InputDisplay.Themes;
 
 namespace InputDisplay.Inputs.Entities;
 
@@ -45,7 +46,7 @@ public class InputBuffer(GameConfig config)
             entries.RemoveAt(0);
     }
 
-    public void Draw(SpriteBatch batch, SpriteFont font, in Rectangle window)
+    public void Draw(SpriteBatch batch, Theme theme, SpriteFont font, in Rectangle window)
     {
         var dir = config.InvertHistory ? -1 : 1;
         var step = config.Horizontal
@@ -74,7 +75,7 @@ public class InputBuffer(GameConfig config)
             if (config.HideButtonRelease && (entry.State.IsNeutralOnly || entry.State.HasNoPressed))
                 return;
 
-            entry.Draw(config, font, batch, pos);
+            entry.Draw(config, theme, font, batch, pos);
             pos += step * dir;
         }
     }

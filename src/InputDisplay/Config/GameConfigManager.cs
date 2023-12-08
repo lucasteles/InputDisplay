@@ -19,7 +19,11 @@ public sealed class GameConfigManager : IDisposable
 
     const string FileName = "config.json";
     bool watching;
-    DateTime lastSave = DateTime.MinValue;
+    DateTime lastFileSaved = DateTime.MinValue;
+
+    readonly TimeSpan saveCooldown = TimeSpan.FromSeconds(1);
+    DateTime saveThreshould = DateTime.MinValue;
+    bool pendingSave;
 
     public GameConfig CurrentConfig { get; private set; }
 
@@ -56,7 +60,7 @@ public sealed class GameConfigManager : IDisposable
         }
     }
 
-    bool WasInternalSaved(string path) => File.GetLastWriteTimeUtc(path) <= lastSave;
+    bool WasInternalSaved(string path) => File.GetLastWriteTimeUtc(path) <= lastFileSaved;
 
     void WatcherHandler(object sender, FileSystemEventArgs e)
     {
@@ -86,13 +90,19 @@ public sealed class GameConfigManager : IDisposable
 
     public void Save()
     {
+        saveThreshould = DateTime.UtcNow + saveCooldown;
+        pendingSave = true;
+    }
+
+    public void SaveFile()
+    {
         Log.Info("Saving config...");
         PauseWatch();
         try
         {
             var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(CurrentConfig, jsonOptions);
             File.WriteAllBytes(FileName, jsonBytes);
-            lastSave = File.GetLastWriteTimeUtc(FileName);
+            lastFileSaved = File.GetLastWriteTimeUtc(FileName);
         }
         catch (Exception e)
         {
@@ -103,6 +113,13 @@ public sealed class GameConfigManager : IDisposable
         {
             StartWatch();
         }
+    }
+
+    public void Update()
+    {
+        if (!pendingSave || DateTime.UtcNow < saveThreshould) return;
+        SaveFile();
+        pendingSave = false;
     }
 
     public GameConfig CreateFile()
