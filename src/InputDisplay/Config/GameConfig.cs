@@ -16,6 +16,7 @@ public class GameConfig
     public int IconSize { get; set; } = 40;
     public int SpaceBetweenInputs { get; set; } = 2;
 
+    public bool Borderless { get; set; }
     public int SpaceBetweenCommands { get; set; } = 4;
     public bool ShadowHolding { get; set; } = true;
     public bool ShowFrames { get; set; } = true;
@@ -40,6 +41,9 @@ public class GameConfig
     }
 
     public InputMacro Macros { get; init; } = new();
+
+    [JsonIgnore]
+    public bool Dirty { get; set; }
 
     [JsonIgnore]
     public Color ClearColor { get; set; } = Color.DarkOliveGreen;
@@ -79,6 +83,7 @@ public class GameConfig
         DirectionSpace = config.DirectionSpace;
         AutoCorrectMultiple = config.AutoCorrectMultiple;
         InvertHistory = config.InvertHistory;
+        Borderless = config.Borderless;
         HideButtonRelease = config.HideButtonRelease;
         Width = config.Width;
         Height = config.Height;

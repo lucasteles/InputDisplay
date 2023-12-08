@@ -20,9 +20,10 @@ Download the latest version 👉 [**HERE**](https://github.com/lucasteles/InputD
 - ⬇️/⬆️: Change directions theme
 - ⬅️/➡️: Change buttons theme
 - **Mouse Scroll**: Zoom In / Zoom Out
+- ️**Double Click**: Toggle window border
 - ️**BACK**: Clear window
 - ️**DEL** : Disconnect controller
-- ️**SPACE**: Invert order
+- ️**I**: Invert order
 - ️**ESC**: Exit
 
 ## 🎥 Setting up [OBS Studio](https://obsproject.com)

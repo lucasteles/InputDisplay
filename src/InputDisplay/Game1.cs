@@ -17,7 +17,6 @@ public class Game1 : Game
     readonly ThemeManager themeManager;
 
     PlayerPad? player;
-    bool configUpdated;
 
     GameConfig Config => configManager.CurrentConfig;
 
@@ -35,14 +34,12 @@ public class Game1 : Game
     {
         Window.Title = "Input Display";
         Window.AllowUserResizing = true;
+        Window.IsBorderless = Config.Borderless;
         Window.ClientSizeChanged += OnResize;
+        SetWindowPosition();
 
         graphics.PreferredBackBufferWidth = Config.Width;
         graphics.PreferredBackBufferHeight = Config.Height;
-
-        if (Config.Top + Config.Left > 0)
-            Window.Position = new(Config.Left, Config.Top);
-
         graphics.ApplyChanges();
 
         configManager.StartWatch();
@@ -59,7 +56,23 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
-        configUpdated = false;
+        KeyboardManager.Update();
+        MouseManager.BeginUpdate();
+
+        HandleShortcuts();
+        HandleDragging();
+        HandlePlayerConnected();
+
+        UpdatePlayer();
+        UpdateConfig();
+        configManager.Update();
+        base.Update(gameTime);
+
+        MouseManager.EndUpdate();
+    }
+
+    void UpdatePlayer()
+    {
         if (player is null)
         {
             DetectController();
@@ -76,43 +89,52 @@ public class Game1 : Game
 
         buffer.Update(player);
 
-        HandleKeyboard();
-        HandleMouse();
-        UpdateTheme();
-        UpdateConfig();
-        configManager.Update();
-        base.Update(gameTime);
-    }
-
-    public void UpdateTheme()
-    {
         if (!themeManager.Update()) return;
-        configUpdated = true;
+        Config.Dirty = true;
         Config.CurrentTheme = themeManager.CurrentTheme;
     }
 
+    public void SetWindowPosition()
+    {
+        if (Config.Top + Config.Left != 0)
+            Window.Position = new(Config.Left, Config.Top);
+    }
+
+
     void UpdateConfig()
     {
+        if (MouseManager.IsDragging)
+            return;
+
         if (Window.Position.X != Config.Left || Window.Position.Y != Config.Top)
         {
             Config.UpdateWindowSize(Window);
-            configUpdated = true;
+            Config.Dirty = true;
         }
 
-        if (configUpdated) configManager.Save();
+        if (Window.IsBorderless != Config.Borderless)
+        {
+            Config.Dirty = true;
+            Window.IsBorderless = Config.Borderless;
+        }
+
+
+        if (Config.Dirty)
+        {
+            configManager.Save();
+            Config.Dirty = false;
+        }
     }
 
-    void HandleKeyboard()
+    void HandleShortcuts()
     {
-        KeyboardManager.Update();
-
         if (KeyboardManager.IsKeyDown(Keys.Escape))
             Exit();
 
-        if (KeyboardManager.IsKeyPressed(Keys.Space))
+        if (KeyboardManager.IsKeyPressed(Keys.I))
         {
             Config.InvertHistory = !Config.InvertHistory;
-            configUpdated = true;
+            Config.Dirty = true;
             return;
         }
 
@@ -122,19 +144,51 @@ public class Game1 : Game
             return;
         }
 
+        if (MouseManager.WasDoubleLeftClick)
+        {
+            Config.Borderless = !Config.Borderless;
+            Config.Dirty = true;
+        }
+
         if (KeyboardManager.IsKeyDown(Keys.Back))
             buffer.Clear();
     }
 
-    void HandleMouse()
+    void HandlePlayerConnected()
     {
-        MouseManager.Update();
+        if (player?.IsConnected != true) return;
         var wheel = MouseManager.DeltaWheelValue;
         if (wheel is 0) return;
-
         var step = Math.Sign(wheel) * 5;
         var newSize = MathHelper.Clamp(Config.IconSize + step, 20, 100);
         Config.IconSize = newSize;
+    }
+
+    Point? startDragging;
+
+    void HandleDragging()
+    {
+        if (IsActive && MouseManager.IsDraggingOnWindow(Window))
+        {
+            startDragging ??= MouseManager.Position;
+
+            var delta = MouseManager.DeltaDragging;
+            if (delta == Point.Zero) return;
+
+            var topFix = MouseManager.Position.Y - startDragging.Value.Y;
+            var leftFix = MouseManager.Position.X - startDragging.Value.X;
+
+            Config.Top += delta.Y + topFix;
+            Config.Left += delta.X + leftFix;
+            Config.Dirty = true;
+            SetWindowPosition();
+            MouseManager.BeginUpdate();
+        }
+
+        if (!MouseManager.IsDragging && startDragging is not null)
+        {
+            startDragging = null;
+        }
     }
 
     void DetectController()

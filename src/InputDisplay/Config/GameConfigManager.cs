@@ -21,8 +21,8 @@ public sealed class GameConfigManager : IDisposable
     bool watching;
     DateTime lastFileSaved = DateTime.MinValue;
 
-    readonly TimeSpan saveCooldown = TimeSpan.FromSeconds(1);
-    DateTime saveThreshould = DateTime.MinValue;
+    readonly TimeSpan saveCooldown = TimeSpan.FromSeconds(2);
+    DateTime saveThreshold = DateTime.MinValue;
     bool pendingSave;
 
     public GameConfig CurrentConfig { get; private set; }
@@ -90,7 +90,7 @@ public sealed class GameConfigManager : IDisposable
 
     public void Save()
     {
-        saveThreshould = DateTime.UtcNow + saveCooldown;
+        saveThreshold = DateTime.UtcNow + saveCooldown;
         pendingSave = true;
     }
 
@@ -117,7 +117,7 @@ public sealed class GameConfigManager : IDisposable
 
     public void Update()
     {
-        if (!pendingSave || DateTime.UtcNow < saveThreshould) return;
+        if (!pendingSave || DateTime.UtcNow < saveThreshold) return;
         SaveFile();
         pendingSave = false;
     }
