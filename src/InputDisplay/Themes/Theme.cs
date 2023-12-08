@@ -23,7 +23,7 @@ public record Theme
     public ButtonName[] GetMacro(ButtonName name, InputMacro macros) =>
         macros.TryGetValue(name, out var customMacro) ? customMacro : GetMacro(name);
 
-    public static implicit operator GameConfig.SelectedTheme(Theme theme) =>
+    public static implicit operator Settings.SelectedTheme(Theme theme) =>
         new(theme.ButtonsName, theme.StickName);
 
     public class Direction(string name, bool hasNeutral = false)

@@ -5,7 +5,7 @@ using InputDisplay.Themes;
 namespace InputDisplay.Config;
 
 [Serializable]
-public class GameConfig
+public class Settings
 {
     public record SelectedTheme(
         string Buttons = ThemeManager.DefaultButtons,
@@ -73,7 +73,7 @@ public class GameConfig
         Height = window.ClientBounds.Size.Y;
     }
 
-    public void CopyFrom(GameConfig config)
+    public void CopyFrom(Settings config)
     {
         IconSize = config.IconSize;
         SpaceBetweenInputs = config.SpaceBetweenInputs;

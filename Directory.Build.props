@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Lucas Teles</Authors>
+    <Company>lucasteles.dev</Company>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageProjectUrl>https://github.com/lucasteles/InputDisplay</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/lucasteles/InputDisplay</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
+
+    <PublishRelease>true</PublishRelease>
+    <PublishSingleFile>true</PublishSingleFile>
+
+    <WarningsAsErrors>CS8600;CS8602;CS8603;CS8604;CS8625;CS8618;CS8620</WarningsAsErrors>
+    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+</Project>

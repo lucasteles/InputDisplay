@@ -17,7 +17,7 @@ public class ThemeManager
             StickName = direction,
         };
 
-    public static Theme Get(GameConfig.SelectedTheme selected) =>
+    public static Theme Get(Settings.SelectedTheme selected) =>
         Get(selected.Buttons, selected.Direction);
 
     static readonly Dictionary<string, Texture2D> textures = [];
@@ -65,7 +65,7 @@ public class ThemeManager
         }
     }
 
-    public ThemeManager(GameConfig.SelectedTheme theme) => currentTheme = Get(theme);
+    public ThemeManager(Settings.SelectedTheme theme) => currentTheme = Get(theme);
 
     public void SetFallback(string themeName) => FallbackTheme = Get(themeName);
 

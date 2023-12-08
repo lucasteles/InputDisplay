@@ -15,7 +15,7 @@ public class InputEntry
     public void IncrementFrame() => HoldingFrames = Math.Min(HoldingFrames + 1, MaxHoldingFrames);
 
     public void Draw(
-        GameConfig config,
+        Settings config,
         Theme theme,
         SpriteFont font,
         SpriteBatch batch,

@@ -62,4 +62,9 @@ public record PlayerPad(
 
         return null;
     }
+
+    public static IEnumerable<GamePadCapabilities> GetControllers() =>
+        Enum.GetValues<PlayerIndex>()
+            .Select(GamePad.GetCapabilities)
+            .Where(caps => caps.IsConnected);
 }

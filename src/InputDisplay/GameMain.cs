@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace InputDisplay;
 
-public class Game1 : Game
+public class GameMain : Game
 {
     readonly GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch = default!;
@@ -18,9 +18,9 @@ public class Game1 : Game
 
     PlayerPad? player;
 
-    GameConfig Config => configManager.CurrentConfig;
+    Settings Config => configManager.CurrentConfig;
 
-    public Game1()
+    public GameMain()
     {
         graphics = new(this);
         Content.RootDirectory = "Content";
