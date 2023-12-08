@@ -26,17 +26,18 @@ public partial class SettingsGame
             TextColor = Color.White,
         };
 
-        ComboView comboJoystick = new();
-        comboJoystick.Width = 200;
+        ComboView comboJoystick = new()
+        {
+            Width = 200,
+        };
 
         foreach (var pad in PlayerPad.GetControllers())
-        {
             comboJoystick.Widgets.Add(new Label
             {
                 Text = pad.DisplayName,
                 TextColor = Color.White,
             });
-        }
+
 
         grid.Widgets.Add(labelJoyStick);
         Grid.SetColumn(comboJoystick, 1);
