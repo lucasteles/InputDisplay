@@ -1,4 +1,28 @@
-namespace InputDisplay.Theme;
+namespace InputDisplay.Inputs;
+
+[Flags]
+public enum ButtonName : short
+{
+    None = 0,
+    LP = 1 << 1,
+    MP = 1 << 2,
+    HP = 1 << 3,
+    PP = 1 << 4,
+    LK = 1 << 5,
+    MK = 1 << 6,
+    HK = 1 << 7,
+    KK = 1 << 8,
+}
+
+[Flags]
+public enum Direction : byte
+{
+    Neutral = 0,
+    Up = 1 << 0,
+    Down = 1 << 1,
+    Forward = 1 << 2,
+    Backward = 1 << 3,
+}
 
 public static class NumpadNotation
 {

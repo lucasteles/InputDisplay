@@ -1,4 +1,6 @@
+using InputDisplay.Config;
 using InputDisplay.Inputs;
+using InputDisplay.Inputs.Entities;
 using InputDisplay.Theme;
 using Microsoft.Xna.Framework.Input;
 
@@ -7,50 +9,50 @@ namespace InputDisplay;
 public class Game1 : Game
 {
     readonly GraphicsDeviceManager graphics;
+    SpriteBatch spriteBatch = default!;
 
-    SpriteBatch spriteBatch = null!;
     InputBuffer buffer = default!;
-
-    readonly GameConfig config;
-
-    PlayerIndex? player;
-    string currentPad = string.Empty;
-
-    SpriteFont font = null!;
+    GameResources resources = default!;
 
     readonly ThemeCycle themeCycle = new();
+    readonly GameConfigManager configManager = new();
+    PlayerPad? player;
+
+    GameConfig Config => configManager.CurrentConfig;
 
     public Game1()
     {
-        config = GameConfig.Load();
         graphics = new(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+    }
+
+    protected override void Initialize()
+    {
         Window.Title = "Input Display";
         Window.AllowUserResizing = true;
         Window.ClientSizeChanged += OnResize;
+
+        graphics.PreferredBackBufferWidth = Config.Width;
+        graphics.PreferredBackBufferHeight = Config.Height;
+
+        if (Config.Top + Config.Left > 0)
+            Window.Position = new(Config.Left, Config.Top);
+
+        graphics.ApplyChanges();
+
+        configManager.StartWatch();
+        base.Initialize();
     }
 
     protected override void LoadContent()
     {
         spriteBatch = new(GraphicsDevice);
-        font = Content.Load<SpriteFont>("fonts/numbers");
+        resources = new(Content);
 
         ThemeManager.LoadContent(Content);
-        themeCycle.StartWith(config.Theme);
-        buffer = new(config, font);
-    }
-
-    protected override void Initialize()
-    {
-        graphics.PreferredBackBufferWidth = config.Width;
-        graphics.PreferredBackBufferHeight = config.Height;
-
-        if (config.Top + config.Left > 0)
-            Window.Position = new(config.Left, config.Top);
-
-        graphics.ApplyChanges();
-        base.Initialize();
+        themeCycle.StartWith(Config.Theme);
+        buffer = new(Config);
     }
 
     protected override void Update(GameTime gameTime)
@@ -61,14 +63,15 @@ public class Game1 : Game
             return;
         }
 
-        var state = GamePad.GetState(player.Value);
-        if (!state.IsConnected)
+        player.Update();
+
+        if (!player.IsConnected)
         {
             player = null;
             return;
         }
 
-        buffer.Update(state, currentPad);
+        buffer.Update(player);
 
         HandleKeyboard();
         HandleMouse();
@@ -79,8 +82,8 @@ public class Game1 : Game
 
     void UpdateConfig()
     {
-        if (Window.Position.X != config.Left || Window.Position.Y != config.Top)
-            config.UpdateWindowSize(Window);
+        if (Window.Position.X != Config.Left || Window.Position.Y != Config.Top)
+            Config.UpdateWindowSize(Window);
     }
 
     void HandleKeyboard()
@@ -92,14 +95,13 @@ public class Game1 : Game
 
         if (KeyboardManager.IsKeyPressed(Keys.Space))
         {
-            config.InvertHistory = !config.InvertHistory;
-            config.Save();
+            Config.InvertHistory = !Config.InvertHistory;
+            configManager.Save();
         }
 
         if (KeyboardManager.IsKeyDown(Keys.Delete))
         {
-            currentPad = string.Empty;
-            player = null;
+            player?.Disconnect();
         }
 
         if (KeyboardManager.IsKeyDown(Keys.Back))
@@ -113,79 +115,72 @@ public class Game1 : Game
         if (wheel is 0) return;
 
         var step = Math.Sign(wheel) * 5;
-        var newSize = MathHelper.Clamp(config.IconSize + step, 20, 100);
-        config.IconSize = newSize;
+        var newSize = MathHelper.Clamp(Config.IconSize + step, 20, 100);
+        Config.IconSize = newSize;
     }
 
     void DetectController()
     {
-        foreach (var i in Enum.GetValues<PlayerIndex>())
-        {
-            var state = GamePad.GetState(i);
-            if (!state.IsConnected) continue;
-            foreach (var button in Enum.GetValues<Buttons>())
+        if (PlayerPad.Detect() is not { } playerPad) return;
+
+        player = playerPad;
+
+        Config.FallbackTheme = ThemeManager.Get(
+            player.GetPadKind() switch
             {
-                if (!state.IsButtonDown(button)) continue;
-                var caps = GamePad.GetCapabilities(i);
-                player = i;
-                currentPad = caps.Identifier;
-                Console.WriteLine($"Selected: {caps.DisplayName}");
-
-                if (!config.InputMap.Contains(caps.Identifier))
-                {
-                    config.InputMap.AddGamePad(caps);
-                    config.Save();
-                }
-
-                var name = caps.DisplayName.ToLower();
-                config.FallbackTheme =
-                    !name.Contains("xbox") && name.Contains("ps")
-                        ? ThemeManager.Get("PlayStation")
-                        : ThemeManager.Get("XBOX");
-
-                return;
+                PlayerPad.Kind.PlayStation => "PlayStation",
+                _ => "XBOX",
             }
-        }
+        );
+
+        if (Config.InputMap.Contains(player.Identifier)) return;
+        Config.InputMap.AddGamePad(player.Capabilities);
+        configManager.Save();
     }
 
     void UpdateTheme()
     {
-        var theme = config.Theme;
+        var theme = Config.Theme;
         if (KeyboardManager.IsKeyPressed(Keys.Up))
-            config.Theme = themeCycle.NextStick();
+            Config.Theme = themeCycle.NextStick();
 
         else if (KeyboardManager.IsKeyPressed(Keys.Down))
-            config.Theme = themeCycle.PrevStick();
+            Config.Theme = themeCycle.PrevStick();
 
         else if (KeyboardManager.IsKeyPressed(Keys.Left))
-            config.Theme = themeCycle.NextButtons();
+            Config.Theme = themeCycle.NextButtons();
 
         else if (KeyboardManager.IsKeyPressed(Keys.Right))
-            config.Theme = themeCycle.PrevButtons();
+            Config.Theme = themeCycle.PrevButtons();
 
-        if (config.Theme != theme) config.Save();
+        if (Config.Theme != theme) configManager.Save();
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(config.ClearColor);
+        GraphicsDevice.Clear(Config.ClearColor);
 
         spriteBatch.Begin();
 
         if (player is null)
-            spriteBatch.DrawString(font, "Press any button...", new(20), Color.White);
+            spriteBatch.DrawString(resources.NumbersFont, "Press any button...", new(20), Color.White);
         else
-            buffer.Draw(spriteBatch, Window.ClientBounds);
+            buffer.Draw(spriteBatch, resources.NumbersFont, Window.ClientBounds);
 
         spriteBatch.End();
         base.Draw(gameTime);
     }
 
-    void OnResize(object? sender, EventArgs e) => config.UpdateWindowSize(Window);
+    void OnResize(object? sender, EventArgs e)
+    {
+        Config.UpdateWindowSize(Window);
+        configManager.Save();
+    }
 
     protected override void OnExiting(object sender, EventArgs args)
     {
         Window.ClientSizeChanged -= OnResize;
+        configManager.Dispose();
         base.OnExiting(sender, args);
     }
 }

@@ -4,16 +4,6 @@ namespace InputDisplay.Inputs;
 
 public class GameInput
 {
-    [Flags]
-    public enum Direction : byte
-    {
-        Neutral = 0,
-        Up = 1 << 0,
-        Down = 1 << 1,
-        Forward = 1 << 2,
-        Backward = 1 << 3,
-    }
-
     public enum ButtonStatus
     {
         Unpressed,
@@ -166,11 +156,11 @@ public class GameInput
         currentState.Stick.Direction = direction;
     }
 
-    public void Update(GamePadState state, string currentPadId, InputMap mapper)
+    public void Update(PlayerPad pad, InputMap mapper)
     {
+        var state = pad.State;
         UpdateStick(state);
-
-        Buttons M(Buttons bts) => mapper.GetButton(currentPadId, bts);
+        Buttons M(Buttons bts) => mapper.GetButton(pad.Identifier, bts);
 
         UpdateButton(state, M(Buttons.X), ref currentState.LP);
         UpdateButton(state, M(Buttons.Y), ref currentState.MP);

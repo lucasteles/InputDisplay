@@ -1,136 +1,140 @@
+using InputDisplay.Inputs;
+
 namespace InputDisplay.Theme;
 
 public static class Themes
 {
-    public static Dictionary<string, ThemeManager.Direction> DirectionMap { get; } = new()
-    {
-        [ThemeManager.DefaultDirection] = new("arrows"),
-        ["small"] = new("arrows_sm"),
-        ["numpad"] = new("numpad", hasNeutral: true),
-        ["dpad"] = new("dpad", hasNeutral: true),
-        ["dpad2"] = new("dpad2", hasNeutral: true),
-        ["dpad3"] = new("dpad3", hasNeutral: true),
-        ["stick"] = new("stick", hasNeutral: true),
-        ["stick2"] = new("stick2", hasNeutral: true),
-        ["tekken"] = new("arrows_tekken", hasNeutral: true),
-    };
+    public static Dictionary<string, Theme.Direction> DirectionMap { get; } =
+        new(StringComparer.InvariantCultureIgnoreCase)
+        {
+            [ThemeManager.DefaultDirection] = new("arrows"),
+            ["Small"] = new("arrows_sm"),
+            ["Numpad"] = new("numpad", hasNeutral: true),
+            ["Dpad"] = new("dpad", hasNeutral: true),
+            ["Dpad2"] = new("dpad2", hasNeutral: true),
+            ["Dpad3"] = new("dpad3", hasNeutral: true),
+            ["Stick"] = new("stick", hasNeutral: true),
+            ["Stick2"] = new("stick2", hasNeutral: true),
+            ["Tekken"] = new("arrows_tekken", hasNeutral: true),
+        };
 
-    public static Dictionary<string, ThemeManager.Buttons> ButtonMap { get; } = new()
-    {
-        ["Street Fighter"] = new()
+    public static Dictionary<string, Theme.FaceButtons> ButtonMap { get; } =
+        new(StringComparer.InvariantCultureIgnoreCase)
         {
-            Name = "sf",
-            Textures = ForStreetFighter(),
-            MacrosTemplate = DefaultTripleMacro(),
-        },
-        ["PlayStation"] = new()
-        {
-            Name = "ps",
-            Textures = ForPlayStation(),
-        },
-        ["XBOX"] = new()
-        {
-            Name = "xbox",
-            Textures = ForXBox(),
-        },
-        ["MVC3"] = new()
-        {
-            Name = "mvc3",
-            Textures = new()
+            ["Street Fighter"] = new()
             {
-                [ButtonName.LP] = "l",
-                [ButtonName.MP] = "m",
-                [ButtonName.MK] = "h",
-                [ButtonName.LK] = "s",
-                [ButtonName.HP] = "a1",
-                [ButtonName.HK] = "a2",
+                Name = "sf",
+                Textures = ForStreetFighter(),
+                MacrosTemplate = DefaultTripleMacro(),
             },
-        },
-        ["Guilty Gear"] = new()
-        {
-            Name = "gg",
-            Textures = new()
+            ["PlayStation"] = new()
             {
-                [ButtonName.LP] = "p",
-                [ButtonName.MP] = "s",
-                [ButtonName.HP] = "d",
-                [ButtonName.LK] = "k",
-                [ButtonName.MK] = "hs",
-                [ButtonName.HK] = "dash",
+                Name = "ps",
+                Textures = ForPlayStation(),
             },
-        },
-        ["KOF"] = new()
-        {
-            Name = "kof",
-            Textures = new()
+            ["XBOX"] = new()
             {
-                [ButtonName.LP] = "lp",
-                [ButtonName.MP] = "hp",
-                [ButtonName.LK] = "lk",
-                [ButtonName.MK] = "hk",
+                Name = "xbox",
+                Textures = ForXBox(),
             },
-        },
-        ["NeoGeo"] = new()
-        {
-            Name = "neogeo",
-            Textures = new()
+            ["MVC3"] = new()
             {
-                [ButtonName.LP] = "a",
-                [ButtonName.MP] = "b",
-                [ButtonName.LK] = "c",
-                [ButtonName.MK] = "d",
+                Name = "mvc3",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "l",
+                    [ButtonName.MP] = "m",
+                    [ButtonName.MK] = "h",
+                    [ButtonName.LK] = "s",
+                    [ButtonName.HP] = "a1",
+                    [ButtonName.HK] = "a2",
+                },
             },
-        },
-        ["NeoGeo Clear"] = new()
-        {
-            Name = "neogeo2",
-            Textures = new()
+            ["Guilty Gear"] = new()
             {
-                [ButtonName.LP] = "a",
-                [ButtonName.MP] = "b",
-                [ButtonName.LK] = "c",
-                [ButtonName.MK] = "d",
+                Name = "gg",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "p",
+                    [ButtonName.MP] = "s",
+                    [ButtonName.HP] = "d",
+                    [ButtonName.LK] = "k",
+                    [ButtonName.MK] = "hs",
+                    [ButtonName.HK] = "dash",
+                },
             },
-        },
-        ["Numbers"] = new()
-        {
-            Name = "numbers",
-            Textures = new()
+            ["KOF"] = new()
             {
-                [ButtonName.LP] = "1",
-                [ButtonName.MP] = "2",
-                [ButtonName.LK] = "3",
-                [ButtonName.MK] = "4",
+                Name = "kof",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "lp",
+                    [ButtonName.MP] = "hp",
+                    [ButtonName.LK] = "lk",
+                    [ButtonName.MK] = "hk",
+                },
             },
-        },
-        ["Tekken - XBox"] = new()
-        {
-            Name = "tekken_xb",
-            Textures = ForTekken(),
-        },
-        ["Tekken - PlayStation"] = new()
-        {
-            Name = "tekken_ps",
-            Textures = ForTekken(),
-        },
-        ["Tekken - Steam"] = new()
-        {
-            Name = "tekken_steam",
-            Textures = ForTekken(),
-        },
-        ["SF5"] = new()
-        {
-            Name = "sf5",
-            Textures = ForStreetFighter(),
-            MacrosTemplate = DefaultTripleMacro(),
-        },
-        ["SF4"] = new()
-        {
-            Name = "sf4",
-            Textures = ForStreetFighter(),
-            MacrosTemplate = DefaultTripleMacro(),
-        },
-    };
+            ["NeoGeo"] = new()
+            {
+                Name = "neogeo",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "a",
+                    [ButtonName.MP] = "b",
+                    [ButtonName.LK] = "c",
+                    [ButtonName.MK] = "d",
+                },
+            },
+            ["NeoGeo Clear"] = new()
+            {
+                Name = "neogeo2",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "a",
+                    [ButtonName.MP] = "b",
+                    [ButtonName.LK] = "c",
+                    [ButtonName.MK] = "d",
+                },
+            },
+            ["Numbers"] = new()
+            {
+                Name = "numbers",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "1",
+                    [ButtonName.MP] = "2",
+                    [ButtonName.LK] = "3",
+                    [ButtonName.MK] = "4",
+                },
+            },
+            ["Tekken - XBox"] = new()
+            {
+                Name = "tekken_xb",
+                Textures = ForTekken(),
+            },
+            ["Tekken - PlayStation"] = new()
+            {
+                Name = "tekken_ps",
+                Textures = ForTekken(),
+            },
+            ["Tekken - Steam"] = new()
+            {
+                Name = "tekken_steam",
+                Textures = ForTekken(),
+            },
+            ["SF5"] = new()
+            {
+                Name = "sf5",
+                Textures = ForStreetFighter(),
+                MacrosTemplate = DefaultTripleMacro(),
+            },
+            ["SF4"] = new()
+            {
+                Name = "sf4",
+                Textures = ForStreetFighter(),
+                MacrosTemplate = DefaultTripleMacro(),
+            },
+        };
 
     static ButtonImage ForTekken() => new()
     {

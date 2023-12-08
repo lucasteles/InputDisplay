@@ -1,16 +1,16 @@
-using Microsoft.Xna.Framework.Input;
+using InputDisplay.Config;
 
-namespace InputDisplay.Inputs;
+namespace InputDisplay.Inputs.Entities;
 
-public class InputBuffer(GameConfig config, SpriteFont font)
+public class InputBuffer(GameConfig config)
 {
     readonly GameInput gameInput = new();
     readonly List<InputEntry> entries = new(config.MaxEntries);
     public InputEntry? Last => entries.LastOrDefault();
 
-    public void Update(GamePadState state, string padId)
+    public void Update(PlayerPad pad)
     {
-        gameInput.Update(state, padId, config.InputMap);
+        gameInput.Update(pad, config.InputMap);
         var controllerState = gameInput.CurrentState;
 
         if (Last is { } last)
@@ -45,7 +45,7 @@ public class InputBuffer(GameConfig config, SpriteFont font)
             entries.RemoveAt(0);
     }
 
-    public void Draw(SpriteBatch batch, in Rectangle window)
+    public void Draw(SpriteBatch batch, SpriteFont font, in Rectangle window)
     {
         var dir = config.InvertHistory ? -1 : 1;
         var step = config.Horizontal

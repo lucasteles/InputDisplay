@@ -1,11 +1,9 @@
-using InputDisplay.Data;
-
 namespace InputDisplay.Theme;
 
 public class ThemeCycle
 {
-    readonly Cycle<KeyValuePair<string, ThemeManager.Direction>> stick = new(Themes.DirectionMap);
-    readonly Cycle<KeyValuePair<string, ThemeManager.Buttons>> buttons = new(Themes.ButtonMap);
+    readonly Cycle<KeyValuePair<string, Theme.Direction>> stick = new(Themes.DirectionMap);
+    readonly Cycle<KeyValuePair<string, Theme.FaceButtons>> buttons = new(Themes.ButtonMap);
 
     public void StartWith(Theme theme)
     {

@@ -1,4 +1,4 @@
-namespace InputDisplay.Data;
+namespace InputDisplay.Util;
 
 public class Cycle<T>(IEnumerable<T> values, int currentIndex = 0)
 {

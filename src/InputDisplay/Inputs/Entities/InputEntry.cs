@@ -1,6 +1,7 @@
+using InputDisplay.Config;
 using InputDisplay.Theme;
 
-namespace InputDisplay.Inputs;
+namespace InputDisplay.Inputs.Entities;
 
 public class InputEntry
 {

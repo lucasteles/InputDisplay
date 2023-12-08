@@ -1,8 +1,8 @@
-using System.Text.Json;
 using System.Text.Json.Serialization;
+using InputDisplay.Inputs;
 using InputDisplay.Theme;
 
-namespace InputDisplay.Inputs;
+namespace InputDisplay.Config;
 
 [Serializable]
 public class GameConfig
@@ -10,11 +10,20 @@ public class GameConfig
     public record SelectedTheme(string Buttons, string Direction = ThemeManager.DefaultDirection);
 
     Theme.Theme? currentTheme;
+    SelectedTheme selectedTheme = new(ThemeManager.DefaultButtons);
 
     public int IconSize { get; set; } = 40;
     public int SpaceBetweenInputs { get; set; } = 2;
 
-    public SelectedTheme CurrentTheme { get; set; } = new(ThemeManager.DefaultButtons);
+    public SelectedTheme CurrentTheme
+    {
+        get => selectedTheme;
+        set
+        {
+            selectedTheme = value;
+            currentTheme = null;
+        }
+    }
 
     [JsonIgnore]
     public Theme.Theme Theme
@@ -84,57 +93,26 @@ public class GameConfig
         Left = window.Position.X;
         Width = window.ClientBounds.Size.X;
         Height = window.ClientBounds.Size.Y;
-        Save();
-    }
-
-    static readonly JsonSerializerOptions jsonOptions = new()
-    {
-        Converters =
-        {
-            new JsonStringEnumConverter(),
-        },
-        WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-    };
-
-    const string fileName = "config.json";
-
-    public static GameConfig CreateFile()
-    {
-        GameConfig config = new();
-        config.Save();
-        return config;
-    }
-
-    public static GameConfig Load()
-    {
-        if (!File.Exists(fileName))
-            return CreateFile();
-
-        try
-        {
-            var content = File.ReadAllBytes(fileName);
-            if (JsonSerializer.Deserialize<GameConfig>(content, jsonOptions) is { } config)
-                return config;
-        }
-        catch
-        {
-#if DEBUG
-            throw;
-#endif
-            File.Delete(fileName);
-        }
-
-        return CreateFile();
-    }
-
-    public void Save()
-    {
-        Console.WriteLine("Saving config...");
-        var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(this, jsonOptions);
-        File.WriteAllBytes(fileName, jsonBytes);
     }
 
     public ButtonName[] GetMacro(ButtonName name) =>
         Macros.TryGetValue(name, out var customMacro) ? customMacro : Theme.GetMacro(name);
+
+    public void CopyFrom(GameConfig config)
+    {
+        IconSize = config.IconSize;
+        SpaceBetweenInputs = config.SpaceBetweenInputs;
+        CurrentTheme = config.CurrentTheme;
+        SpaceBetweenCommands = config.SpaceBetweenCommands;
+        ShadowHolding = config.ShadowHolding;
+        ShowFrames = config.ShowFrames;
+        DirectionSpace = config.DirectionSpace;
+        AutoCorrectMultiple = config.AutoCorrectMultiple;
+        InvertHistory = config.InvertHistory;
+        HideButtonRelease = config.HideButtonRelease;
+        Width = config.Width;
+        Height = config.Height;
+        Top = config.Top;
+        Left = config.Left;
+    }
 }
