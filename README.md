@@ -11,6 +11,10 @@ widget ([see here](https://github.com/lucasteles/InputDisplay/blob/master/how_to
 
 > **⚠️:** _this project is beta, it is missing some configuration features for now_
 
+## Download
+
+Download the latest version 👉 [**HERE**](https://github.com/lucasteles/InputDisplay/releases) 👈
+
 ## ⌨️ Shortcuts:
 
 - ⬇️/⬆️: Change directions theme
