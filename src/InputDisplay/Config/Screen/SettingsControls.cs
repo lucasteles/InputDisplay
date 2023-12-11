@@ -5,6 +5,7 @@ using Myra.Graphics2D;
 using Myra.Graphics2D.Brushes;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
+using Myra.Graphics2D.UI.ColorPicker;
 
 namespace InputDisplay.Config.Screen;
 
@@ -44,25 +45,36 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         Grid grid = new()
         {
-            RowSpacing = 8,
+            RowSpacing = 2,
             ColumnSpacing = 8,
             Margin = new(30),
             VerticalAlignment = VerticalAlignment.Center,
         };
+
         var config = configManager.CurrentConfig;
 
         AddCheck(0, 0, "Borderless", config.Borderless, check => config.Borderless = check);
         AddCheck(0, 1, "Show frames", config.ShowFrames, check => config.ShowFrames = check);
         AddCheck(0, 2, "Show neutral", config.ShowNeutralIcon, check => config.ShowNeutralIcon = check);
-        AddCheck(0, 3, "Shadow when holding", config.ShadowHolding, check => config.ShadowHolding = check);
-        AddCheck(0, 4, "Auto correct", config.AutoCorrectMultiple, check => config.AutoCorrectMultiple = check);
-        AddCheck(0, 5, "Invert history", config.InvertHistory, check => config.InvertHistory = check);
+        AddCheck(0, 3, "Shadow holding", config.ShadowHolding, check => config.ShadowHolding = check);
 
-        AddCheck(1, 0, "Hide button release", config.HideButtonRelease, check => config.HideButtonRelease = check);
-        AddNumeric(1, 1, "Icon size: ", config.IconSize, v => config.IconSize = v);
-        AddNumeric(1, 2, "Input space: ", config.SpaceBetweenInputs, v => config.SpaceBetweenInputs = v);
-        AddNumeric(1, 3, "Command space: ", config.SpaceBetweenCommands, v => config.SpaceBetweenCommands = v);
-        AddNumeric(1, 4, "Direction space: ", config.DirectionSpace, v => config.DirectionSpace = v);
+        AddCheck(1, 0, "Auto correct", config.AutoCorrectMultiple, check => config.AutoCorrectMultiple = check);
+        AddCheck(1, 1, "Invert history", config.InvertHistory, check => config.InvertHistory = check);
+        AddCheck(1, 2, "Hide button release", config.HideButtonRelease, check => config.HideButtonRelease = check);
+        AddNumeric(1, 3, "Icon size: ", config.IconSize, v => config.IconSize = v);
+
+        AddNumeric(2, 0, "Input space: ", config.SpaceBetweenInputs, v => config.SpaceBetweenInputs = v);
+        AddNumeric(2, 1, "Command space: ", config.SpaceBetweenCommands, v => config.SpaceBetweenCommands = v);
+        AddNumeric(2, 2, "Direction space: ", config.DirectionSpace, v => config.DirectionSpace = v);
+
+        var backgroundColor = ColorPicker("Background color: ", config.ClearColor, c =>
+        {
+            config.ClearColor = c;
+            configManager.SaveFile();
+        });
+        Grid.SetColumn(backgroundColor, 2);
+        Grid.SetRow(backgroundColor, 3);
+        grid.Widgets.Add(backgroundColor);
 
         return grid;
 
@@ -83,7 +95,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         }
     }
 
-    Widget InputCheck(string labelText, bool isChecked, Action<bool> onClick)
+    HorizontalStackPanel InputCheck(string labelText, bool isChecked, Action<bool> onClick)
     {
         HorizontalStackPanel panel = new()
         {
@@ -116,7 +128,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         return panel;
     }
 
-    Widget InputNumber(string labelText, int value, Action<int> onChange)
+    HorizontalStackPanel InputNumber(string labelText, int value, Action<int> onChange)
     {
         HorizontalStackPanel panel = new()
         {
@@ -154,13 +166,70 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         return panel;
     }
 
-    Widget BuildInputMap()
+    HorizontalStackPanel ColorPicker(string labelText, Color color, Action<Color> onChange)
+    {
+        HorizontalStackPanel panel = new()
+        {
+            Padding = new(4),
+        };
+
+        Label label = new()
+        {
+            Text = labelText,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new(0, 0, 10, 0),
+        };
+
+        panel.Widgets.Add(label);
+
+
+        Button button = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            Padding = new(3),
+            Content = new Image
+            {
+                Width = 50,
+                Height = 30,
+                VerticalAlignment = VerticalAlignment.Center,
+                Background = new SolidBrush(color),
+                Tag = color,
+            },
+        };
+
+
+        button.Click += (sender, _) =>
+        {
+            if (sender is not Button { Content: Image { Tag: Color current } image })
+                return;
+
+            ColorPickerDialog dialog = new()
+            {
+                Color = current,
+            };
+
+            dialog.Closed += (s, a) =>
+            {
+                if (!dialog.Result) return;
+                image.Tag = dialog.Color;
+                image.Background = new SolidBrush(dialog.Color);
+                onChange(dialog.Color);
+            };
+
+            dialog.ShowModal(desktop);
+        };
+
+        panel.Widgets.Add(button);
+        return panel;
+    }
+
+
+    VerticalStackPanel BuildInputMap()
     {
         VerticalStackPanel root = new()
         {
             Margin = new(0, 20),
         };
-
 
         Label title = new()
         {
@@ -169,7 +238,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             Padding = new(4),
         };
         root.Widgets.Add(title);
-
 
         HorizontalStackPanel mappings = new()
         {
@@ -308,7 +376,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         grid.Widgets.Add(Directions[index]);
     }
 
-    Widget Line() =>
+    static Widget Line() =>
         new Panel
         {
             BorderThickness = new(0, 1),
