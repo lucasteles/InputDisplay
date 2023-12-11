@@ -31,6 +31,20 @@ public record PlayerPad(
         }
     }
 
+    public Buttons? GetAnyButton()
+    {
+        if (!State.IsConnected)
+            return null;
+
+        foreach (var button in Enum.GetValues<Buttons>())
+        {
+            if (!State.IsButtonDown(button)) continue;
+            return button;
+        }
+
+        return null;
+    }
+
     public enum Kind
     {
         Xbox,
@@ -63,15 +77,8 @@ public record PlayerPad(
             return justOne;
 
         foreach (var pad in connected)
-        {
-            var state = GamePad.GetState(pad.Index);
-            if (!state.IsConnected) continue;
-            foreach (var button in Enum.GetValues<Buttons>())
-            {
-                if (!state.IsButtonDown(button)) continue;
+            if (pad.GetAnyButton() is not null)
                 return pad;
-            }
-        }
 
         return null;
     }

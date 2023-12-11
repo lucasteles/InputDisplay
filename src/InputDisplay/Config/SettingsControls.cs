@@ -11,6 +11,8 @@ namespace InputDisplay.Config;
 public sealed class SettingsControls(Desktop desktop) : IDisposable
 {
     public Label SelectedJoystick { get; private set; }
+
+    public Button ResetMapButton { get; private set; }
     public Image[] Directions { get; private set; } = new Image[9];
     public Dictionary<ButtonName, Button> Buttons { get; private set; } = new();
 
@@ -43,13 +45,15 @@ public sealed class SettingsControls(Desktop desktop) : IDisposable
             Margin = new(0, 20),
         };
 
+
         Label title = new()
         {
             Text = "Input Mapping:",
             TextColor = Color.White,
-            Padding = new(2),
+            Padding = new(4),
         };
         root.Widgets.Add(title);
+
 
         HorizontalStackPanel mappings = new()
         {
@@ -105,6 +109,19 @@ public sealed class SettingsControls(Desktop desktop) : IDisposable
         InitButton(ButtonName.MK, (2, 2), buttonsGrid);
         InitButton(ButtonName.HK, (2, 3), buttonsGrid);
         InitButton(ButtonName.KK, (2, 4), buttonsGrid);
+
+
+        ResetMapButton = new()
+        {
+            Padding = new(10),
+            Margin = new(30, 10),
+            Content = new Label
+            {
+                Text = "Reset",
+            },
+        };
+
+        root.Widgets.Add(ResetMapButton);
 
         return root;
     }
@@ -219,7 +236,9 @@ public sealed class SettingsControls(Desktop desktop) : IDisposable
     {
         foreach (var (name, button) in Buttons)
             if (button.Content is Label label)
-                label.Background = buttons.HasFlag(name) ? new SolidBrush(Color.Green) : (IBrush)null;
+                label.Background = buttons.HasFlag(name)
+                    ? new SolidBrush(Color.Green)
+                    : (IBrush)null;
     }
 
     public void Dispose()

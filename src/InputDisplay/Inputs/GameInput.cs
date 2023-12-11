@@ -112,20 +112,6 @@ public class GameInput
             if (KK.Active) result |= ButtonName.KK;
             return result;
         }
-
-        public ButtonName GetSinglePressed()
-        {
-            if (LP.Pressed) return ButtonName.LP;
-            if (MP.Pressed) return ButtonName.MP;
-            if (HP.Pressed) return ButtonName.HP;
-            if (PP.Pressed) return ButtonName.PP;
-            if (LK.Pressed) return ButtonName.LK;
-            if (MK.Pressed) return ButtonName.MK;
-            if (HK.Pressed) return ButtonName.HK;
-            if (KK.Pressed) return ButtonName.KK;
-
-            return ButtonName.None;
-        }
     }
 
     State currentState;
@@ -133,6 +119,12 @@ public class GameInput
 
     void UpdateButton(GamePadState state, Buttons padButton, ref Button button)
     {
+        if (padButton is Buttons.None)
+        {
+            button = ButtonStatus.Unpressed;
+            return;
+        }
+
         var pressed = state.IsButtonDown(padButton);
 
         switch (button.Status, pressed)
@@ -188,15 +180,15 @@ public class GameInput
     {
         var state = pad.State;
         UpdateStick(state);
-        Buttons M(Buttons bts) => mapper.GetButton(pad.Identifier, bts);
 
-        UpdateButton(state, M(Buttons.X), ref currentState.LP);
-        UpdateButton(state, M(Buttons.Y), ref currentState.MP);
-        UpdateButton(state, M(Buttons.RightShoulder), ref currentState.HP);
-        UpdateButton(state, M(Buttons.LeftShoulder), ref currentState.PP);
-        UpdateButton(state, M(Buttons.A), ref currentState.LK);
-        UpdateButton(state, M(Buttons.B), ref currentState.MK);
-        UpdateButton(state, M(Buttons.RightTrigger), ref currentState.HK);
-        UpdateButton(state, M(Buttons.LeftTrigger), ref currentState.KK);
+        var map = mapper.GetMappingOrDefault(pad.Identifier);
+        UpdateButton(state, map.LP, ref currentState.LP);
+        UpdateButton(state, map.MP, ref currentState.MP);
+        UpdateButton(state, map.HP, ref currentState.HP);
+        UpdateButton(state, map.PP, ref currentState.PP);
+        UpdateButton(state, map.LK, ref currentState.LK);
+        UpdateButton(state, map.MK, ref currentState.MK);
+        UpdateButton(state, map.HK, ref currentState.HK);
+        UpdateButton(state, map.KK, ref currentState.KK);
     }
 }

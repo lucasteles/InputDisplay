@@ -52,6 +52,7 @@ public class SettingsGame : Game
         controls = new(desktop);
         desktop.Root = controls.BuildUI();
 
+        controls.ResetMapButton.Click += OnResetMap;
         resources = new(Content);
     }
 
@@ -80,16 +81,12 @@ public class SettingsGame : Game
             controls.HighLightDirection(input.Stick.Direction);
             controls.HighLightButtons(input.GetActiveButtons());
         }
-        else
+        else if (player.GetAnyButton() is { } padButton && Config.InputMap.GetMapping(player.Identifier) is { } map)
         {
-            var pressed = gameInput.CurrentState.GetSinglePressed();
-            if (pressed is not ButtonName.None && Config.InputMap.Maps.TryGetValue(player.Identifier, out var mapping))
-            {
-
-                controls.ButtonMapped();
-            }
+            map.Set(controls.MappingButton.Value, padButton);
+            controls.ButtonMapped();
+            configManager.SaveFile();
         }
-
 
         base.Update(gameTime);
     }
@@ -102,7 +99,17 @@ public class SettingsGame : Game
 
         if (Config.InputMap.Contains(player.Identifier)) return;
         Config.InputMap.AddGamePad(player.Capabilities);
-        configManager.Save();
+        configManager.SaveFile();
+    }
+
+
+    void OnResetMap(object? sender, EventArgs e)
+    {
+        if (player is not null && Config.InputMap.GetMapping(player.Identifier) is { } map)
+        {
+            map.Reset();
+            configManager.SaveFile();
+        }
     }
 
     protected override void Draw(GameTime gameTime)
@@ -124,6 +131,7 @@ public class SettingsGame : Game
     protected override void UnloadContent()
     {
         controls.Dispose();
+        controls.ResetMapButton.Click -= OnResetMap;
         base.UnloadContent();
     }
 }
