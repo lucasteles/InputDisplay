@@ -27,7 +27,7 @@ public class SettingsGame : Game
     {
         graphics = new(this)
         {
-            PreferredBackBufferWidth = 880,
+            PreferredBackBufferWidth = 1024,
             PreferredBackBufferHeight = 780,
         };
         Content.RootDirectory = "Content";
