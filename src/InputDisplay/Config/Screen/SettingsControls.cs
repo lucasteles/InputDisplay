@@ -35,7 +35,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         root.Widgets.Add(Line());
         root.Widgets.Add(BuildInputMap());
         root.Widgets.Add(Line());
-
         root.Widgets.Add(BuildSettings());
 
         return root;
@@ -43,9 +42,116 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
     Widget BuildSettings()
     {
-        Grid grid = new();
+        Grid grid = new()
+        {
+            RowSpacing = 8,
+            ColumnSpacing = 8,
+            Margin = new(30),
+            VerticalAlignment = VerticalAlignment.Center,
+        };
+        var config = configManager.CurrentConfig;
+
+        AddCheck(0, 0, "Borderless", config.Borderless, check => config.Borderless = check);
+        AddCheck(0, 1, "Show frames", config.ShowFrames, check => config.ShowFrames = check);
+        AddCheck(0, 2, "Show neutral", config.ShowNeutralIcon, check => config.ShowNeutralIcon = check);
+        AddCheck(0, 3, "Shadow when holding", config.ShadowHolding, check => config.ShadowHolding = check);
+        AddCheck(0, 4, "Auto correct", config.AutoCorrectMultiple, check => config.AutoCorrectMultiple = check);
+        AddCheck(0, 5, "Invert history", config.InvertHistory, check => config.InvertHistory = check);
+
+        AddCheck(1, 0, "Hide button release", config.HideButtonRelease, check => config.HideButtonRelease = check);
+        AddNumeric(1, 1, "Icon size: ", config.IconSize, v => config.IconSize = v);
+        AddNumeric(1, 2, "Input space: ", config.SpaceBetweenInputs, v => config.SpaceBetweenInputs = v);
+        AddNumeric(1, 3, "Command space: ", config.SpaceBetweenCommands, v => config.SpaceBetweenCommands = v);
+        AddNumeric(1, 4, "Direction space: ", config.DirectionSpace, v => config.DirectionSpace = v);
 
         return grid;
+
+        void AddCheck(int col, int row, string labelText, bool isChecked, Action<bool> onClick)
+        {
+            var chk = InputCheck(labelText, isChecked, onClick);
+            Grid.SetColumn(chk, col);
+            Grid.SetRow(chk, row);
+            grid.Widgets.Add(chk);
+        }
+
+        void AddNumeric(int col, int row, string labelText, int value, Action<int> onChange)
+        {
+            var chk = InputNumber(labelText, value, onChange);
+            Grid.SetColumn(chk, col);
+            Grid.SetRow(chk, row);
+            grid.Widgets.Add(chk);
+        }
+    }
+
+    Widget InputCheck(string labelText, bool isChecked, Action<bool> onClick)
+    {
+        HorizontalStackPanel panel = new()
+        {
+            Padding = new(4),
+        };
+
+        Label label = new()
+        {
+            Text = labelText,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new(0, 0, 10, 0),
+        };
+
+        panel.Widgets.Add(label);
+
+        CheckButton button = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            IsChecked = isChecked,
+        };
+
+        button.Click += (sender, _) =>
+        {
+            var input = (CheckButton)sender;
+            onClick(input!.IsChecked);
+            configManager.SaveFile();
+        };
+
+        panel.Widgets.Add(button);
+        return panel;
+    }
+
+    Widget InputNumber(string labelText, int value, Action<int> onChange)
+    {
+        HorizontalStackPanel panel = new()
+        {
+            Padding = new(4),
+        };
+
+        Label label = new()
+        {
+            Text = labelText,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new(0, 0, 10, 0),
+        };
+
+        panel.Widgets.Add(label);
+
+        SpinButton textBox = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            Integer = true,
+            Width = 50,
+            Value = value,
+            Padding = new(3),
+        };
+
+        textBox.Minimum = 1;
+        textBox.ValueChanged += (sender, _) =>
+        {
+            var input = (SpinButton)sender;
+            var v = int.Max((int)(input?.Value ?? 0), 1);
+            onChange(v);
+            configManager.SaveFile();
+        };
+
+        panel.Widgets.Add(textBox);
+        return panel;
     }
 
     Widget BuildInputMap()
