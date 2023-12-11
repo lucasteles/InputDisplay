@@ -45,18 +45,31 @@ public record PlayerPad(
             : Kind.Xbox;
     }
 
-    public static PlayerPad? Detect()
+    public static IEnumerable<PlayerPad> GetConnected()
     {
         foreach (var index in Enum.GetValues<PlayerIndex>())
         {
-            var state = GamePad.GetState(index);
+            var state = GamePad.GetCapabilities(index);
+            if (!state.IsConnected) continue;
+            var caps = GamePad.GetCapabilities(index);
+            yield return new(index, caps);
+        }
+    }
+
+    public static PlayerPad? DetectPress()
+    {
+        var connected = GetConnected().ToList();
+        if (connected is [var justOne])
+            return justOne;
+
+        foreach (var pad in connected)
+        {
+            var state = GamePad.GetState(pad.Index);
             if (!state.IsConnected) continue;
             foreach (var button in Enum.GetValues<Buttons>())
             {
                 if (!state.IsButtonDown(button)) continue;
-                var caps = GamePad.GetCapabilities(index);
-                Log.Info($"Selected: {caps.DisplayName}");
-                return new(index, caps);
+                return pad;
             }
         }
 

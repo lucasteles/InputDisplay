@@ -1,11 +1,14 @@
-using InputDisplay.Inputs;
+#nullable disable
 using Myra.Graphics2D.UI;
 
 namespace InputDisplay.Config;
 
-public partial class SettingsGame
+public class SettingsWindow
 {
-    Widget LoadWidgets()
+    public Label SelectedJoystick;
+
+
+    public Widget LoadWidgets()
     {
         var grid = new Grid
         {
@@ -22,39 +25,25 @@ public partial class SettingsGame
 
         Label labelJoyStick = new()
         {
-            Text = "Joystick",
+            Text = "Selected Controller: ",
             TextColor = Color.White,
         };
 
-        ComboView comboJoystick = new()
+        SelectedJoystick = new()
         {
             Width = 200,
         };
 
-        foreach (var pad in PlayerPad.GetControllers())
-            comboJoystick.Widgets.Add(new Label
-            {
-                Text = pad.DisplayName,
-                TextColor = Color.White,
-            });
-
-
         grid.Widgets.Add(labelJoyStick);
-        Grid.SetColumn(comboJoystick, 1);
-        Grid.SetRow(comboJoystick, 0);
-
-        grid.Widgets.Add(comboJoystick);
+        Grid.SetColumn(SelectedJoystick, 1);
+        Grid.SetRow(SelectedJoystick, 0);
+        grid.Widgets.Add(SelectedJoystick);
 
         return grid;
     }
 
-    // Panel SelectControllerPanel()
-    // {
-    //
-    // }
 
-
-    Widget LoadWidgetsSample()
+    Widget LoadWidgetsSample(Desktop desktop)
     {
         var grid = new Grid
         {

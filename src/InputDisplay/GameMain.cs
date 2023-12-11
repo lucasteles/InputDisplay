@@ -50,7 +50,6 @@ public class GameMain : Game
     {
         spriteBatch = new(GraphicsDevice);
         resources = new(Content);
-
         ThemeManager.LoadContent(Content);
     }
 
@@ -129,7 +128,7 @@ public class GameMain : Game
     void HandleShortcuts()
     {
         if (KeyboardManager.IsKeyPressed(Keys.Escape))
-            if (player is null)
+            if (player is null || PlayerPad.GetConnected().Count() <= 1)
                 Exit();
             else
                 player = null;
@@ -196,7 +195,7 @@ public class GameMain : Game
 
     void DetectController()
     {
-        if (PlayerPad.Detect() is not { } playerPad) return;
+        if (PlayerPad.DetectPress() is not { } playerPad) return;
 
         player = playerPad;
 
@@ -212,7 +211,6 @@ public class GameMain : Game
         Config.InputMap.AddGamePad(player.Capabilities);
         configManager.Save();
     }
-
 
     protected override void Draw(GameTime gameTime)
     {
