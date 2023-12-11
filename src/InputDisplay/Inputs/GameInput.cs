@@ -98,6 +98,34 @@ public class GameInput
             HK = HK.Combine(other.HK);
             KK = KK.Combine(other.KK);
         }
+
+        public ButtonName GetActiveButtons()
+        {
+            var result = ButtonName.None;
+            if (LP.Active) result |= ButtonName.LP;
+            if (MP.Active) result |= ButtonName.MP;
+            if (HP.Active) result |= ButtonName.HP;
+            if (PP.Active) result |= ButtonName.PP;
+            if (LK.Active) result |= ButtonName.LK;
+            if (MK.Active) result |= ButtonName.MK;
+            if (HK.Active) result |= ButtonName.HK;
+            if (KK.Active) result |= ButtonName.KK;
+            return result;
+        }
+
+        public ButtonName GetSinglePressed()
+        {
+            if (LP.Pressed) return ButtonName.LP;
+            if (MP.Pressed) return ButtonName.MP;
+            if (HP.Pressed) return ButtonName.HP;
+            if (PP.Pressed) return ButtonName.PP;
+            if (LK.Pressed) return ButtonName.LK;
+            if (MK.Pressed) return ButtonName.MK;
+            if (HK.Pressed) return ButtonName.HK;
+            if (KK.Pressed) return ButtonName.KK;
+
+            return ButtonName.None;
+        }
     }
 
     State currentState;

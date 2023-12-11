@@ -9,25 +9,25 @@ public record InputMap
     {
         public required string Name { get; init; }
 
-        public Buttons? X { get; set; } = Buttons.X;
-        public Buttons? Y { get; set; } = Buttons.Y;
-        public Buttons? A { get; set; } = Buttons.A;
-        public Buttons? B { get; set; } = Buttons.B;
-        public Buttons? LB { get; set; } = Buttons.LeftShoulder;
-        public Buttons? RB { get; set; } = Buttons.RightShoulder;
-        public Buttons? LT { get; set; } = Buttons.LeftTrigger;
-        public Buttons? RT { get; set; } = Buttons.RightTrigger;
+        public Buttons LP { get; set; } = Buttons.X;
+        public Buttons MP { get; set; } = Buttons.Y;
+        public Buttons HP { get; set; } = Buttons.RightShoulder;
+        public Buttons PP { get; set; } = Buttons.LeftShoulder;
+        public Buttons LK { get; set; } = Buttons.A;
+        public Buttons MK { get; set; } = Buttons.B;
+        public Buttons HK { get; set; } = Buttons.RightTrigger;
+        public Buttons KK { get; set; } = Buttons.LeftTrigger;
 
         public Buttons GetButton(Buttons button) => (button, this) switch
         {
-            (Buttons.X, { X: { } btn }) => btn,
-            (Buttons.Y, { Y: { } btn }) => btn,
-            (Buttons.A, { A: { } btn }) => btn,
-            (Buttons.B, { B: { } btn }) => btn,
-            (Buttons.LeftShoulder, { LB: { } btn }) => btn,
-            (Buttons.RightShoulder, { RB: { } btn }) => btn,
-            (Buttons.LeftTrigger, { LT: { } btn }) => btn,
-            (Buttons.RightTrigger, { RT: { } btn }) => btn,
+            (Buttons.X, { LP: { } btn }) => btn,
+            (Buttons.Y, { MP: { } btn }) => btn,
+            (Buttons.RightShoulder, { HP: { } btn }) => btn,
+            (Buttons.LeftShoulder, { PP: { } btn }) => btn,
+            (Buttons.A, { LK: { } btn }) => btn,
+            (Buttons.B, { MK: { } btn }) => btn,
+            (Buttons.RightTrigger, { HK: { } btn }) => btn,
+            (Buttons.LeftTrigger, { KK: { } btn }) => btn,
             _ => button,
         };
     }

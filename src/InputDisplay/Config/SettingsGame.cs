@@ -8,15 +8,16 @@ using Myra.Graphics2D.UI;
 
 namespace InputDisplay.Config;
 
-public partial class SettingsGame : Game
+public class SettingsGame : Game
 {
     SpriteBatch spriteBatch = default!;
     Desktop desktop = default!;
-    SettingsWindow Controls = new();
+    SettingsControls controls = default!;
+    GameResources resources = default!;
 
+    readonly GameInput gameInput = new();
     readonly GraphicsDeviceManager graphics;
 
-    GameResources resources = default!;
     readonly GameConfigManager configManager = new();
     PlayerPad? player;
 
@@ -29,9 +30,9 @@ public partial class SettingsGame : Game
             PreferredBackBufferWidth = 1024,
             PreferredBackBufferHeight = 1024,
         };
-        Window.AllowUserResizing = true;
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        graphics.ApplyChanges();
     }
 
     protected override void Initialize()
@@ -44,34 +45,51 @@ public partial class SettingsGame : Game
     protected override void LoadContent()
     {
         spriteBatch = new(GraphicsDevice);
+        ThemeManager.LoadContent(Content);
 
         MyraEnvironment.Game = this;
         desktop = new();
-
-        desktop = new Desktop
-        {
-            Root = Controls.LoadWidgets(),
-        };
+        controls = new(desktop);
+        desktop.Root = controls.BuildUI();
 
         resources = new(Content);
-
-        ThemeManager.LoadContent(Content);
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (KeyboardManager.IsKeyPressed(Keys.Escape))
+        KeyboardManager.Update();
+
+        if (controls.MappingButton is null && KeyboardManager.IsKeyPressed(Keys.Escape))
             if (player is null || PlayerPad.GetConnected().Count() <= 1)
                 Exit();
             else
                 player = null;
-
 
         if (player is null)
         {
             DetectController();
             return;
         }
+
+        player.Update();
+        gameInput.Update(player, Config.InputMap);
+
+        if (controls.MappingButton is null)
+        {
+            var input = gameInput.CurrentState;
+            controls.HighLightDirection(input.Stick.Direction);
+            controls.HighLightButtons(input.GetActiveButtons());
+        }
+        else
+        {
+            var pressed = gameInput.CurrentState.GetSinglePressed();
+            if (pressed is not ButtonName.None && Config.InputMap.Maps.TryGetValue(player.Identifier, out var mapping))
+            {
+
+                controls.ButtonMapped();
+            }
+        }
+
 
         base.Update(gameTime);
     }
@@ -80,7 +98,7 @@ public partial class SettingsGame : Game
     {
         if (PlayerPad.DetectPress() is not { } playerPad) return;
         player = playerPad;
-        Controls.SelectedJoystick.Text = playerPad.Name;
+        controls.SelectedJoystick.Text = playerPad.Name;
 
         if (Config.InputMap.Contains(player.Identifier)) return;
         Config.InputMap.AddGamePad(player.Capabilities);
@@ -91,15 +109,21 @@ public partial class SettingsGame : Game
     {
         GraphicsDevice.Clear(Color.Black);
 
-        spriteBatch.Begin();
-
         if (player is null)
+        {
+            spriteBatch.Begin();
             spriteBatch.DrawString(resources.NumbersFont, "Press any button...", new(20), Color.White);
+            spriteBatch.End();
+        }
         else
             desktop.Render();
 
-        spriteBatch.End();
-
         base.Draw(gameTime);
+    }
+
+    protected override void UnloadContent()
+    {
+        controls.Dispose();
+        base.UnloadContent();
     }
 }
