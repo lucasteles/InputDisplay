@@ -6,7 +6,7 @@ using Myra.Graphics2D.UI;
 
 #pragma warning disable S4487
 
-namespace InputDisplay.Config;
+namespace InputDisplay.Config.Screen;
 
 public class SettingsGame : Game
 {
@@ -18,7 +18,7 @@ public class SettingsGame : Game
     readonly GameInput gameInput = new();
     readonly GraphicsDeviceManager graphics;
 
-    readonly GameConfigManager configManager = new();
+    readonly SettingsManager configManager = new();
     PlayerPad? player;
 
     Settings Config => configManager.CurrentConfig;
@@ -49,7 +49,7 @@ public class SettingsGame : Game
 
         MyraEnvironment.Game = this;
         desktop = new();
-        controls = new(desktop);
+        controls = new(desktop, configManager);
         desktop.Root = controls.BuildUI();
 
         controls.ResetMapButton.Click += OnResetMap;

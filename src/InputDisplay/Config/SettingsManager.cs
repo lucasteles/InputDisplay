@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace InputDisplay.Config;
 
-public sealed class GameConfigManager : IDisposable
+public sealed class SettingsManager : IDisposable
 {
     readonly FileSystemWatcher watcher = new();
 
@@ -27,7 +27,7 @@ public sealed class GameConfigManager : IDisposable
 
     public Settings CurrentConfig { get; private set; }
 
-    public GameConfigManager()
+    public SettingsManager()
     {
         CurrentConfig = Load();
         ConfigureWatcher();

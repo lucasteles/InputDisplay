@@ -12,7 +12,7 @@ public class GameMain : Game
     SpriteBatch spriteBatch = default!;
     GameResources resources = default!;
 
-    readonly GameConfigManager configManager = new();
+    readonly SettingsManager configManager = new();
     readonly InputBuffer buffer;
     readonly ThemeManager themeManager;
 

@@ -13,35 +13,37 @@ public class Settings
     );
 
     public SelectedTheme CurrentTheme { get; set; } = new();
-    public int IconSize { get; set; } = 40;
-    public int SpaceBetweenInputs { get; set; } = 2;
 
+    // flags
     public bool Borderless { get; set; }
-    public int SpaceBetweenCommands { get; set; } = 4;
     public bool ShadowHolding { get; set; } = true;
     public bool ShowFrames { get; set; } = true;
     public bool ShowNeutralIcon { get; set; } = true;
-    public int DirectionSpace { get; set; } = 10;
-
     public bool AutoCorrectMultiple { get; set; } = true;
     public bool InvertHistory { get; set; }
     public bool HideButtonRelease { get; set; }
 
+    // numeric
+    public int IconSize { get; set; } = 40;
+    public int SpaceBetweenInputs { get; set; } = 2;
+    public int SpaceBetweenCommands { get; set; } = 4;
+    public int DirectionSpace { get; set; } = 10;
+
+    // hide
     public int Width { get; set; } = 480;
     public int Height { get; set; } = 1024;
-
     public int Top { get; set; }
     public int Left { get; set; }
 
     public InputMap InputMap { get; set; } = new();
+
+    public InputMacro Macros { get; init; } = new();
 
     public string BackgroundColor
     {
         get => ClearColor.PackedValue.ToString("X");
         set => ClearColor = new(uint.Parse(value, System.Globalization.NumberStyles.HexNumber));
     }
-
-    public InputMacro Macros { get; init; } = new();
 
     [JsonIgnore]
     public bool Dirty { get; set; }

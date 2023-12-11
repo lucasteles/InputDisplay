@@ -6,9 +6,9 @@ using Myra.Graphics2D.Brushes;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 
-namespace InputDisplay.Config;
+namespace InputDisplay.Config.Screen;
 
-public sealed class SettingsControls(Desktop desktop) : IDisposable
+public sealed class SettingsControls(Desktop desktop, SettingsManager configManager) : IDisposable
 {
     public Label SelectedJoystick { get; private set; }
 
@@ -34,8 +34,18 @@ public sealed class SettingsControls(Desktop desktop) : IDisposable
         root.Widgets.Add(BuildSelectedController());
         root.Widgets.Add(Line());
         root.Widgets.Add(BuildInputMap());
+        root.Widgets.Add(Line());
+
+        root.Widgets.Add(BuildSettings());
 
         return root;
+    }
+
+    Widget BuildSettings()
+    {
+        Grid grid = new();
+
+        return grid;
     }
 
     Widget BuildInputMap()
@@ -109,7 +119,6 @@ public sealed class SettingsControls(Desktop desktop) : IDisposable
         InitButton(ButtonName.MK, (2, 2), buttonsGrid);
         InitButton(ButtonName.HK, (2, 3), buttonsGrid);
         InitButton(ButtonName.KK, (2, 4), buttonsGrid);
-
 
         ResetMapButton = new()
         {
@@ -260,69 +269,5 @@ public sealed class SettingsControls(Desktop desktop) : IDisposable
         buttonMapModal.ButtonOk.Visible = false;
         buttonMapModal.Padding = new(10);
         return buttonMapModal;
-    }
-
-
-    Widget LoadWidgetsSample(Desktop desk)
-    {
-        var grid = new Grid
-        {
-            RowSpacing = 8,
-            ColumnSpacing = 8,
-        };
-
-        grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        grid.RowsProportions.Add(new Proportion(ProportionType.Auto));
-        grid.RowsProportions.Add(new Proportion(ProportionType.Auto));
-
-        var helloWorld = new Label
-        {
-            Id = "label",
-            Text = "Hello, World!",
-        };
-        grid.Widgets.Add(helloWorld);
-
-        // ComboBox
-        var combo = new ComboBox();
-        Grid.SetColumn(combo, 1);
-        Grid.SetRow(combo, 0);
-
-        combo.Items.Add(new ListItem("Red", Color.Red));
-        combo.Items.Add(new ListItem("Green", Color.Green));
-        combo.Items.Add(new ListItem("Blue", Color.Blue));
-        grid.Widgets.Add(combo);
-
-        // Button
-        var button = new Button
-        {
-            Content = new Label
-            {
-                Text = "Show",
-            },
-        };
-        Grid.SetColumn(button, 0);
-        Grid.SetRow(button, 1);
-
-        button.Click += (s, a) =>
-        {
-            var messageBox = Dialog.CreateMessageBox("Message", "Some message!");
-            messageBox.ShowModal(desk);
-        };
-
-        grid.Widgets.Add(button);
-
-        // Spin button
-        var spinButton = new SpinButton
-        {
-            Width = 100,
-            Nullable = true,
-        };
-        Grid.SetColumn(spinButton, 1);
-        Grid.SetRow(spinButton, 1);
-
-        grid.Widgets.Add(spinButton);
-
-        return grid;
     }
 }
