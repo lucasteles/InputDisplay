@@ -29,10 +29,12 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         theme = ThemeManager.Get();
         VerticalStackPanel root = new()
         {
-            Padding = new(20),
+            Padding = new(10),
         };
 
         root.Widgets.Add(BuildSelectedController());
+        root.Widgets.Add(Line());
+        root.Widgets.Add(BuildThemes());
         root.Widgets.Add(Line());
         root.Widgets.Add(BuildInputMap());
         root.Widgets.Add(Line());
@@ -41,13 +43,185 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         return root;
     }
 
+    readonly Direction[] allDirections =
+    [
+        Direction.Neutral, Direction.Backward, Direction.DownBackward, Direction.Down, Direction.DownForward,
+        Direction.Forward, Direction.UpForward, Direction.Up, Direction.UpBackward,
+    ];
+
+    readonly ButtonName[] allButtonNames =
+    [
+        ButtonName.LP, ButtonName.MP, ButtonName.HP, ButtonName.PP,
+        ButtonName.LK, ButtonName.MK, ButtonName.HK, ButtonName.KK,
+    ];
+
+    Widget BuildThemes()
+    {
+        Grid grid = new()
+        {
+            RowSpacing = 2,
+            ColumnSpacing = 4,
+            Margin = new(20, 10),
+            VerticalAlignment = VerticalAlignment.Center,
+        };
+        grid.ColumnsProportions.Add(new(ProportionType.Auto));
+        grid.ColumnsProportions.Add(new(ProportionType.Auto));
+        grid.RowsProportions.Add(new(ProportionType.Auto));
+        grid.RowsProportions.Add(new(ProportionType.Auto));
+
+        Label dirLabel = new()
+        {
+            Text = "Direction theme:",
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new(0, 0, 10, 0),
+        };
+        Grid.SetColumn(dirLabel, 0);
+        Grid.SetRow(dirLabel, 0);
+        grid.Widgets.Add(dirLabel);
+
+        ComboView dirCombo = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            Padding = new(5),
+        };
+        Grid.SetColumn(dirCombo, 1);
+        Grid.SetRow(dirCombo, 0);
+        grid.Widgets.Add(dirCombo);
+
+        foreach (var (dirThemeName, dirTheme) in ThemeConfig.DirectionMap)
+        {
+            HorizontalStackPanel item = new()
+            {
+                Padding = new(4),
+                Spacing = 2,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+
+            Label name = new()
+            {
+                Text = dirThemeName,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Margin = new(0, 0, 10, 0),
+            };
+            item.Widgets.Add(name);
+            item.Tag = dirThemeName;
+
+            foreach (var d in allDirections)
+            {
+                var texture = ThemeManager.GetTexture(dirTheme.GetTexturePath(d));
+                Image icon = new()
+                {
+                    Width = 30,
+                    Height = 30,
+                    Renderable = new TextureRegion(texture),
+                    VerticalAlignment = VerticalAlignment.Bottom,
+                };
+                item.Widgets.Add(icon);
+            }
+
+            dirCombo.Widgets.Add(item);
+
+            if (dirThemeName == configManager.CurrentConfig.CurrentTheme.Direction)
+                dirCombo.SelectedItem = item;
+        }
+
+        dirCombo.SelectedIndexChanged += (_, _) =>
+        {
+            var newTheme = (string)dirCombo.SelectedItem.Tag;
+
+            var config = configManager.CurrentConfig;
+
+            config.CurrentTheme = config.CurrentTheme with
+            {
+                Direction = newTheme,
+            };
+            configManager.SaveFile();
+        };
+
+
+        // buttons
+        Label btnLabal = new()
+        {
+            Text = "Buttons theme:",
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new(0, 0, 10, 0),
+        };
+        Grid.SetColumn(btnLabal, 0);
+        Grid.SetRow(btnLabal, 1);
+        grid.Widgets.Add(btnLabal);
+
+        ComboView btnCombo = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            Padding = new(5),
+        };
+        Grid.SetColumn(btnCombo, 1);
+        Grid.SetRow(btnCombo, 1);
+        grid.Widgets.Add(btnCombo);
+
+        foreach (var (btnThemeName, btnTheme) in ThemeConfig.ButtonMap)
+        {
+            HorizontalStackPanel item = new()
+            {
+                Padding = new(4),
+                Spacing = 2,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+
+            Label name = new()
+            {
+                Text = btnThemeName,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Margin = new(0, 0, 10, 0),
+            };
+            item.Widgets.Add(name);
+            item.Tag = btnThemeName;
+
+            foreach (var b in allButtonNames)
+            {
+                if (btnTheme.GetTexturePath(b) is not { } path)
+                    continue;
+
+                var texture = ThemeManager.GetTexture(path);
+                Image icon = new()
+                {
+                    Width = 30,
+                    Height = 30,
+                    Renderable = new TextureRegion(texture),
+                    VerticalAlignment = VerticalAlignment.Bottom,
+                };
+                item.Widgets.Add(icon);
+            }
+
+            btnCombo.Widgets.Add(item);
+
+            if (btnThemeName == configManager.CurrentConfig.CurrentTheme.Buttons)
+                btnCombo.SelectedItem = item;
+        }
+
+        btnCombo.SelectedIndexChanged += (_, _) =>
+        {
+            var newTheme = (string)btnCombo.SelectedItem.Tag;
+
+            var config = configManager.CurrentConfig;
+
+            config.CurrentTheme = config.CurrentTheme with
+            {
+                Buttons = newTheme,
+            };
+            configManager.SaveFile();
+        };
+
+        return grid;
+    }
+
     Widget BuildSettings()
     {
         Grid grid = new()
         {
             RowSpacing = 2,
-            ColumnSpacing = 8,
-            Margin = new(30),
+            ColumnSpacing = 4,
+            Margin = new(20),
             VerticalAlignment = VerticalAlignment.Center,
         };
 
@@ -99,7 +273,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         HorizontalStackPanel panel = new()
         {
-            Padding = new(4),
+            Padding = new(2),
         };
 
         Label label = new()
@@ -150,7 +324,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             Integer = true,
             Width = 50,
             Value = value,
-            Padding = new(3),
+            Padding = new(2),
         };
 
         textBox.Minimum = 1;
@@ -186,7 +360,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         Button button = new()
         {
             VerticalAlignment = VerticalAlignment.Center,
-            Padding = new(3),
+            Padding = new(2),
             Content = new Image
             {
                 Width = 50,
@@ -228,12 +402,12 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         VerticalStackPanel root = new()
         {
-            Margin = new(0, 20),
+            Margin = new(0, 10),
         };
 
         Label title = new()
         {
-            Text = "Input Mapping:",
+            Text = "Button Mapping:",
             TextColor = Color.White,
             Padding = new(4),
         };
@@ -392,13 +566,15 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         {
             Text = "Selected Controller: ",
             TextColor = Color.White,
-            Padding = new(2),
+            VerticalAlignment = VerticalAlignment.Center,
+            Padding = new(5),
         };
 
         SelectedJoystick = new()
         {
             Background = new SolidBrush(Color.DarkSlateGray),
-            Padding = new(2),
+            VerticalAlignment = VerticalAlignment.Center,
+            Padding = new(5),
             MinWidth = 200,
         };
 
@@ -436,7 +612,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         {
             HorizontalAlignment = HorizontalAlignment.Center,
             Text = "Press any button...",
-            Margin = new(20),
+            Margin = new(10),
         };
 
         var buttonMapModal = Dialog.CreateMessageBox(title, label);

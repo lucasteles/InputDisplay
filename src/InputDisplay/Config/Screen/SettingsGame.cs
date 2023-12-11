@@ -27,11 +27,12 @@ public class SettingsGame : Game
     {
         graphics = new(this)
         {
-            PreferredBackBufferWidth = 1024,
-            PreferredBackBufferHeight = 1024,
+            PreferredBackBufferWidth = 880,
+            PreferredBackBufferHeight = 780,
         };
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        Window.AllowUserResizing = true;
         graphics.ApplyChanges();
     }
 
