@@ -20,6 +20,7 @@ public class GameConfig
     public int SpaceBetweenCommands { get; set; } = 4;
     public bool ShadowHolding { get; set; } = true;
     public bool ShowFrames { get; set; } = true;
+    public bool ShowNeutralIcon { get; set; } = true;
     public int DirectionSpace { get; set; } = 10;
 
     public bool AutoCorrectMultiple { get; set; } = true;
@@ -80,6 +81,7 @@ public class GameConfig
         SpaceBetweenCommands = config.SpaceBetweenCommands;
         ShadowHolding = config.ShadowHolding;
         ShowFrames = config.ShowFrames;
+        ShowNeutralIcon = config.ShowNeutralIcon;
         DirectionSpace = config.DirectionSpace;
         AutoCorrectMultiple = config.AutoCorrectMultiple;
         InvertHistory = config.InvertHistory;

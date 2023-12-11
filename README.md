@@ -17,14 +17,14 @@ Download the latest version 👉 [**HERE**](https://github.com/lucasteles/InputD
 
 ## ⌨️ Shortcuts:
 
+- ️**ESC**: Disconnect/Exit
 - ⬇️/⬆️: Change directions theme
 - ⬅️/➡️: Change buttons theme
 - **Mouse Scroll**: Zoom In / Zoom Out
-- ️**Double Click**: Toggle window border
+- ️**Double Click**/**B**: Toggle window border
 - ️**BACK**: Clear window
 - ️**DEL** : Disconnect controller
 - ️**I**: Invert order
-- ️**ESC**: Exit
 
 ## 🎥 Setting up [OBS Studio](https://obsproject.com)
 

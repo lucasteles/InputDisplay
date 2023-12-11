@@ -48,7 +48,7 @@ public class InputEntry
             offset += commandDir * space;
         }
 
-        if (theme.GetTexture(State.Stick.Direction) is { } dirTexture)
+        if (config.ShowNeutralIcon && theme.GetTexture(State.Stick.Direction) is { } dirTexture)
         {
             var dirColor = State.Stick.Holding && config.ShadowHolding ? Color.LightGray : Color.White;
             Rectangle dirRect = new(

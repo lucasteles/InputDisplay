@@ -8,6 +8,7 @@
     "spaceBetweenCommands": 4,
     "shadowHolding": true,
     "borderless": false,
+    "showNeutralIcon": true,
     "showFrames": true,
     "directionSpace": 10,
     "autoCorrectMultiple": true,

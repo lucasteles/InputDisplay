@@ -128,8 +128,11 @@ public class Game1 : Game
 
     void HandleShortcuts()
     {
-        if (KeyboardManager.IsKeyDown(Keys.Escape))
-            Exit();
+        if (KeyboardManager.IsKeyPressed(Keys.Escape))
+            if (player is null)
+                Exit();
+            else
+                player = null;
 
         if (KeyboardManager.IsKeyPressed(Keys.I))
         {
@@ -138,19 +141,19 @@ public class Game1 : Game
             return;
         }
 
-        if (KeyboardManager.IsKeyDown(Keys.Delete))
+        if (KeyboardManager.IsKeyPressed(Keys.Delete))
         {
             player?.Disconnect();
             return;
         }
 
-        if (MouseManager.WasDoubleLeftClick)
+        if (MouseManager.WasDoubleLeftClick || KeyboardManager.IsKeyPressed(Keys.B))
         {
             Config.Borderless = !Config.Borderless;
             Config.Dirty = true;
         }
 
-        if (KeyboardManager.IsKeyDown(Keys.Back))
+        if (KeyboardManager.IsKeyPressed(Keys.Back))
             buffer.Clear();
     }
 
