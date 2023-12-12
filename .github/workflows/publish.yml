@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
         inputs:
             sign:
-                description: 'Cert Sign'
+                description: 'Code Sign'
                 type: boolean
                 required: false
                 default: true
