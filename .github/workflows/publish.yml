@@ -119,10 +119,18 @@ jobs:
             - name: Unzip Artifacts
               run: unzip artifacts.zip -d ./Artifacts
 
+            - name: Zip Platform Artifacts
+              run: |
+                  cd Artifacts
+                  for subdir in */; do
+                      dirname=$(basename "$subdir")
+                      zip -r "$dirname.zip" "$subdir"
+                  done
+
             - name: Create Release
               uses: ncipollo/release-action@v1
               with:
                   tag: ${{ needs.build.outputs.SemVer }}
                   name: Release ${{ needs.build.outputs.SemVer }}
-                  artifacts: "./Artifacts/*"
+                  artifacts: "./Artifacts/*.zip"
                   token: ${{ secrets.GITHUB_TOKEN }}
