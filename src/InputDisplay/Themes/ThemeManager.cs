@@ -52,6 +52,7 @@ public class ThemeManager
         set
         {
             currentTheme = value;
+            currentTheme.Fallback = fallbackTheme;
             cycle.StartAt(CurrentTheme);
         }
     }

@@ -83,6 +83,7 @@ public class Settings
         SpaceBetweenCommands = config.SpaceBetweenCommands;
         ShadowHolding = config.ShadowHolding;
         ShowFrames = config.ShowFrames;
+        ClearColor = config.ClearColor;
         ShowNeutralIcon = config.ShowNeutralIcon;
         DirectionSpace = config.DirectionSpace;
         AutoCorrectMultiple = config.AutoCorrectMultiple;

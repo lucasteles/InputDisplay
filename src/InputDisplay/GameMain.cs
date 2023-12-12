@@ -21,6 +21,8 @@ public class GameMain : Game
 
     Settings Config => configManager.CurrentConfig;
 
+    readonly Process configProcess = new();
+
     public GameMain()
     {
         graphics = new(this);
@@ -112,12 +114,15 @@ public class GameMain : Game
             Config.Dirty = true;
         }
 
+        if (themeManager.CurrentTheme.ButtonsName != Config.CurrentTheme.Buttons
+            || themeManager.CurrentTheme.StickName != Config.CurrentTheme.Direction)
+            themeManager.CurrentTheme = ThemeManager.Get(Config.CurrentTheme);
+
         if (Window.IsBorderless != Config.Borderless)
         {
             Config.Dirty = true;
             Window.IsBorderless = Config.Borderless;
         }
-
 
         if (Config.Dirty)
         {
@@ -128,6 +133,8 @@ public class GameMain : Game
 
     void HandleShortcuts()
     {
+        if (!IsActive) return;
+
         if (KeyboardManager.IsKeyPressed(Keys.Escape))
             if (player is null || PlayerPad.GetConnected().Count() <= 1)
                 Exit();
@@ -156,10 +163,9 @@ public class GameMain : Game
         if (KeyboardManager.IsKeyPressed(Keys.Back))
             buffer.Clear();
 
-        if (KeyboardManager.IsKeyPressed(Keys.F1) || MouseManager.WasDoubleLeftClick)
-        {
+        if (KeyboardManager.IsKeyPressed(Keys.F1) ||
+            (MouseManager.WasDoubleLeftClick && MouseManager.IsOnWindow(Window)))
             StartConfig();
-        }
     }
 
     void HandlePlayerConnected()
@@ -173,6 +179,8 @@ public class GameMain : Game
     }
 
     Point? startDragging;
+    bool configStarted;
+    bool startingConfig;
 
     void HandleDragging()
     {
@@ -201,12 +209,25 @@ public class GameMain : Game
 
     void StartConfig()
     {
-        Process p = new();
-        var si = p.StartInfo;
+        if (startingConfig) return;
+
+        startingConfig = true;
+        configProcess.EnableRaisingEvents = true;
+        var si = configProcess.StartInfo;
         si.UseShellExecute = false;
         si.FileName = Process.GetCurrentProcess().MainModule?.FileName;
         si.Arguments = $"config {player?.Index.ToString() ?? string.Empty}".Trim();
-        p.Start();
+
+        if (configStarted && configProcess.Responding)
+        {
+            configProcess.CloseMainWindow();
+            configProcess.WaitForExit();
+        }
+
+        configStarted = configProcess.Start();
+        configProcess.WaitForInputIdle();
+
+        startingConfig = false;
     }
 
     void DetectController()
@@ -258,6 +279,12 @@ public class GameMain : Game
     {
         Window.ClientSizeChanged -= OnResize;
         configManager.Dispose();
+        if (configStarted && configProcess.Responding)
+        {
+            configProcess.CloseMainWindow();
+            configProcess.WaitForExit();
+        }
+
         base.OnExiting(sender, args);
     }
 }

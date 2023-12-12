@@ -27,6 +27,8 @@ public class SettingsGame : Game
 
     Settings Config => configManager.CurrentConfig;
 
+    PlayerIndex? playerIndexArg;
+
     public SettingsGame(string? playerIndex = null)
     {
         graphics = new(this)
@@ -40,7 +42,7 @@ public class SettingsGame : Game
         graphics.ApplyChanges();
 
         if (!string.IsNullOrWhiteSpace(playerIndex) && Enum.TryParse(playerIndex, out PlayerIndex index))
-            player = new(index);
+            playerIndexArg = index;
     }
 
     protected override void Initialize()
@@ -101,6 +103,19 @@ public class SettingsGame : Game
 
     void DetectController()
     {
+        if (playerIndexArg is not null)
+        {
+            player = new(playerIndexArg.Value);
+
+            if (!player.IsConnected)
+            {
+                player = null;
+                playerIndexArg = null;
+            }
+            else
+                return;
+        }
+
         if (PlayerPad.DetectPress() is not { } playerPad) return;
         player = playerPad;
         controls.SelectedJoystick.Text = playerPad.Name;
