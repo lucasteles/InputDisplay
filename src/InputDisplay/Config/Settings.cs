@@ -37,7 +37,7 @@ public class Settings
 
     public InputMap InputMap { get; set; } = new();
 
-    public InputMacro Macros { get; init; } = new();
+    public InputMacro Macros { get; set; } = new();
 
     public string BackgroundColor
     {
@@ -85,6 +85,8 @@ public class Settings
         ShowFrames = config.ShowFrames;
         ClearColor = config.ClearColor;
         ShowNeutralIcon = config.ShowNeutralIcon;
+        Macros = config.Macros;
+        InputMap = config.InputMap;
         DirectionSpace = config.DirectionSpace;
         AutoCorrectMultiple = config.AutoCorrectMultiple;
         InvertHistory = config.InvertHistory;
