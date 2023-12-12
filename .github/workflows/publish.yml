@@ -48,11 +48,18 @@ jobs:
             - name: Build and Publish Package
               run: |
                   publish() {
+                    output_path="./Artifacts/input_display_$1_${{ steps.gitversion.outputs.SemVer }}"
                     dotnet publish src/InputDisplay \
                         --configuration Release --self-contained \
-                        --output "./Artifacts/input_display_$1_${{ steps.gitversion.outputs.SemVer }}" \
+                        --output "$output_path" \
                         -r $1 -p:DebugType=None -p:DebugSymbols=false \
                         -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+
+                    if [[ "$1" == *"win"* ]]; then
+                      find "$output_path" -name "*.sh" -delete
+                    else
+                      find "$output_path" -name "*.cmd" -delete
+                    fi
                   }
 
                   publish "win-x64"
