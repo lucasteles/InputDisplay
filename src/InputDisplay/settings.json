@@ -1,22 +1,49 @@
 {
-    "iconSize": 40,
-    "spaceBetweenInputs": 2,
-    "currentTheme": {
-        "buttons": "Street Fighter",
-        "direction": "default"
-    },
-    "spaceBetweenCommands": 4,
-    "shadowHolding": true,
-    "borderless": false,
-    "showNeutralIcon": true,
-    "showFrames": true,
-    "directionSpace": 10,
-    "autoCorrectMultiple": true,
-    "invertHistory": false,
-    "hideButtonRelease": false,
-    "horizontal": false,
-    "width": 480,
-    "height": 1024,
-    "backgroundColor": "FF2F6B55",
-    "macros": {}
+  "currentTheme": {
+    "buttons": "Street Fighter",
+    "direction": "default"
+  },
+  "borderless": false,
+  "shadowHolding": true,
+  "showFrames": true,
+  "showNeutralIcon": true,
+  "autoCorrectMultiple": true,
+  "invertHistory": false,
+  "hideButtonRelease": false,
+  "iconSize": 40,
+  "spaceBetweenInputs": 2,
+  "spaceBetweenCommands": 4,
+  "directionSpace": 10,
+  "width": 480,
+  "height": 1024,
+  "top": 568,
+  "left": 1680,
+  "inputMap": {
+    "maps": {
+      "00000003-054c-0000-cc09-000000016800": {
+        "name": "PS4 Controller",
+        "lp": "X",
+        "mp": "Y",
+        "hp": "RightShoulder",
+        "pp": "LeftShoulder",
+        "lk": "A",
+        "mk": "B",
+        "hk": "RightTrigger",
+        "kk": "LeftTrigger"
+      },
+      "00000003-045e-0000-130b-000001057200": {
+        "name": "Xbox Series X Controller",
+        "lp": "X",
+        "mp": "Y",
+        "hp": "RightShoulder",
+        "pp": "LeftShoulder",
+        "lk": "A",
+        "mk": "B",
+        "hk": "RightTrigger",
+        "kk": "LeftTrigger"
+      }
+    }
+  },
+  "macros": {},
+  "backgroundColor": "FF2F6B55"
 }
