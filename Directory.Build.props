@@ -7,8 +7,8 @@
     <RepositoryUrl>https://github.com/lucasteles/InputDisplay</RepositoryUrl>
     <PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
 
+    <UseArtifactsOutput>false</UseArtifactsOutput>
     <PublishRelease>true</PublishRelease>
-    <PublishSingleFile>true</PublishSingleFile>
 
     <WarningsAsErrors>CS8600;CS8602;CS8603;CS8604;CS8625;CS8618;CS8620</WarningsAsErrors>
     <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>

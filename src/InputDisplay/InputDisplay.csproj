@@ -3,6 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <PublishReadyToRun>false</PublishReadyToRun>
+    <PublishSingleFile>true</PublishSingleFile>
     <TieredCompilation>false</TieredCompilation>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <Title>Input Display</Title>
