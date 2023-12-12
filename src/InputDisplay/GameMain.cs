@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using InputDisplay.Config;
 using InputDisplay.Inputs;
 using InputDisplay.Inputs.Entities;
@@ -6,21 +7,23 @@ using Microsoft.Xna.Framework.Input;
 
 namespace InputDisplay;
 
-public class Game1 : Game
+public class GameMain : Game
 {
     readonly GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch = default!;
     GameResources resources = default!;
 
-    readonly GameConfigManager configManager = new();
+    readonly SettingsManager configManager = new();
     readonly InputBuffer buffer;
     readonly ThemeManager themeManager;
 
     PlayerPad? player;
 
-    GameConfig Config => configManager.CurrentConfig;
+    Settings Config => configManager.CurrentConfig;
 
-    public Game1()
+    readonly Process configProcess = new();
+
+    public GameMain()
     {
         graphics = new(this);
         Content.RootDirectory = "Content";
@@ -50,7 +53,6 @@ public class Game1 : Game
     {
         spriteBatch = new(GraphicsDevice);
         resources = new(Content);
-
         ThemeManager.LoadContent(Content);
     }
 
@@ -112,12 +114,15 @@ public class Game1 : Game
             Config.Dirty = true;
         }
 
+        if (themeManager.CurrentTheme.ButtonsName != Config.CurrentTheme.Buttons
+            || themeManager.CurrentTheme.StickName != Config.CurrentTheme.Direction)
+            themeManager.CurrentTheme = ThemeManager.Get(Config.CurrentTheme);
+
         if (Window.IsBorderless != Config.Borderless)
         {
             Config.Dirty = true;
             Window.IsBorderless = Config.Borderless;
         }
-
 
         if (Config.Dirty)
         {
@@ -128,8 +133,10 @@ public class Game1 : Game
 
     void HandleShortcuts()
     {
+        if (!IsActive) return;
+
         if (KeyboardManager.IsKeyPressed(Keys.Escape))
-            if (player is null)
+            if (player is null || PlayerPad.GetConnected().Count() <= 1)
                 Exit();
             else
                 player = null;
@@ -147,7 +154,7 @@ public class Game1 : Game
             return;
         }
 
-        if (MouseManager.WasDoubleLeftClick || KeyboardManager.IsKeyPressed(Keys.B))
+        if (KeyboardManager.IsKeyPressed(Keys.B))
         {
             Config.Borderless = !Config.Borderless;
             Config.Dirty = true;
@@ -155,6 +162,10 @@ public class Game1 : Game
 
         if (KeyboardManager.IsKeyPressed(Keys.Back))
             buffer.Clear();
+
+        if (KeyboardManager.IsKeyPressed(Keys.F1) ||
+            (MouseManager.WasDoubleLeftClick && MouseManager.IsOnWindow(Window)))
+            StartConfig();
     }
 
     void HandlePlayerConnected()
@@ -168,6 +179,8 @@ public class Game1 : Game
     }
 
     Point? startDragging;
+    bool configStarted;
+    bool startingConfig;
 
     void HandleDragging()
     {
@@ -194,9 +207,32 @@ public class Game1 : Game
         }
     }
 
+    void StartConfig()
+    {
+        if (startingConfig) return;
+
+        startingConfig = true;
+        configProcess.EnableRaisingEvents = true;
+        var si = configProcess.StartInfo;
+        si.UseShellExecute = false;
+        si.FileName = Process.GetCurrentProcess().MainModule?.FileName;
+        si.Arguments = $"config {player?.Index.ToString() ?? string.Empty}".Trim();
+
+        if (configStarted && configProcess.Responding)
+        {
+            configProcess.CloseMainWindow();
+            configProcess.WaitForExit();
+        }
+
+        configStarted = configProcess.Start();
+        configProcess.WaitForInputIdle();
+
+        startingConfig = false;
+    }
+
     void DetectController()
     {
-        if (PlayerPad.Detect() is not { } playerPad) return;
+        if (PlayerPad.DetectPress() is not { } playerPad) return;
 
         player = playerPad;
 
@@ -212,7 +248,6 @@ public class Game1 : Game
         Config.InputMap.AddGamePad(player.Capabilities);
         configManager.Save();
     }
-
 
     protected override void Draw(GameTime gameTime)
     {
@@ -244,6 +279,12 @@ public class Game1 : Game
     {
         Window.ClientSizeChanged -= OnResize;
         configManager.Dispose();
+        if (configStarted && configProcess.Responding)
+        {
+            configProcess.CloseMainWindow();
+            configProcess.WaitForExit();
+        }
+
         base.OnExiting(sender, args);
     }
 }

@@ -17,25 +17,26 @@ public class ThemeManager
             StickName = direction,
         };
 
-    public static Theme Get(GameConfig.SelectedTheme selected) =>
+    public static Theme Get(Settings.SelectedTheme selected) =>
         Get(selected.Buttons, selected.Direction);
 
     static readonly Dictionary<string, Texture2D> textures = [];
 
     public static void LoadContent(ContentManager content)
     {
-        textures.Clear();
+        if (textures.Count > 0) return;
+
         var neutral = content.LoadTexture(Theme.Direction.DefaultNeutral);
         textures.Add(neutral.Name, neutral);
         var unknown = content.LoadTexture(Theme.FaceButtons.Unknown);
         textures.Add(unknown.Name, unknown);
         foreach (var dir in ThemeConfig.DirectionMap.Values)
-            foreach (var texture in dir.LoadTextures(content))
-                textures.Add(texture.Name, texture);
+        foreach (var texture in dir.LoadTextures(content))
+            textures.Add(texture.Name, texture);
 
         foreach (var btn in ThemeConfig.ButtonMap.Values)
-            foreach (var texture in btn.LoadTextures(content))
-                textures.Add(texture.Name, texture);
+        foreach (var texture in btn.LoadTextures(content))
+            textures.Add(texture.Name, texture);
     }
 
     public static Texture2D? GetTexture(string name) => textures.GetValueOrDefault(name);
@@ -51,6 +52,7 @@ public class ThemeManager
         set
         {
             currentTheme = value;
+            currentTheme.Fallback = fallbackTheme;
             cycle.StartAt(CurrentTheme);
         }
     }
@@ -65,7 +67,7 @@ public class ThemeManager
         }
     }
 
-    public ThemeManager(GameConfig.SelectedTheme theme) => currentTheme = Get(theme);
+    public ThemeManager(Settings.SelectedTheme theme) => currentTheme = Get(theme);
 
     public void SetFallback(string themeName) => FallbackTheme = Get(themeName);
 

@@ -2,7 +2,6 @@ global using InputDisplay.Util;
 global using Microsoft.Xna.Framework;
 global using Microsoft.Xna.Framework.Content;
 global using Microsoft.Xna.Framework.Graphics;
-global using StickDirection = InputDisplay.Inputs.Direction;
 global using InputMacro =
     System.Collections.Generic.Dictionary<
         InputDisplay.Inputs.ButtonName,

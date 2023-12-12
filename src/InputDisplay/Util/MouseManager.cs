@@ -25,8 +25,11 @@ public static class MouseManager
     public static bool IsDragging =>
         previousState.LeftButton is ButtonState.Pressed && currentState.LeftButton is ButtonState.Pressed;
 
+    public static bool IsOnWindow(GameWindow window) =>
+        window.ClientBounds.Contains(window.Position + previousState.Position);
+
     public static bool IsDraggingOnWindow(GameWindow window) =>
-        IsDragging && window.ClientBounds.Contains(window.Position + previousState.Position);
+        IsDragging && IsOnWindow(window);
 
     public static Point DeltaDragging => currentState.Position - previousState.Position;
 

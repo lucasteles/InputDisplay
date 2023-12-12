@@ -3,6 +3,8 @@ using InputDisplay.Inputs;
 
 namespace InputDisplay.Themes;
 
+using StickDirection = Direction;
+
 public record Theme
 {
     public required string ButtonsName { get; set; }
@@ -20,15 +22,18 @@ public record Theme
     public ButtonName[] GetMacro(ButtonName name) =>
         Buttons.MacrosTemplate.TryGetValue(name, out var names) ? names : [name];
 
-    public ButtonName[] GetMacro(ButtonName name, InputMacro macros) =>
-        macros.TryGetValue(name, out var customMacro) ? customMacro : GetMacro(name);
+    public ButtonName[] GetMacro(ButtonName name, Dictionary<string, InputMacro> macros) =>
+        GetMacro(name, macros.GetValueOrDefault(ButtonsName));
 
-    public static implicit operator GameConfig.SelectedTheme(Theme theme) =>
+    public ButtonName[] GetMacro(ButtonName name, InputMacro? macros) =>
+        macros?.TryGetValue(name, out var customMacro) is true ? customMacro : GetMacro(name);
+
+    public static implicit operator Settings.SelectedTheme(Theme theme) =>
         new(theme.ButtonsName, theme.StickName);
 
     public class Direction(string name, bool hasNeutral = false)
     {
-        const string BasePath = @"themes\dir";
+        public const string BasePath = @"themes\dir";
         public const string DefaultNeutral = @"themes\n";
         public bool Neutral { get; } = hasNeutral;
         public string Path { get; } = $"{BasePath}/{name}";
@@ -36,16 +41,16 @@ public record Theme
         public IEnumerable<Texture2D> LoadTextures(ContentManager content)
         {
             if (Neutral)
-                yield return content.LoadTexture(Path, NumpadNotation.Neutral);
+                yield return content.LoadTexture(Path, NumpadNotationStr.Neutral);
 
-            yield return content.LoadTexture(Path, NumpadNotation.Up);
-            yield return content.LoadTexture(Path, NumpadNotation.Down);
-            yield return content.LoadTexture(Path, NumpadNotation.Backward);
-            yield return content.LoadTexture(Path, NumpadNotation.Forward);
-            yield return content.LoadTexture(Path, NumpadNotation.UpForward);
-            yield return content.LoadTexture(Path, NumpadNotation.UpBackward);
-            yield return content.LoadTexture(Path, NumpadNotation.DownForward);
-            yield return content.LoadTexture(Path, NumpadNotation.DownBackward);
+            yield return content.LoadTexture(Path, NumpadNotationStr.Up);
+            yield return content.LoadTexture(Path, NumpadNotationStr.Down);
+            yield return content.LoadTexture(Path, NumpadNotationStr.Backward);
+            yield return content.LoadTexture(Path, NumpadNotationStr.Forward);
+            yield return content.LoadTexture(Path, NumpadNotationStr.UpForward);
+            yield return content.LoadTexture(Path, NumpadNotationStr.UpBackward);
+            yield return content.LoadTexture(Path, NumpadNotationStr.DownForward);
+            yield return content.LoadTexture(Path, NumpadNotationStr.DownBackward);
         }
 
         public string GetTexturePath(StickDirection dir)
@@ -55,16 +60,16 @@ public record Theme
                 StickDirection.Neutral
                     or (StickDirection.Up | StickDirection.Down)
                     or (StickDirection.Forward | StickDirection.Backward) =>
-                    Neutral ? NumpadNotation.Neutral : null,
-                StickDirection.Up | StickDirection.Forward => NumpadNotation.UpForward,
-                StickDirection.Up | StickDirection.Backward => NumpadNotation.UpBackward,
-                StickDirection.Down | StickDirection.Forward => NumpadNotation.DownForward,
-                StickDirection.Down | StickDirection.Backward => NumpadNotation.DownBackward,
-                StickDirection.Down => NumpadNotation.Down,
-                StickDirection.Up => NumpadNotation.Up,
-                StickDirection.Forward => NumpadNotation.Forward,
-                StickDirection.Backward => NumpadNotation.Backward,
-                _ => Neutral ? NumpadNotation.Neutral : null,
+                    Neutral ? NumpadNotationStr.Neutral : null,
+                StickDirection.UpForward => NumpadNotationStr.UpForward,
+                StickDirection.UpBackward => NumpadNotationStr.UpBackward,
+                StickDirection.DownForward => NumpadNotationStr.DownForward,
+                StickDirection.DownBackward => NumpadNotationStr.DownBackward,
+                StickDirection.Down => NumpadNotationStr.Down,
+                StickDirection.Up => NumpadNotationStr.Up,
+                StickDirection.Forward => NumpadNotationStr.Forward,
+                StickDirection.Backward => NumpadNotationStr.Backward,
+                _ => Neutral ? NumpadNotationStr.Neutral : null,
             };
 
             return string.IsNullOrWhiteSpace(dirName)

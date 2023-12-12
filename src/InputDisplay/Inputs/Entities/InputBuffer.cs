@@ -3,7 +3,7 @@ using InputDisplay.Themes;
 
 namespace InputDisplay.Inputs.Entities;
 
-public class InputBuffer(GameConfig config)
+public class InputBuffer(Settings config)
 {
     readonly GameInput gameInput = new();
     readonly List<InputEntry> entries = new(config.MaxEntries);

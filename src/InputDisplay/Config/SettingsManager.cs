@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace InputDisplay.Config;
 
-public sealed class GameConfigManager : IDisposable
+public sealed class SettingsManager : IDisposable
 {
     readonly FileSystemWatcher watcher = new();
 
@@ -17,7 +17,7 @@ public sealed class GameConfigManager : IDisposable
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 
-    const string FileName = "config.json";
+    const string FileName = "settings.json";
     bool watching;
     DateTime lastFileSaved = DateTime.MinValue;
 
@@ -25,9 +25,9 @@ public sealed class GameConfigManager : IDisposable
     DateTime saveThreshold = DateTime.MinValue;
     bool pendingSave;
 
-    public GameConfig CurrentConfig { get; private set; }
+    public Settings CurrentConfig { get; private set; }
 
-    public GameConfigManager()
+    public SettingsManager()
     {
         CurrentConfig = Load();
         ConfigureWatcher();
@@ -122,14 +122,14 @@ public sealed class GameConfigManager : IDisposable
         pendingSave = false;
     }
 
-    public GameConfig CreateFile()
+    public Settings CreateFile()
     {
-        GameConfig config = new();
+        Settings config = new();
         Save();
         return config;
     }
 
-    public GameConfig Load()
+    public Settings Load()
     {
         if (!File.Exists(FileName))
         {
@@ -141,7 +141,7 @@ public sealed class GameConfigManager : IDisposable
         {
             Log.Info("Loading config file");
             var content = File.ReadAllBytes(FileName);
-            if (JsonSerializer.Deserialize<GameConfig>(content, jsonOptions) is { } config)
+            if (JsonSerializer.Deserialize<Settings>(content, jsonOptions) is { } config)
                 return config;
         }
         catch (Exception ex)
@@ -171,7 +171,7 @@ public sealed class GameConfigManager : IDisposable
 
             Log.Info("Reloading config from disk");
             var content = File.ReadAllBytes(FileName);
-            if (JsonSerializer.Deserialize<GameConfig>(content, jsonOptions) is { } newConfig)
+            if (JsonSerializer.Deserialize<Settings>(content, jsonOptions) is { } newConfig)
                 CurrentConfig.CopyFrom(newConfig);
         }
         catch (Exception ex)

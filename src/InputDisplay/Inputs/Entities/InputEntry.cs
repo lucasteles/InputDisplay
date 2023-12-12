@@ -15,7 +15,7 @@ public class InputEntry
     public void IncrementFrame() => HoldingFrames = Math.Min(HoldingFrames + 1, MaxHoldingFrames);
 
     public void Draw(
-        GameConfig config,
+        Settings config,
         Theme theme,
         SpriteFont font,
         SpriteBatch batch,
@@ -48,7 +48,13 @@ public class InputEntry
             offset += commandDir * space;
         }
 
-        if (config.ShowNeutralIcon && theme.GetTexture(State.Stick.Direction) is { } dirTexture)
+        if (
+            (
+                (config.ShowNeutralIcon && State.Stick.Direction is Direction.Neutral)
+                || State.Stick.Direction is not Direction.Neutral
+            )
+            && theme.GetTexture(State.Stick.Direction) is { } dirTexture
+        )
         {
             var dirColor = State.Stick.Holding && config.ShadowHolding ? Color.LightGray : Color.White;
             Rectangle dirRect = new(
@@ -89,7 +95,7 @@ public class InputEntry
                 (int)offset.X, (int)offset.Y,
                 config.IconSize, config.IconSize
             );
-            batch.Draw(multiTexture, btnRect, State.HasNoPressed ? Color.Gray : Color.White);
+            batch.Draw(multiTexture, btnRect, State.HasNoPressed && config.ShadowHolding ? Color.Gray : Color.White);
             return;
         }
 
@@ -114,14 +120,12 @@ public class InputEntry
         void Check(GameInput.Button button, ButtonName name)
         {
             if (!button.Active) return;
-            if (!config.ShadowHolding && button.Status is GameInput.ButtonStatus.Holding)
-                return;
 
             var buttons = theme.GetMacro(name, config.Macros);
             for (var index = 0; index < buttons.Length; index++)
             {
                 var btn = buttons[index];
-                if (button.Status is GameInput.ButtonStatus.Holding) holding.Add(btn);
+                if (button.Status is GameInput.ButtonStatus.Holding && config.ShadowHolding) holding.Add(btn);
                 currentButtons.Add(btn);
             }
         }

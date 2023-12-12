@@ -9,46 +9,30 @@ widget ([see here](https://github.com/lucasteles/InputDisplay/blob/master/how_to
 
 💡 **Oficial successor** of [FGInputLogger](https://github.com/lucasteles/FGInputLogger)
 
-> **⚠️:** _this project is beta, it is missing some configuration features for now_
-
 ## Download
 
 Download the latest version 👉 [**HERE**](https://github.com/lucasteles/InputDisplay/releases) 👈
 
 ## ⌨️ Shortcuts:
 
+- ️**Double Click** / **F1**: Open configuration window
 - ️**ESC**: Disconnect/Exit
 - ⬇️/⬆️: Change directions theme
 - ⬅️/➡️: Change buttons theme
 - **Mouse Scroll**: Zoom In / Zoom Out
-- ️**Double Click**/**B**: Toggle window border
+- ️**B**: Toggle window border
 - ️**BACK**: Clear window
 - ️**DEL** : Disconnect controller
-- ️**I**: Invert order
+- ️**I**: Invert input order
 
 ## 🎥 Setting up [OBS Studio](https://obsproject.com)
 
 ## ⚙️ Configuration:
 
-You need first to open the `exe` and press any button on the controller. You should be able to see your inputs.
+You can configure the layout, themes and mapping running the `config.cmd`, pressing **F1** or double click on the input
+window
 
-After this. a file called `config.json` should be updated with your controller information,
-you can change mappings and parameters in this file.
-
-You can also change the `macro` key to set-up multiple images on a single input.
-
-Example:
-> setting `LB/L1` to show symbols for `HP`+`HK`
-
-```
-{
-    ...
-    "macros": {
-        "PP": [ "HP", "HK" ]
-    }
-    ...
-}
-```
+![](assets/img/config.png)
 
 [How to configure Input Display on OBS Studio](https://github.com/lucasteles/InputDisplay/blob/master/how_to_obs.md)
 

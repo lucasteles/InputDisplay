@@ -10,6 +10,8 @@ public record PlayerPad(
 {
     GamePadState? currentState;
 
+    public PlayerPad(PlayerIndex index) : this(index, GamePad.GetCapabilities(index)) { }
+
     public string Identifier => Capabilities.Identifier;
     public string Name => Capabilities.DisplayName;
 
@@ -31,6 +33,20 @@ public record PlayerPad(
         }
     }
 
+    public Buttons? GetAnyButton()
+    {
+        if (!State.IsConnected)
+            return null;
+
+        foreach (var button in Enum.GetValues<Buttons>())
+        {
+            if (!State.IsButtonDown(button)) continue;
+            return button;
+        }
+
+        return null;
+    }
+
     public enum Kind
     {
         Xbox,
@@ -45,21 +61,32 @@ public record PlayerPad(
             : Kind.Xbox;
     }
 
-    public static PlayerPad? Detect()
+    public static IEnumerable<PlayerPad> GetConnected()
     {
         foreach (var index in Enum.GetValues<PlayerIndex>())
         {
-            var state = GamePad.GetState(index);
+            var state = GamePad.GetCapabilities(index);
             if (!state.IsConnected) continue;
-            foreach (var button in Enum.GetValues<Buttons>())
-            {
-                if (!state.IsButtonDown(button)) continue;
-                var caps = GamePad.GetCapabilities(index);
-                Log.Info($"Selected: {caps.DisplayName}");
-                return new(index, caps);
-            }
+            var caps = GamePad.GetCapabilities(index);
+            yield return new(index, caps);
         }
+    }
+
+    public static PlayerPad? DetectPress()
+    {
+        var connected = GetConnected().ToList();
+        if (connected is [var justOne])
+            return justOne;
+
+        foreach (var pad in connected)
+            if (pad.GetAnyButton() is not null)
+                return pad;
 
         return null;
     }
+
+    public static IEnumerable<GamePadCapabilities> GetControllers() =>
+        Enum.GetValues<PlayerIndex>()
+            .Select(GamePad.GetCapabilities)
+            .Where(caps => caps.IsConnected);
 }

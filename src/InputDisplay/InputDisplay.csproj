@@ -7,29 +7,15 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <Title>Input Display</Title>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Authors>Lucas Teles</Authors>
-    <Company>lucasteles.dev</Company>
     <Description>Show your joystick inputs like a fighting game training mode</Description>
-    <RepositoryType>GitHub</RepositoryType>
-    <PackageProjectUrl>https://github.com/lucasteles/InputDisplay</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/lucasteles/InputDisplay</RepositoryUrl>
-    <PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
-
-    <PublishRelease>true</PublishRelease>
-    <PublishSingleFile>true</PublishSingleFile>
-
-    <WarningsAsErrors>CS8600;CS8602;CS8603;CS8604;CS8625;CS8618;CS8620</WarningsAsErrors>
-    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <InvariantGlobalization>true</InvariantGlobalization>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Icon.ico"/>
     <None Remove="Icon.bmp"/>
-    <None Update="config.json">
+    <None Update="settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -45,6 +31,7 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303"/>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303"/>
+    <PackageReference Include="Myra" Version="1.5.4"/>
     <PackageReference Include="SonarAnalyzer.CSharp" Version="9.14.0.81108">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
