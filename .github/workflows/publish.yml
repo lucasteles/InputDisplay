@@ -71,7 +71,7 @@ jobs:
     sign:
         runs-on: windows-latest
         needs: build
-        if: github.event.inputs.sign == 'true'
+        if: github.event.inputs.sign == 'true' && github.ref == 'refs/heads/master' && needs.build.outputs.CommitsSinceVersionSource > 0
         steps:
             - name: Download artifacts
               uses: actions/download-artifact@v3

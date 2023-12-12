@@ -210,8 +210,8 @@ public class GameMain : Game
     void StartConfig()
     {
         if (startingConfig) return;
-
         startingConfig = true;
+
         configProcess.EnableRaisingEvents = true;
         var si = configProcess.StartInfo;
         si.UseShellExecute = false;
