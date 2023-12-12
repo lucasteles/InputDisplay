@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using InputDisplay.Config;
 using InputDisplay.Inputs;
 using InputDisplay.Inputs.Entities;
@@ -146,7 +147,7 @@ public class GameMain : Game
             return;
         }
 
-        if (MouseManager.WasDoubleLeftClick || KeyboardManager.IsKeyPressed(Keys.B))
+        if (KeyboardManager.IsKeyPressed(Keys.B))
         {
             Config.Borderless = !Config.Borderless;
             Config.Dirty = true;
@@ -154,6 +155,11 @@ public class GameMain : Game
 
         if (KeyboardManager.IsKeyPressed(Keys.Back))
             buffer.Clear();
+
+        if (KeyboardManager.IsKeyPressed(Keys.F1) || MouseManager.WasDoubleLeftClick)
+        {
+            StartConfig();
+        }
     }
 
     void HandlePlayerConnected()
@@ -191,6 +197,16 @@ public class GameMain : Game
         {
             startDragging = null;
         }
+    }
+
+    void StartConfig()
+    {
+        Process p = new();
+        var si = p.StartInfo;
+        si.UseShellExecute = false;
+        si.FileName = Process.GetCurrentProcess().MainModule?.FileName;
+        si.Arguments = $"config {player?.Index.ToString() ?? string.Empty}".Trim();
+        p.Start();
     }
 
     void DetectController()
