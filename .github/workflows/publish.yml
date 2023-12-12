@@ -124,7 +124,9 @@ jobs:
                   cd Artifacts
                   for subdir in */; do
                       dirname=$(basename "$subdir")
-                      zip -r "$dirname.zip" "$subdir"
+                      cd "$subdir"
+                      zip -r "../$dirname.zip" *
+                      cd ..
                   done
 
             - name: Create Release
