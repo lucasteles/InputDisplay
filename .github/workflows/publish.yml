@@ -22,7 +22,7 @@ jobs:
             CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
 
@@ -100,7 +100,7 @@ jobs:
               uses: actions/upload-artifact@v3
               with:
                   name: app
-                  path: ./Artifacts
+                  path: artifacts.zip
 
     release:
         runs-on: ubuntu-latest
