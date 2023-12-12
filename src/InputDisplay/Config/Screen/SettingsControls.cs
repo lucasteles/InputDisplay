@@ -19,6 +19,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     public Dictionary<ButtonName, Button> Macros { get; private set; } = new();
 
     public ButtonName? MappingButton { get; private set; }
+    public ButtonName? MappingMacro { get; private set; }
     public Window CurrentModal { get; private set; }
 
     Theme defaultTheme;
@@ -66,6 +67,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             {
                 Padding = new(2),
                 Spacing = 5,
+                MaxWidth = 300,
             };
             content.Widgets.Add(new Label
             {
@@ -77,7 +79,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
             var config = configManager.CurrentConfig;
             var theme = ThemeManager.Get(config.CurrentTheme);
-            foreach (var part in theme.GetMacro(buttonName))
+            var macros = theme.GetMacro(buttonName, config.Macros);
+            foreach (var part in macros)
             {
                 var texture = theme.GetTexture(part) ?? ThemeManager.UnknownButton;
                 content.Widgets.Add(new Image
@@ -93,13 +96,89 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             if (Macros.TryGetValue(buttonName, out var button))
                 button.Content = content;
             else
-                Macros.Add(buttonName, new()
+            {
+                Button newButton = new()
                 {
                     MinWidth = 150,
                     Padding = new(10, 5),
                     Content = content,
-                });
+                };
+
+                Macros.Add(buttonName, newButton);
+
+                newButton.Click += (_, _) =>
+                {
+                    var dialog = CreateMacroDialog(buttonName);
+                    dialog.ShowModal(desktop);
+                };
+            }
         }
+    }
+
+    Dialog CreateMacroDialog(ButtonName buttonName)
+    {
+        VerticalStackPanel panel = new()
+        {
+            Spacing = 15,
+        };
+        MappingMacro = buttonName;
+        var config = configManager.CurrentConfig;
+        var theme = ThemeManager.Get(config.CurrentTheme);
+        var macros = theme.GetMacro(buttonName, config.Macros);
+        var selected = macros.ToList();
+
+        foreach (var b in allButtonNames)
+        {
+            var texture = theme.GetTexture(b);
+            if (texture is null) continue;
+
+            Image icon = new()
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                Renderable = new TextureRegion(texture),
+                Width = 30,
+                Height = 30,
+            };
+
+            CheckButton check = new()
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                CheckContentSpacing = 15,
+                IsChecked = selected.Contains(b),
+                Content = icon,
+            };
+
+            check.IsCheckedChanged += (_, _) =>
+            {
+                if (check.IsChecked && !selected.Contains(b))
+                    selected.Add(b);
+
+                else if (!check.IsChecked && selected.Contains(b))
+                    selected.Remove(b);
+            };
+
+            panel.Widgets.Add(check);
+        }
+
+        var dialog = Dialog.CreateMessageBox("Select Icons", panel);
+        dialog.Closed += (_, _) =>
+        {
+            MappingMacro = null;
+            if (!dialog.Result) return;
+
+            if (config.Macros.ContainsKey(buttonName))
+                config.Macros[buttonName] = [.. selected];
+            else
+                config.Macros.Add(buttonName, [.. selected]);
+
+            selected.Clear();
+            configManager.SaveFile();
+            RebuildMacroButtons();
+        };
+
+        dialog.Padding = new(20);
+        dialog.MinWidth = 200;
+        return dialog;
     }
 
     Widget BuildMacroMap()
@@ -118,6 +197,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         root.RowsProportions.Add(new(ProportionType.Auto));
         root.RowsProportions.Add(new(ProportionType.Auto));
 
+
         Label title = new()
         {
             Text = "Macros:",
@@ -127,6 +207,29 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         Grid.SetColumn(title, 0);
         Grid.SetRow(title, 0);
         root.Widgets.Add(title);
+
+        Button resetMapButton = new()
+        {
+            Padding = new(5),
+            Margin = new(30, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            Content = new Label
+            {
+                Text = "Reset",
+            },
+        };
+        resetMapButton.Click += (_, _) =>
+        {
+            configManager.CurrentConfig.Macros.Clear();
+            configManager.SaveFile();
+            RebuildMacroButtons();
+        };
+
+        Grid.SetColumn(resetMapButton, 3);
+        Grid.SetRow(resetMapButton, 0);
+        root.Widgets.Add(resetMapButton);
+
         RebuildMacroButtons();
 
         SetMacroButton(ButtonName.LP, (1, 0));
@@ -387,7 +490,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             IsChecked = isChecked,
         };
 
-        button.Click += (sender, _) =>
+        button.IsCheckedChanged += (sender, _) =>
         {
             var input = (CheckButton)sender;
             onClick(input!.IsChecked);
@@ -498,7 +601,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         VerticalStackPanel root = new()
         {
-            Margin = new(0, 5),
+            Margin = new(0, 2),
         };
 
         Panel header = new();
@@ -514,8 +617,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
         ResetMapButton = new()
         {
-            Padding = new(10),
-            Margin = new(30, 5),
+            Padding = new(4),
+            Margin = new(30, 0),
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Right,
             Content = new Label
@@ -523,13 +626,12 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                 Text = "Reset",
             },
         };
-
         header.Widgets.Add(title);
         header.Widgets.Add(ResetMapButton);
 
         HorizontalStackPanel mappings = new()
         {
-            Margin = new(0, 5),
+            Margin = new(0, 4),
         };
         root.Widgets.Add(mappings);
 
@@ -537,7 +639,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         {
             RowSpacing = 8,
             ColumnSpacing = 8,
-            Margin = new(20),
+            Margin = new(20, 10),
             VerticalAlignment = VerticalAlignment.Center,
         };
         mappings.Widgets.Add(dirGrid);

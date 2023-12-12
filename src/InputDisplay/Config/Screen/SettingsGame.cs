@@ -27,12 +27,12 @@ public class SettingsGame : Game
     {
         graphics = new(this)
         {
-            PreferredBackBufferWidth = 1024,
-            PreferredBackBufferHeight = 780,
+            PreferredBackBufferWidth = 1080,
+            PreferredBackBufferHeight = 720,
         };
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-        Window.AllowUserResizing = true;
+        Window.AllowUserResizing = false;
         graphics.ApplyChanges();
     }
 
@@ -61,7 +61,8 @@ public class SettingsGame : Game
     {
         KeyboardManager.Update();
 
-        if (controls.MappingButton is null && KeyboardManager.IsKeyPressed(Keys.Escape))
+        if (controls.MappingButton is null && controls.MappingMacro is null &&
+            KeyboardManager.IsKeyPressed(Keys.Escape))
             if (player is null || PlayerPad.GetConnected().Count() <= 1)
                 Exit();
             else

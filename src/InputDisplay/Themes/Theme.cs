@@ -22,8 +22,11 @@ public record Theme
     public ButtonName[] GetMacro(ButtonName name) =>
         Buttons.MacrosTemplate.TryGetValue(name, out var names) ? names : [name];
 
-    public ButtonName[] GetMacro(ButtonName name, InputMacro macros) =>
-        macros.TryGetValue(name, out var customMacro) ? customMacro : GetMacro(name);
+    public ButtonName[] GetMacro(ButtonName name, Dictionary<string, InputMacro> macros) =>
+        GetMacro(name, macros.GetValueOrDefault(ButtonsName));
+
+    public ButtonName[] GetMacro(ButtonName name, InputMacro? macros) =>
+        macros?.TryGetValue(name, out var customMacro) is true ? customMacro : GetMacro(name);
 
     public static implicit operator Settings.SelectedTheme(Theme theme) =>
         new(theme.ButtonsName, theme.StickName);
