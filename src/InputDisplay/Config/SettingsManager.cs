@@ -17,7 +17,7 @@ public sealed class SettingsManager : IDisposable
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 
-    const string FileName = "config.json";
+    const string FileName = "settings.json";
     bool watching;
     DateTime lastFileSaved = DateTime.MinValue;
 

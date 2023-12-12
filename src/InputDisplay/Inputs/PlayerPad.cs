@@ -10,6 +10,8 @@ public record PlayerPad(
 {
     GamePadState? currentState;
 
+    public PlayerPad(PlayerIndex index) : this(index, GamePad.GetCapabilities(index)) { }
+
     public string Identifier => Capabilities.Identifier;
     public string Name => Capabilities.DisplayName;
 

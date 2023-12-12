@@ -12,7 +12,10 @@
   <ItemGroup>
     <None Remove="Icon.ico"/>
     <None Remove="Icon.bmp"/>
-    <None Update="config.json">
+    <None Update="settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

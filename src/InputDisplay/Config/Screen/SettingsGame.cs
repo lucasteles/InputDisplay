@@ -16,14 +16,18 @@ public class SettingsGame : Game
     GameResources resources = default!;
 
     readonly GameInput gameInput = new();
+
+#pragma warning disable S1450
+    // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
     readonly GraphicsDeviceManager graphics;
+#pragma warning restore S1450
 
     readonly SettingsManager configManager = new();
     PlayerPad? player;
 
     Settings Config => configManager.CurrentConfig;
 
-    public SettingsGame()
+    public SettingsGame(string? playerIndex = null)
     {
         graphics = new(this)
         {
@@ -34,6 +38,9 @@ public class SettingsGame : Game
         IsMouseVisible = true;
         Window.AllowUserResizing = false;
         graphics.ApplyChanges();
+
+        if (!string.IsNullOrWhiteSpace(playerIndex) && Enum.TryParse(playerIndex, out PlayerIndex index))
+            player = new(index);
     }
 
     protected override void Initialize()
@@ -41,7 +48,6 @@ public class SettingsGame : Game
         Window.Title = "Input Display - Config";
         base.Initialize();
     }
-
 
     protected override void LoadContent()
     {
