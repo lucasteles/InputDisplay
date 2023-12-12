@@ -18,9 +18,8 @@ jobs:
     build:
         runs-on: ubuntu-latest
         outputs:
-            Version: ${{ steps.gitversion.outputs.SemVer }}
+            SemVer: ${{ steps.gitversion.outputs.SemVer }}
             CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}
-            ZipFile: input_display_${{ steps.gitversion.outputs.SemVer  }}.zip
 
         steps:
             - uses: actions/checkout@v2
@@ -49,21 +48,25 @@ jobs:
             - name: Build and Publish Package
               run: |
                   publish() {
-                    dotnet publish src/InputDisplay --configuration Release --self-contained -r $1  -p:DebugType=None -p:DebugSymbols=false -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output "./Publish/$1"
+                    dotnet publish src/InputDisplay \
+                        --configuration Release --self-contained \
+                        --output "./Artifacts/input_display_$1_${{ steps.gitversion.outputs.SemVer }}" \
+                        -r $1 -p:DebugType=None -p:DebugSymbols=false \
+                        -p:Version='${{ steps.gitversion.outputs.SemVer }}'
                   }
 
                   publish "win-x64"
                   publish "linux-x64"
                   publish "osx-x64"
 
-            - name: Zip Package
-              run: cd ./Publish; zip -r ../input_display_${{ steps.gitversion.outputs.SemVer  }}.zip *
+            - name: Zip artifacts
+              run: cd ./Artifacts; zip -r ../artifacts.zip *
 
             - name: Upload artifact
               uses: actions/upload-artifact@v3
               with:
                   name: app
-                  path: ./input_display_${{ steps.gitversion.outputs.SemVer }}.zip
+                  path: artifacts.zip
 
     sign:
         runs-on: windows-latest
@@ -75,8 +78,8 @@ jobs:
               with:
                   name: app
 
-            - name: Unzip Package
-              run: Expand-Archive -Path .\${{ needs.build.outputs.ZipFile }} -DestinationPath .\Publish
+            - name: Unzip artifacts
+              run: Expand-Archive -Path .\artifacts.zip -DestinationPath .\Artifacts
 
             - name: Sign exe
               uses: markeytos/code-sign-action@v1.01
@@ -84,29 +87,28 @@ jobs:
                   certificate: '${{ secrets.CERTIFICATE }}'
                   password: '${{ secrets.PASSWORD }}'
                   certificatesha1: '${{ secrets.CERTIFICATESHA1 }}'
-                  folder: .\Publish\win-x64
+                  folder: .\Artifacts\input_display_win-x64_${{ needs.build.outputs.SemVer }}
                   timestampUrl: 'http://timestamp.digicert.com'
                   recursive: true
 
-            - name: Zip Package
+            - name: Zip artifacts
               run: |
-                  Remove-Item .\${{ needs.build.outputs.ZipFile }}
-                  Compress-Archive -Path ./Publish/* -Destination ${{ needs.build.outputs.ZipFile }}
+                  Remove-Item ./artifacts.zip
+                  Compress-Archive -Path ./Artifacts/* -Destination artifacts.zip
 
-            - name: Upload artifact for deployment job
+            - name: Upload artifact for deployment
               uses: actions/upload-artifact@v3
               with:
                   name: app
-                  path: ${{ needs.build.outputs.ZipFile }}
+                  path: ./Artifacts
 
     release:
         runs-on: ubuntu-latest
-        needs:
-            - build
-            - sign
-        if: |
-            always() &&
-            needs.build.result == 'success'
+        needs: [ build,  sign ]
+        if: | #Only release if there has been a commit/version change
+            always()
+            && github.ref == 'refs/heads/master' && needs.build.outputs.CommitsSinceVersionSource > 0
+            && needs.build.result == 'success'
             && (needs.sign.result == 'success' || needs.sign.result == 'skipped')
         steps:
             - name: Download artifacts
@@ -114,10 +116,13 @@ jobs:
               with:
                   name: app
 
-#            - name: Create Release
-#              uses: ncipollo/release-action@v1
-#              with:
-#                  tag: ${{ needs.build.outputs.Version }}
-#                  name: Release ${{ needs.build.outputs.Version }}
-#                  artifacts: "app/*"
-#                  token: ${{ secrets.GITHUB_TOKEN }}
+            - name: Unzip Artifacts
+              run: unzip artifacts.zip -d ./Artifacts
+
+            - name: Create Release
+              uses: ncipollo/release-action@v1
+              with:
+                  tag: ${{ needs.build.outputs.SemVer }}
+                  name: Release ${{ needs.build.outputs.SemVer }}
+                  artifacts: "./Artifacts/*"
+                  token: ${{ secrets.GITHUB_TOKEN }}
