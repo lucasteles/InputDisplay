@@ -2,21 +2,21 @@ namespace InputDisplay.Config;
 
 public sealed class SettingsManager : IDisposable
 {
+    readonly bool fileWatch;
     readonly FileSystemWatcher watcher = new();
 
-
     const string FileName = "settings.json";
-    bool watching;
     DateTime lastFileSaved = DateTime.MinValue;
-
     readonly TimeSpan saveCooldown = TimeSpan.FromSeconds(2);
     DateTime saveThreshold = DateTime.MinValue;
     bool pendingSave;
+    bool watching;
 
     public Settings CurrentConfig { get; private set; }
 
-    public SettingsManager()
+    public SettingsManager(bool fileWatch = true)
     {
+        this.fileWatch = fileWatch;
         CurrentConfig = Load();
         ConfigureWatcher();
     }
@@ -28,6 +28,7 @@ public sealed class SettingsManager : IDisposable
     {
         try
         {
+            if (!fileWatch) return;
             watcher.Filter = $"*{FileName}";
             watcher.Path = Directory.GetCurrentDirectory();
             watcher.EnableRaisingEvents = true;
@@ -70,6 +71,7 @@ public sealed class SettingsManager : IDisposable
 
     public void Dispose()
     {
+        if (!fileWatch) return;
         watcher.Created -= WatcherHandler;
         watcher.Deleted -= WatcherHandler;
         watcher.Changed -= WatcherHandler;

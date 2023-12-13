@@ -7,7 +7,7 @@ using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.ColorPicker;
 
-namespace InputDisplay.Config.Screen;
+namespace InputDisplay.Config.Window;
 
 public sealed class SettingsControls(Desktop desktop, SettingsManager configManager) : IDisposable
 {
@@ -21,7 +21,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
     public ButtonName? MappingButton { get; private set; }
     public ButtonName? MappingMacro { get; private set; }
-    public Window CurrentModal { get; private set; }
+    public Myra.Graphics2D.UI.Window CurrentModal { get; private set; }
 
     Theme defaultTheme;
 
@@ -880,7 +880,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                     : (IBrush)null;
     }
 
-    Window BuildButtonMapModal(string title)
+    Myra.Graphics2D.UI.Window BuildButtonMapModal(string title)
     {
         Label label = new()
         {

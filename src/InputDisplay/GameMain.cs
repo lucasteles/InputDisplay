@@ -1,5 +1,5 @@
-using System.Diagnostics;
 using InputDisplay.Config;
+using InputDisplay.Config.Window;
 using InputDisplay.Inputs;
 using InputDisplay.Inputs.Entities;
 using InputDisplay.Themes;
@@ -10,18 +10,14 @@ namespace InputDisplay;
 public class GameMain : Game
 {
     readonly GraphicsDeviceManager graphics;
-    SpriteBatch spriteBatch = default!;
-    GameResources resources = default!;
-
+    readonly SettingsWindow configWindow = new();
     readonly SettingsManager configManager = new();
     readonly InputBuffer buffer;
     readonly ThemeManager themeManager;
 
+    SpriteBatch spriteBatch = default!;
+    GameResources resources = default!;
     PlayerPad? player;
-
-    Settings Config => configManager.CurrentConfig;
-
-    readonly Process configProcess = new();
 
     public GameMain()
     {
@@ -63,7 +59,7 @@ public class GameMain : Game
 
         HandleShortcuts();
         HandleDragging();
-        HandlePlayerConnected();
+        HandleMouseWheel();
 
         UpdatePlayer();
         UpdateTheme();
@@ -73,6 +69,9 @@ public class GameMain : Game
 
         MouseManager.EndUpdate();
     }
+
+    Settings Config => configManager.CurrentConfig;
+    bool IsInteractable => IsActive && !configWindow.IsOpen();
 
     void UpdatePlayer()
     {
@@ -102,7 +101,7 @@ public class GameMain : Game
 
     void UpdateTheme()
     {
-        if (themeManager.Update())
+        if (IsInteractable && themeManager.Update())
         {
             Config.Dirty = true;
             Config.CurrentTheme = themeManager.CurrentTheme;
@@ -144,7 +143,7 @@ public class GameMain : Game
 
     void HandleShortcuts()
     {
-        if (!IsActive) return;
+        if (!IsInteractable) return;
 
         if (KeyboardManager.IsKeyPressed(Keys.Escape))
             if (player is null || PlayerPad.GetConnected().Count() <= 1)
@@ -176,12 +175,14 @@ public class GameMain : Game
 
         if (KeyboardManager.IsKeyPressed(Keys.F1) ||
             (MouseManager.WasDoubleLeftClick && MouseManager.IsOnWindow(Window)))
-            StartConfig();
+            configWindow.Open();
     }
 
-    void HandlePlayerConnected()
+    void HandleMouseWheel()
     {
-        if (player?.IsConnected != true) return;
+        if (player?.IsConnected is false || !IsInteractable || !MouseManager.IsOnWindow(Window))
+            return;
+
         var wheel = MouseManager.DeltaWheelValue;
         if (wheel is 0) return;
         var step = Math.Sign(wheel) * 5;
@@ -190,8 +191,6 @@ public class GameMain : Game
     }
 
     Point? startDragging;
-    bool configStarted;
-    bool startingConfig;
 
     void HandleDragging()
     {
@@ -216,29 +215,6 @@ public class GameMain : Game
         {
             startDragging = null;
         }
-    }
-
-    void StartConfig()
-    {
-        if (startingConfig) return;
-        startingConfig = true;
-
-        configProcess.EnableRaisingEvents = true;
-        var si = configProcess.StartInfo;
-        si.UseShellExecute = false;
-        si.FileName = Process.GetCurrentProcess().MainModule?.FileName;
-        si.Arguments = $"config {player?.Index.ToString() ?? string.Empty}".Trim();
-
-        if (configStarted && configProcess.Responding)
-        {
-            configProcess.CloseMainWindow();
-            configProcess.WaitForExit();
-        }
-
-        configStarted = configProcess.Start();
-        configProcess.WaitForInputIdle();
-
-        startingConfig = false;
     }
 
     void DetectController()
@@ -277,16 +253,15 @@ public class GameMain : Game
         configManager.Save();
     }
 
-    protected override void OnExiting(object sender, EventArgs args)
+    protected override void Dispose(bool disposing)
     {
-        Window.ClientSizeChanged -= OnResize;
-        configManager.Dispose();
-        if (configStarted && configProcess.Responding)
+        if (disposing)
         {
-            configProcess.CloseMainWindow();
-            configProcess.WaitForExit();
+            Window.ClientSizeChanged -= OnResize;
+            configManager.Dispose();
+            configWindow.Dispose();
         }
 
-        base.OnExiting(sender, args);
+        base.Dispose(disposing);
     }
 }

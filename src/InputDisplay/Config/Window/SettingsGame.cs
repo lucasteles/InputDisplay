@@ -6,7 +6,7 @@ using Myra.Graphics2D.UI;
 
 #pragma warning disable S4487
 
-namespace InputDisplay.Config.Screen;
+namespace InputDisplay.Config.Window;
 
 public class SettingsGame : Game
 {
