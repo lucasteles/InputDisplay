@@ -20,13 +20,15 @@ public record Theme
         Buttons.GetTexturePath(btn) is { } path ? ThemeManager.GetTexture(path) : null;
 
     public ButtonName[] GetMacro(ButtonName name) =>
-        Buttons.MacrosTemplate.TryGetValue(name, out var names) ? names : [name];
+        Buttons.MacrosTemplate.TryGetValue(name, out var names) && names.Length > 0 ? names : [name];
 
     public ButtonName[] GetMacro(ButtonName name, Dictionary<string, InputMacro> macros) =>
         GetMacro(name, macros.GetValueOrDefault(ButtonsName));
 
     public ButtonName[] GetMacro(ButtonName name, InputMacro? macros) =>
-        macros?.TryGetValue(name, out var customMacro) is true ? customMacro : GetMacro(name);
+        macros?.TryGetValue(name, out var customMacro) is true && customMacro?.Length > 0
+            ? customMacro
+            : GetMacro(name);
 
     public static implicit operator Settings.SelectedTheme(Theme theme) =>
         new(theme.ButtonsName, theme.StickName);

@@ -20,7 +20,21 @@ public static partial class Json
     public static DateTime SerializeToFile<T>(T value, string filename)
     {
         var jsonBytes = SerializeBytes(value);
-        File.WriteAllBytes(filename, jsonBytes);
+
+        for (int i = 0; i < 3; i++)
+        {
+            try
+            {
+                File.WriteAllBytes(filename, jsonBytes);
+                break;
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Fail to save json (retry: {i})", e);
+                Thread.Sleep(100);
+            }
+        }
+
         return File.GetLastWriteTimeUtc(filename);
     }
 

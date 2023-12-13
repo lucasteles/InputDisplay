@@ -151,6 +151,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         var theme = ThemeManager.Get(config.CurrentTheme);
         var macros = theme.GetMacro(buttonName, config.Macros);
         var selected = macros.ToList();
+        if (selected.Contains(buttonName))
+            selected.Remove(buttonName);
 
         foreach (var b in allButtonNames)
         {
