@@ -1,50 +1,21 @@
 using InputDisplay.Config;
+using InputDisplay.Inputs;
 using Microsoft.Xna.Framework.Input;
 
 namespace InputDisplay.Themes;
 
-public class ThemeManager
+public class ThemeManager(Settings.SelectedTheme theme)
 {
-    public const string DefaultButtons = "Street Fighter";
-    public const string DefaultDirection = "default";
-
-    public static Theme Get(string buttons = DefaultButtons, string direction = DefaultDirection) =>
-        new()
-        {
-            Buttons = ThemeConfig.ButtonMap.GetValueOrDefault(buttons, ThemeConfig.ButtonMap[DefaultButtons]),
-            Stick = ThemeConfig.DirectionMap.GetValueOrDefault(direction, ThemeConfig.DirectionMap[DefaultDirection]),
-            ButtonsName = buttons,
-            StickName = direction,
-        };
-
-    public static Theme Get(Settings.SelectedTheme selected) =>
-        Get(selected.Buttons, selected.Direction);
+    public const string DefaultButtons = ThemeConfig.StreetFighter;
+    public const string DefaultDirection = ThemeConfig.DefaultDirection;
 
     static readonly Dictionary<string, Texture2D> textures = [];
-
-    public static void LoadContent(ContentManager content)
-    {
-        if (textures.Count > 0) return;
-
-        var neutral = content.LoadTexture(Theme.Direction.DefaultNeutral);
-        textures.Add(neutral.Name, neutral);
-        var unknown = content.LoadTexture(Theme.FaceButtons.Unknown);
-        textures.Add(unknown.Name, unknown);
-        foreach (var dir in ThemeConfig.DirectionMap.Values)
-        foreach (var texture in dir.LoadTextures(content))
-            textures.Add(texture.Name, texture);
-
-        foreach (var btn in ThemeConfig.ButtonMap.Values)
-        foreach (var texture in btn.LoadTextures(content))
-            textures.Add(texture.Name, texture);
-    }
+    readonly ThemeCycle cycle = new();
+    Theme currentTheme = Get(theme);
+    Theme? fallbackTheme;
 
     public static Texture2D? GetTexture(string name) => textures.GetValueOrDefault(name);
     public static Texture2D UnknownButton => textures[Theme.FaceButtons.Unknown];
-
-    readonly ThemeCycle cycle = new();
-    Theme currentTheme;
-    Theme? fallbackTheme;
 
     public Theme CurrentTheme
     {
@@ -67,9 +38,22 @@ public class ThemeManager
         }
     }
 
-    public ThemeManager(Settings.SelectedTheme theme) => currentTheme = Get(theme);
-
     public void SetFallback(string themeName) => FallbackTheme = Get(themeName);
+
+    public void SetFallback(PlayerPad.Kind kind)
+    {
+        var themeName =
+            kind switch
+            {
+                PlayerPad.Kind.PlayStation => ThemeConfig.PlayStation,
+                _ => ThemeConfig.Xbox,
+            };
+
+        if (FallbackTheme?.ButtonsName == themeName)
+            return;
+
+        SetFallback(themeName);
+    }
 
     public bool Update()
     {
@@ -93,4 +77,33 @@ public class ThemeManager
         CurrentTheme.Fallback = FallbackTheme;
         return true;
     }
+
+    public static void LoadContent(ContentManager content)
+    {
+        if (textures.Count > 0) return;
+
+        var neutral = content.LoadTexture(Theme.Direction.DefaultNeutral);
+        textures.Add(neutral.Name, neutral);
+        var unknown = content.LoadTexture(Theme.FaceButtons.Unknown);
+        textures.Add(unknown.Name, unknown);
+        foreach (var dir in ThemeConfig.DirectionMap.Values)
+            foreach (var texture in dir.LoadTextures(content))
+                textures.Add(texture.Name, texture);
+
+        foreach (var btn in ThemeConfig.ButtonMap.Values)
+            foreach (var texture in btn.LoadTextures(content))
+                textures.Add(texture.Name, texture);
+    }
+
+    public static Theme Get(string buttons = DefaultButtons, string direction = DefaultDirection) =>
+        new()
+        {
+            Buttons = ThemeConfig.ButtonMap.GetValueOrDefault(buttons, ThemeConfig.ButtonMap[DefaultButtons]),
+            Stick = ThemeConfig.DirectionMap.GetValueOrDefault(direction, ThemeConfig.DirectionMap[DefaultDirection]),
+            ButtonsName = buttons,
+            StickName = direction,
+        };
+
+    public static Theme Get(Settings.SelectedTheme selected) =>
+        Get(selected.Buttons, selected.Direction);
 }

@@ -6,7 +6,7 @@ public static class ContentPath
         path is [var oneSegment]
             ? oneSegment
             : path
-                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Where(s => s.IsNonEmpty())
                 .Aggregate(Path.Combine);
 
     public static string Combine(params string[] path) =>

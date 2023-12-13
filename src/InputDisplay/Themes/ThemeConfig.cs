@@ -4,10 +4,15 @@ namespace InputDisplay.Themes;
 
 public static class ThemeConfig
 {
+    public const string DefaultDirection = "default";
+    public const string StreetFighter = "Street Fighter";
+    public const string PlayStation = "PlayStation";
+    public const string Xbox = "XBOX";
+
     public static Dictionary<string, Theme.Direction> DirectionMap { get; } =
         new(StringComparer.InvariantCultureIgnoreCase)
         {
-            [ThemeManager.DefaultDirection] = new("arrows"),
+            [DefaultDirection] = new("arrows"),
             ["Small"] = new("arrows_sm"),
             ["Numpad"] = new("numpad", hasNeutral: true),
             ["Dpad"] = new("dpad", hasNeutral: true),
@@ -21,18 +26,18 @@ public static class ThemeConfig
     public static Dictionary<string, Theme.FaceButtons> ButtonMap { get; } =
         new(StringComparer.InvariantCultureIgnoreCase)
         {
-            ["Street Fighter"] = new()
+            [StreetFighter] = new()
             {
                 Name = "sf",
                 Textures = ForStreetFighter(),
                 MacrosTemplate = DefaultTripleMacro(),
             },
-            ["PlayStation"] = new()
+            [PlayStation] = new()
             {
                 Name = "ps",
                 Textures = ForPlayStation(),
             },
-            ["XBOX"] = new()
+            [Xbox] = new()
             {
                 Name = "xbox",
                 Textures = ForXBox(),
@@ -134,6 +139,13 @@ public static class ThemeConfig
                 Textures = ForStreetFighter(),
                 MacrosTemplate = DefaultTripleMacro(),
             },
+        };
+
+    public static readonly IReadOnlyDictionary<PlayerPad.Kind, string> ControllerTypes =
+        new Dictionary<PlayerPad.Kind, string>
+        {
+            [PlayerPad.Kind.PlayStation] = PlayStation,
+            [PlayerPad.Kind.Xbox] = Xbox,
         };
 
     static ButtonImage ForTekken() => new()

@@ -13,6 +13,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 {
     public Label SelectedJoystick { get; private set; }
 
+    public ComboView ControllerTypeCombo = new();
     public Button ResetMapButton { get; private set; }
     public Image[] Directions { get; private set; } = new Image[9];
     public Dictionary<ButtonName, Button> Buttons { get; private set; } = new();
@@ -49,15 +50,39 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
     readonly Direction[] allDirections =
     [
-        Direction.Neutral, Direction.Backward, Direction.DownBackward, Direction.Down, Direction.DownForward,
-        Direction.Forward, Direction.UpForward, Direction.Up, Direction.UpBackward,
+        Direction.Neutral,
+        Direction.Backward,
+        Direction.DownBackward,
+        Direction.Down,
+        Direction.DownForward,
+        Direction.Forward,
+        Direction.UpForward,
+        Direction.Up,
+        Direction.UpBackward,
     ];
 
     readonly ButtonName[] allButtonNames =
     [
-        ButtonName.LP, ButtonName.MP, ButtonName.HP, ButtonName.PP,
-        ButtonName.LK, ButtonName.MK, ButtonName.HK, ButtonName.KK,
+        ButtonName.LP,
+        ButtonName.MP,
+        ButtonName.HP,
+        ButtonName.PP,
+        ButtonName.LK,
+        ButtonName.MK,
+        ButtonName.HK,
+        ButtonName.KK,
     ];
+
+    PlayerPad player;
+
+    public void SetPlayer(PlayerPad pad)
+    {
+        SelectedJoystick.Text = pad.Name;
+
+        var currentType = configManager.CurrentConfig.InputMap.GetPadKind(pad);
+        ControllerTypeCombo.SelectedIndex = ThemeConfig.ControllerTypes.Keys.ToArray().IndexOf(currentType);
+        player = pad;
+    }
 
     void RebuildMacroButtons()
     {
@@ -172,7 +197,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                 config.Macros.Add(buttonName, [.. selected]);
 
             selected.Clear();
-            configManager.SaveFile();
+            SaveConfig();
             RebuildMacroButtons();
         };
 
@@ -222,7 +247,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         resetMapButton.Click += (_, _) =>
         {
             configManager.CurrentConfig.Macros.Clear();
-            configManager.SaveFile();
+            SaveConfig();
             RebuildMacroButtons();
         };
 
@@ -333,7 +358,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             {
                 Direction = newTheme,
             };
-            configManager.SaveFile();
+            SaveConfig();
         };
 
 
@@ -407,7 +432,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             {
                 Buttons = newTheme,
             };
-            configManager.SaveFile();
+            SaveConfig();
             RebuildMacroButtons();
         };
 
@@ -443,7 +468,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         var backgroundColor = ColorPicker("Background color: ", config.ClearColor, c =>
         {
             config.ClearColor = c;
-            configManager.SaveFile();
+            SaveConfig();
         });
         Grid.SetColumn(backgroundColor, 2);
         Grid.SetRow(backgroundColor, 3);
@@ -494,7 +519,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         {
             var input = (CheckButton)sender;
             onClick(input!.IsChecked);
-            configManager.SaveFile();
+            SaveConfig();
         };
 
         panel.Widgets.Add(button);
@@ -532,7 +557,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             var input = (SpinButton)sender;
             var v = int.Max((int)(input?.Value ?? 0), 1);
             onChange(v);
-            configManager.SaveFile();
+            SaveConfig();
         };
 
         panel.Widgets.Add(textBox);
@@ -764,7 +789,14 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
     Widget BuildSelectedController()
     {
-        HorizontalStackPanel root = new();
+        Panel root = new();
+
+        HorizontalStackPanel left = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Left,
+        };
+        root.Widgets.Add(left);
 
         Label labelJoyStick = new()
         {
@@ -779,13 +811,57 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             Background = new SolidBrush(Color.DarkSlateGray),
             VerticalAlignment = VerticalAlignment.Center,
             Padding = new(5),
-            MinWidth = 200,
+            MinWidth = 300,
         };
 
-        root.Widgets.Add(labelJoyStick);
-        root.Widgets.Add(SelectedJoystick);
+        Panel header = new();
+        left.Widgets.Add(header);
+        left.Widgets.Add(labelJoyStick);
+        left.Widgets.Add(SelectedJoystick);
 
+
+        HorizontalStackPanel right = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Right,
+        };
+        root.Widgets.Add(right);
+
+        Label labelType = new()
+        {
+            Text = "Type: ",
+            TextColor = Color.White,
+            VerticalAlignment = VerticalAlignment.Center,
+            Padding = new(5),
+        };
+        right.Widgets.Add(labelType);
+
+        ControllerTypeCombo = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+        };
+        right.Widgets.Add(ControllerTypeCombo);
+        foreach (var (typeName, text) in ThemeConfig.ControllerTypes)
+            ControllerTypeCombo.Widgets.Add(new Label
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                Padding = new(5),
+                Text = text,
+                Tag = typeName,
+            });
+
+        ControllerTypeCombo.SelectedIndexChanged += OnChangeControllerType;
         return root;
+    }
+
+    void OnChangeControllerType(object sender, EventArgs e)
+    {
+        if (sender is not ListView { SelectedItem: Label { Tag: PlayerPad.Kind kind } }
+            || player is null || configManager.CurrentConfig.InputMap.GetMapping(player) is not { } mapping)
+            return;
+
+        mapping.Kind = kind;
+        SaveConfig();
     }
 
     public void HighLightDirection(Direction dir)
@@ -804,12 +880,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                     : (IBrush)null;
     }
 
-    public void Dispose()
-    {
-        foreach (var btn in Buttons.Values)
-            btn.Click -= OnButtonMapClick;
-    }
-
     Window BuildButtonMapModal(string title)
     {
         Label label = new()
@@ -823,5 +893,15 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         buttonMapModal.ButtonOk.Visible = false;
         buttonMapModal.Padding = new(10);
         return buttonMapModal;
+    }
+
+    public void SaveConfig() => configManager.SaveFile();
+
+    public void Dispose()
+    {
+        foreach (var btn in Buttons.Values)
+            btn.Click -= OnButtonMapClick;
+
+        ControllerTypeCombo.SelectedIndexChanged -= OnChangeControllerType;
     }
 }

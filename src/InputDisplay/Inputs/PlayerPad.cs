@@ -53,13 +53,22 @@ public record PlayerPad(
         PlayStation,
     }
 
-    public Kind GetPadKind()
+    static readonly string[] playStationAliases =
+    [
+        "playstation",
+        "sony",
+        .. Enumerable.Range(1, 6).Select(n => $"ps{n}"),
+    ];
+
+    public static Kind GetPadKind(GamePadCapabilities caps)
     {
-        var name = Name.ToLowerInvariant();
-        return !name.Contains("xbox") && name.Contains("ps")
+        var name = caps.DisplayName.ToLowerInvariant();
+        return !name.Contains("xbox") && playStationAliases.Exists(name.Contains)
             ? Kind.PlayStation
             : Kind.Xbox;
     }
+
+    public Kind GetPadKind() => GetPadKind(Capabilities);
 
     public static IEnumerable<PlayerPad> GetConnected()
     {
@@ -85,8 +94,6 @@ public record PlayerPad(
         return null;
     }
 
-    public static IEnumerable<GamePadCapabilities> GetControllers() =>
-        Enum.GetValues<PlayerIndex>()
-            .Select(GamePad.GetCapabilities)
-            .Where(caps => caps.IsConnected);
+    public static implicit operator GamePadCapabilities(PlayerPad pad) => pad.Capabilities;
+    public static implicit operator PlayerIndex(PlayerPad pad) => pad.Index;
 }

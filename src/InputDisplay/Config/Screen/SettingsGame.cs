@@ -41,7 +41,7 @@ public class SettingsGame : Game
         Window.AllowUserResizing = false;
         graphics.ApplyChanges();
 
-        if (!string.IsNullOrWhiteSpace(playerIndex) && Enum.TryParse(playerIndex, out PlayerIndex index))
+        if (playerIndex.IsNonEmpty() && Enum.TryParse(playerIndex, out PlayerIndex index))
             playerIndexArg = index;
     }
 
@@ -118,21 +118,17 @@ public class SettingsGame : Game
 
         if (PlayerPad.DetectPress() is not { } playerPad) return;
         player = playerPad;
-        controls.SelectedJoystick.Text = playerPad.Name;
+        controls.SetPlayer(playerPad);
 
-        if (Config.InputMap.Contains(player.Identifier)) return;
-        Config.InputMap.AddGamePad(player.Capabilities);
-        configManager.SaveFile();
+        if (Config.InputMap.TryAddGamePad(player.Capabilities))
+            configManager.SaveFile();
     }
-
 
     void OnResetMap(object? sender, EventArgs e)
     {
-        if (player is not null && Config.InputMap.GetMapping(player.Identifier) is { } map)
-        {
-            map.Reset();
-            configManager.SaveFile();
-        }
+        if (player is null || Config.InputMap.GetMapping(player.Identifier) is not { } map) return;
+        map.Reset();
+        configManager.SaveFile();
     }
 
     protected override void Draw(GameTime gameTime)

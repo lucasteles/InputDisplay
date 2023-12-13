@@ -19,30 +19,7 @@
   "top": 568,
   "left": 1680,
   "inputMap": {
-    "maps": {
-      "00000003-054c-0000-cc09-000000016800": {
-        "name": "PS4 Controller",
-        "lp": "X",
-        "mp": "Y",
-        "hp": "RightShoulder",
-        "pp": "LeftShoulder",
-        "lk": "A",
-        "mk": "B",
-        "hk": "RightTrigger",
-        "kk": "LeftTrigger"
-      },
-      "00000003-045e-0000-130b-000001057200": {
-        "name": "Xbox Series X Controller",
-        "lp": "X",
-        "mp": "Y",
-        "hp": "RightShoulder",
-        "pp": "LeftShoulder",
-        "lk": "A",
-        "mk": "B",
-        "hk": "RightTrigger",
-        "kk": "LeftTrigger"
-      }
-    }
+    "pads": {}
   },
   "macros": {},
   "backgroundColor": "FF2F6B55"

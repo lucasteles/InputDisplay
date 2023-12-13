@@ -66,6 +66,7 @@ public class GameMain : Game
         HandlePlayerConnected();
 
         UpdatePlayer();
+        UpdateTheme();
         UpdateConfig();
         configManager.Update();
         base.Update(gameTime);
@@ -90,16 +91,26 @@ public class GameMain : Game
         }
 
         buffer.Update(player);
-
-        if (!themeManager.Update()) return;
-        Config.Dirty = true;
-        Config.CurrentTheme = themeManager.CurrentTheme;
     }
 
     public void SetWindowPosition()
     {
         if (Config.Top + Config.Left != 0)
             Window.Position = new(Config.Left, Config.Top);
+    }
+
+
+    void UpdateTheme()
+    {
+        if (themeManager.Update())
+        {
+            Config.Dirty = true;
+            Config.CurrentTheme = themeManager.CurrentTheme;
+        }
+
+        if (player is null) return;
+        var kind = Config.InputMap.GetMapping(player)?.Kind ?? player.GetPadKind();
+        themeManager.SetFallback(kind);
     }
 
 
@@ -236,17 +247,8 @@ public class GameMain : Game
 
         player = playerPad;
 
-        themeManager.SetFallback(
-            player.GetPadKind() switch
-            {
-                PlayerPad.Kind.PlayStation => "PlayStation",
-                _ => "XBOX",
-            }
-        );
-
-        if (Config.InputMap.Contains(player.Identifier)) return;
-        Config.InputMap.AddGamePad(player.Capabilities);
-        configManager.Save();
+        if (Config.InputMap.TryAddGamePad(player.Capabilities))
+            configManager.Save();
     }
 
     protected override void Draw(GameTime gameTime)

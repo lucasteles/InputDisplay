@@ -1,21 +1,9 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
 namespace InputDisplay.Config;
 
 public sealed class SettingsManager : IDisposable
 {
     readonly FileSystemWatcher watcher = new();
 
-    static readonly JsonSerializerOptions jsonOptions = new()
-    {
-        Converters =
-        {
-            new JsonStringEnumConverter(),
-        },
-        WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-    };
 
     const string FileName = "settings.json";
     bool watching;
@@ -100,9 +88,7 @@ public sealed class SettingsManager : IDisposable
         PauseWatch();
         try
         {
-            var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(CurrentConfig, jsonOptions);
-            File.WriteAllBytes(FileName, jsonBytes);
-            lastFileSaved = File.GetLastWriteTimeUtc(FileName);
+            lastFileSaved = Json.SerializeToFile(CurrentConfig, FileName);
         }
         catch (Exception e)
         {
@@ -140,8 +126,7 @@ public sealed class SettingsManager : IDisposable
         try
         {
             Log.Info("Loading config file");
-            var content = File.ReadAllBytes(FileName);
-            if (JsonSerializer.Deserialize<Settings>(content, jsonOptions) is { } config)
+            if (Json.DeserializeFromFile<Settings>(FileName) is { } config)
                 return config;
         }
         catch (Exception ex)
@@ -170,8 +155,7 @@ public sealed class SettingsManager : IDisposable
             }
 
             Log.Info("Reloading config from disk");
-            var content = File.ReadAllBytes(FileName);
-            if (JsonSerializer.Deserialize<Settings>(content, jsonOptions) is { } newConfig)
+            if (Json.DeserializeFromFile<Settings>(FileName) is { } newConfig)
                 CurrentConfig.CopyFrom(newConfig);
         }
         catch (Exception ex)

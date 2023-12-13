@@ -21,4 +21,9 @@ public static class Extensions
         texture.Name = ContentPath.Combine(path);
         return texture;
     }
+
+    public static bool Exists<T>(this T[] array, Predicate<T> match) => Array.Exists(array, match);
+    public static int IndexOf<T>(this T[] array, T value) => Array.IndexOf(array, value);
+    public static bool IsEmpty(this string? value) => string.IsNullOrWhiteSpace(value);
+    public static bool IsNonEmpty(this string? value) => value?.IsEmpty() == false;
 }

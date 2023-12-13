@@ -8,6 +8,7 @@ public record InputMap
     public record ButtonMap
     {
         public required string Name { get; init; }
+        public PlayerPad.Kind Kind { get; set; }
 
         public Buttons LP { get; set; } = Buttons.X;
         public Buttons MP { get; set; } = Buttons.Y;
@@ -105,22 +106,35 @@ public record InputMap
         }
     }
 
-    public Dictionary<string, ButtonMap> Maps { get; set; } = new();
+    public Dictionary<string, ButtonMap> Pads { get; set; } = new();
 
-    public bool Contains(string id) => Maps.ContainsKey(id);
+    public bool Contains(string id) => Pads.ContainsKey(id);
 
     public void AddGamePad(GamePadCapabilities caps) =>
-        Maps.Add(caps.Identifier, new()
+        Pads.Add(caps.Identifier, new()
         {
             Name = caps.DisplayName,
+            Kind = PlayerPad.GetPadKind(caps),
         });
 
+    public bool TryAddGamePad(GamePadCapabilities caps)
+    {
+        if (Contains(caps.Identifier)) return false;
+        AddGamePad(caps);
+        return true;
+    }
+
+    public ButtonMap? GetMapping(GamePadCapabilities pad) =>
+        GetMapping(pad.Identifier);
 
     public ButtonMap? GetMapping(string identifier) =>
-        string.IsNullOrWhiteSpace(identifier) || !Maps.TryGetValue(identifier, out var buttonMap)
+        identifier.IsEmpty() || !Pads.TryGetValue(identifier, out var buttonMap)
             ? null
             : buttonMap;
 
     public ButtonMap GetMappingOrDefault(string identifier) =>
         GetMapping(identifier) ?? ButtonMap.Default;
+
+    public PlayerPad.Kind GetPadKind(PlayerPad player) =>
+        GetMapping(player)?.Kind ?? player.GetPadKind();
 }

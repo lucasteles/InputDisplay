@@ -14,7 +14,6 @@ public class Settings
 
     public SelectedTheme CurrentTheme { get; set; } = new();
 
-    // flags
     public bool Borderless { get; set; }
     public bool ShadowHolding { get; set; } = true;
     public bool ShowFrames { get; set; } = true;
@@ -23,13 +22,11 @@ public class Settings
     public bool InvertHistory { get; set; }
     public bool HideButtonRelease { get; set; }
 
-    // numeric
     public int IconSize { get; set; } = 40;
     public int SpaceBetweenInputs { get; set; } = 2;
     public int SpaceBetweenCommands { get; set; } = 4;
     public int DirectionSpace { get; set; } = 10;
 
-    // hide
     public int Width { get; set; } = 480;
     public int Height { get; set; } = 1024;
     public int Top { get; set; }
