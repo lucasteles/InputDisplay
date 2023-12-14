@@ -128,7 +128,25 @@ public static class ThemeConfig
                     [ButtonName.PP] = [ButtonName.LP, ButtonName.MP],
                     [ButtonName.HP] = [ButtonName.MP, ButtonName.LK],
                     [ButtonName.HK] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
-                }
+                },
+            },
+            ["SF6 Modern"] = new()
+            {
+                Name = "sf_modern",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "l",
+                    [ButtonName.MP] = "sp",
+                    [ButtonName.HP] = "dp",
+                    [ButtonName.PP] = "di",
+                    [ButtonName.LK] = "m",
+                    [ButtonName.MK] = "h",
+                    [ButtonName.HK] = "auto",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
+                },
             },
             ["Tekken - XBox"] = new()
             {
