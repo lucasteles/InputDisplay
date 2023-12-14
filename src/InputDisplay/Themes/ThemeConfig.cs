@@ -5,7 +5,7 @@ namespace InputDisplay.Themes;
 public static class ThemeConfig
 {
     public const string DefaultDirection = "default";
-    public const string StreetFighter = "Street Fighter";
+    public const string StreetFighter = "Street Fighter 6";
     public const string PlayStation = "PlayStation";
     public const string Xbox = "XBOX";
 
@@ -28,9 +28,13 @@ public static class ThemeConfig
         {
             [StreetFighter] = new()
             {
-                Name = "sf",
+                Name = "sf6",
                 Textures = ForStreetFighter(),
-                MacrosTemplate = DefaultTripleMacro(),
+                MacrosTemplate = new()
+                {
+                  [ButtonName.PP] = [ButtonName.HP, ButtonName.HK],
+                  [ButtonName.KK] = [ButtonName.MP, ButtonName.MK],
+                },
             },
             [PlayStation] = new()
             {
