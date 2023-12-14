@@ -51,6 +51,7 @@ public record PlayerPad(
     {
         Xbox,
         PlayStation,
+        Nintendo,
     }
 
     static readonly string[] playStationAliases =
@@ -63,9 +64,15 @@ public record PlayerPad(
     public static Kind GetPadKind(GamePadCapabilities caps)
     {
         var name = caps.DisplayName.ToLowerInvariant();
-        return !name.Contains("xbox") && playStationAliases.Exists(name.Contains)
-            ? Kind.PlayStation
-            : Kind.Xbox;
+        if (!name.Contains("xbox"))
+        {
+            if (playStationAliases.Exists(name.Contains))
+                return Kind.PlayStation;
+
+            if (name.Contains("switch") || name.Contains("nintendo"))
+                return Kind.Nintendo;
+        }
+        return Kind.Xbox;
     }
 
     public Kind GetPadKind() => GetPadKind(Capabilities);

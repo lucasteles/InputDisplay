@@ -1,3 +1,5 @@
+using InputDisplay.Inputs;
+
 namespace InputDisplay;
 
 public static class Extensions
@@ -21,6 +23,13 @@ public static class Extensions
         texture.Name = ContentPath.Combine(path);
         return texture;
     }
+
+    public static bool IsMultiple(this ButtonName name) =>
+        name is not (
+            ButtonName.None
+            or ButtonName.LP or ButtonName.MP or ButtonName.HP or ButtonName.PP
+            or ButtonName.LK or ButtonName.MK or ButtonName.HK or ButtonName.KK
+            );
 
     public static bool Exists<T>(this T[] array, Predicate<T> match) => Array.Exists(array, match);
     public static int IndexOf<T>(this T[] array, T value) => Array.IndexOf(array, value);

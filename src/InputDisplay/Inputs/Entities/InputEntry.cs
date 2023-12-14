@@ -14,9 +14,10 @@ public class InputEntry
 
     public void IncrementFrame() => HoldingFrames = Math.Min(HoldingFrames + 1, MaxHoldingFrames);
 
-    readonly List<ButtonName> holding = new();
-    readonly List<ButtonName> pressed = new();
-    readonly List<ButtonName> currentButtons = new();
+    readonly HashSet<ButtonName> holding = new();
+    readonly HashSet<ButtonName> pressed = new();
+    readonly HashSet<ButtonName> fallback = new();
+    readonly HashSet<ButtonName> currentButtons = new();
 
     public void Draw(
         Settings config,
@@ -72,18 +73,19 @@ public class InputEntry
 
         holding.Clear();
         pressed.Clear();
+        fallback.Clear();
         currentButtons.Clear();
 
-        Check(State.LP, ButtonName.LP);
-        Check(State.MP, ButtonName.MP);
-        Check(State.LP, ButtonName.LP);
-        Check(State.MP, ButtonName.MP);
-        Check(State.HP, ButtonName.HP);
-        Check(State.PP, ButtonName.PP);
-        Check(State.LK, ButtonName.LK);
-        Check(State.MK, ButtonName.MK);
-        Check(State.HK, ButtonName.HK);
-        Check(State.KK, ButtonName.KK);
+        CheckButton(State.LP, ButtonName.LP);
+        CheckButton(State.MP, ButtonName.MP);
+        CheckButton(State.LP, ButtonName.LP);
+        CheckButton(State.MP, ButtonName.MP);
+        CheckButton(State.HP, ButtonName.HP);
+        CheckButton(State.PP, ButtonName.PP);
+        CheckButton(State.LK, ButtonName.LK);
+        CheckButton(State.MK, ButtonName.MK);
+        CheckButton(State.HK, ButtonName.HK);
+        CheckButton(State.KK, ButtonName.KK);
 
 #pragma warning disable S2583
         if (currentButtons.Count is 0)
@@ -94,7 +96,7 @@ public class InputEntry
         foreach (var b in currentButtons)
             combined |= b;
 
-        if (theme.GetTexture(combined) is { } multiTexture)
+        if (combined.IsMultiple() && theme.GetTexture(combined) is { } multiTexture)
         {
             Rectangle btnRect = new(
                 (int)offset.X, (int)offset.Y,
@@ -106,7 +108,7 @@ public class InputEntry
 
         foreach (var btn in currentButtons.Order().Distinct())
         {
-            if (theme.GetTexture(btn) is not { } texture)
+            if (fallback.Contains(btn) || theme.GetTexture(btn) is not { } texture)
                 if (theme.Fallback?.GetTexture(btn) is { } fallbackTexture)
                     texture = fallbackTexture;
                 else
@@ -122,11 +124,18 @@ public class InputEntry
             offset += commandDir * (config.IconSize + config.SpaceBetweenInputs);
         }
 
-        void Check(GameInput.Button button, ButtonName name)
+        void CheckButton(GameInput.Button button, ButtonName name)
         {
             if (!button.Active) return;
 
             var buttons = theme.GetMacro(name, config.Macros);
+
+            if (buttons.Length is 0)
+            {
+                fallback.Add(name);
+                buttons = [name];
+            }
+
             for (var index = 0; index < buttons.Length; index++)
             {
                 var btn = buttons[index];

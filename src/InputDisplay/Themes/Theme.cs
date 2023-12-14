@@ -20,13 +20,10 @@ public record Theme
         Buttons.GetTexturePath(btn) is { } path ? ThemeManager.GetTexture(path) : null;
 
     public ButtonName[] GetMacro(ButtonName name) =>
-        Buttons.MacrosTemplate.TryGetValue(name, out var names) && names.Length > 0 ? names : [name];
-
-    public ButtonName[] GetMacro(ButtonName name, Dictionary<string, InputMacro> macros) =>
-        GetMacro(name, macros.GetValueOrDefault(ButtonsName));
+        Buttons.MacrosTemplate.TryGetValue(name, out var names) ? names : [name];
 
     public ButtonName[] GetMacro(ButtonName name, InputMacro? macros) =>
-        macros?.TryGetValue(name, out var customMacro) is true && customMacro?.Length > 0
+        macros?.TryGetValue(name, out var customMacro) is true
             ? customMacro
             : GetMacro(name);
 
@@ -86,6 +83,7 @@ public record Theme
         public const string Unknown = @"themes\unknown";
 
         public string Name { get; init; } = "";
+        public bool IsPad { get; init; } = false;
         public string Path => ContentPath.Combine(BasePath, Name);
         public InputMacro MacrosTemplate { get; init; } = new();
         public required ButtonImage Textures { get; init; } = new();

@@ -105,18 +105,28 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             var config = configManager.CurrentConfig;
             var theme = ThemeManager.Get(config.CurrentTheme);
             var macros = theme.GetMacro(buttonName, config.Macros);
-            foreach (var part in macros)
-            {
-                var texture = theme.GetTexture(part) ?? ThemeManager.UnknownButton;
+            if (macros.Length is 0)
                 content.Widgets.Add(new Image
                 {
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Right,
-                    Renderable = new TextureRegion(texture),
+                    Renderable = new TextureRegion(ThemeManager.UnknownButton),
                     Width = 30,
                     Height = 30,
                 });
-            }
+            else
+                foreach (var part in macros)
+                {
+                    var texture = theme.GetTexture(part) ?? ThemeManager.UnknownButton;
+                    content.Widgets.Add(new Image
+                    {
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        Renderable = new TextureRegion(texture),
+                        Width = 30,
+                        Height = 30,
+                    });
+                }
 
             if (Macros.TryGetValue(buttonName, out var button))
                 button.Content = content;
@@ -151,8 +161,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         var theme = ThemeManager.Get(config.CurrentTheme);
         var macros = theme.GetMacro(buttonName, config.Macros);
         var selected = macros.ToList();
-        if (selected.Contains(buttonName))
-            selected.Remove(buttonName);
 
         foreach (var b in allButtonNames)
         {

@@ -8,6 +8,7 @@ public static class ThemeConfig
     public const string StreetFighter = "Street Fighter 6";
     public const string PlayStation = "PlayStation";
     public const string Xbox = "XBOX";
+    public const string Nintendo = "Switch";
 
     public static Dictionary<string, Theme.Direction> DirectionMap { get; } =
         new(StringComparer.InvariantCultureIgnoreCase)
@@ -35,16 +36,6 @@ public static class ThemeConfig
                     [ButtonName.PP] = [ButtonName.HP, ButtonName.HK],
                     [ButtonName.KK] = [ButtonName.MP, ButtonName.MK],
                 },
-            },
-            [PlayStation] = new()
-            {
-                Name = "ps",
-                Textures = ForPlayStation(),
-            },
-            [Xbox] = new()
-            {
-                Name = "xbox",
-                Textures = ForXBox(),
             },
             ["MVC3"] = new()
             {
@@ -100,19 +91,6 @@ public static class ThemeConfig
                     [ButtonName.HK] = [ButtonName.LK, ButtonName.MK],
                 },
             },
-            ["Guilty Gear"] = new()
-            {
-                Name = "gg",
-                Textures = new()
-                {
-                    [ButtonName.LP] = "p",
-                    [ButtonName.MP] = "s",
-                    [ButtonName.HP] = "d",
-                    [ButtonName.LK] = "k",
-                    [ButtonName.MK] = "hs",
-                    [ButtonName.HK] = "dash",
-                },
-            },
             ["KOF"] = new()
             {
                 Name = "kof",
@@ -122,6 +100,13 @@ public static class ThemeConfig
                     [ButtonName.MP] = "hp",
                     [ButtonName.LK] = "lk",
                     [ButtonName.MK] = "hk",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.PP] = [ButtonName.LP, ButtonName.LK],
+                    [ButtonName.HP] = [ButtonName.MP, ButtonName.LK],
+                    [ButtonName.HK] = [ButtonName.LP, ButtonName.MP],
+                    [ButtonName.KK] = [ButtonName.LK, ButtonName.MK],
                 },
             },
             ["NeoGeo"] = new()
@@ -238,6 +223,129 @@ public static class ThemeConfig
                     [ButtonName.HK] = [ButtonName.MK, ButtonName.LP],
                 },
             },
+            ["Guilty Gear"] = new()
+            {
+                Name = "gg",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "p",
+                    [ButtonName.MP] = "s",
+                    [ButtonName.HP] = "d",
+                    [ButtonName.LK] = "k",
+                    [ButtonName.MK] = "hs",
+                    [ButtonName.KK] = "dash",
+                    [ButtonName.PP] = "rc",
+                    [ButtonName.HK] = "fd",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.HK] = [],
+                }
+            },
+            ["BlazBlue"] = new()
+            {
+                Name = "bbcf",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "a",
+                    [ButtonName.MP] = "b",
+                    [ButtonName.MK] = "c",
+                    [ButtonName.LK] = "d",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.HP] = [ButtonName.LP, ButtonName.MP],
+                    [ButtonName.PP] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
+                }
+            },
+            ["DNF Duel"] = new()
+            {
+                Name = "dnfd",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "a",
+                    [ButtonName.MP] = "b",
+                    [ButtonName.MK] = "s",
+                    [ButtonName.LK] = "ms",
+                    [ButtonName.HK] = "g",
+                    [ButtonName.KK] = "as",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.PP] = [ButtonName.LP, ButtonName.MP],
+                    [ButtonName.HP] = [ButtonName.MP, ButtonName.MK],
+                }
+            },
+            ["GranBlue"] = new()
+            {
+                Name = "gbfv",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "l",
+                    [ButtonName.MP] = "m",
+                    [ButtonName.MK] = "h",
+                    [ButtonName.LK] = "u",
+                    [ButtonName.HP] = "ab",
+                    [ButtonName.HK] = "g",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.PP] = [ButtonName.MP, ButtonName.MK],
+                    [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
+                }
+            },
+            [PlayStation] = new()
+            {
+                Name = "ps",
+                IsPad = true,
+                Textures = ForPlayStation(),
+            },
+            ["PS3"] = new()
+            {
+                Name = "ps3",
+                IsPad = true,
+                Textures = ForPlayStation(),
+            },
+            ["PS5"] = new()
+            {
+                Name = "ps5",
+                IsPad = true,
+                Textures = ForPlayStation(),
+            },
+            [Xbox] = new()
+            {
+                Name = "xbox",
+                IsPad = true,
+                Textures = ForXBox(),
+            },
+            ["Xbox Series"] = new()
+            {
+                Name = "xbox_s",
+                IsPad = true,
+                Textures = ForXBox(),
+            },
+            ["Xbox 360"] = new()
+            {
+                Name = "xbox360",
+                IsPad = true,
+                Textures = ForXBox(),
+            },
+            [Nintendo] = new()
+            {
+                Name = "switch",
+                IsPad = true,
+                Textures = new()
+                {
+                    [ButtonName.LP] = "y",
+                    [ButtonName.MP] = "x",
+                    [ButtonName.HP] = "r",
+                    [ButtonName.HK] = "zr",
+                    [ButtonName.LK] = "b",
+                    [ButtonName.MK] = "a",
+                    [ButtonName.PP] = "l",
+                    [ButtonName.KK] = "zl",
+                }
+            },
         };
 
     public static readonly IReadOnlyDictionary<PlayerPad.Kind, string> ControllerTypes =
@@ -245,6 +353,7 @@ public static class ThemeConfig
         {
             [PlayerPad.Kind.PlayStation] = PlayStation,
             [PlayerPad.Kind.Xbox] = Xbox,
+            [PlayerPad.Kind.Nintendo] = Nintendo,
         };
 
     static ButtonImage ForTekken() => new()
@@ -281,7 +390,7 @@ public static class ThemeConfig
         [ButtonName.MP] = "triangle",
         [ButtonName.HP] = "r1",
         [ButtonName.PP] = "l1",
-        [ButtonName.LK] = "x",
+        [ButtonName.LK] = "cross",
         [ButtonName.MK] = "circle",
         [ButtonName.HK] = "r2",
         [ButtonName.KK] = "l2",
