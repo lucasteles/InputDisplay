@@ -14,6 +14,10 @@ public class InputEntry
 
     public void IncrementFrame() => HoldingFrames = Math.Min(HoldingFrames + 1, MaxHoldingFrames);
 
+    readonly List<ButtonName> holding = new();
+    readonly List<ButtonName> pressed = new();
+    readonly List<ButtonName> currentButtons = new();
+
     public void Draw(
         Settings config,
         Theme theme,
@@ -66,8 +70,9 @@ public class InputEntry
 
         offset += commandDir * (config.IconSize + config.SpaceBetweenInputs + config.DirectionSpace);
 
-        List<ButtonName> holding = new();
-        List<ButtonName> currentButtons = new();
+        holding.Clear();
+        pressed.Clear();
+        currentButtons.Clear();
 
         Check(State.LP, ButtonName.LP);
         Check(State.MP, ButtonName.MP);
@@ -112,7 +117,7 @@ public class InputEntry
                 config.IconSize, config.IconSize
             );
 
-            var color = holding.Contains(btn) ? Color.Gray : Color.White;
+            var color = holding.Contains(btn) && !pressed.Contains(btn) ? Color.Gray : Color.White;
             batch.Draw(texture, btnRect, color);
             offset += commandDir * (config.IconSize + config.SpaceBetweenInputs);
         }
@@ -125,7 +130,18 @@ public class InputEntry
             for (var index = 0; index < buttons.Length; index++)
             {
                 var btn = buttons[index];
-                if (button.Status is GameInput.ButtonStatus.Holding && config.ShadowHolding) holding.Add(btn);
+
+                if (config.ShadowHolding)
+                    switch (button.Status)
+                    {
+                        case GameInput.ButtonStatus.Holding:
+                            holding.Add(btn);
+                            break;
+                        case GameInput.ButtonStatus.Pressed:
+                            pressed.Add(btn);
+                            break;
+                    }
+
                 currentButtons.Add(btn);
             }
         }
