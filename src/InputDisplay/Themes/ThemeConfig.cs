@@ -112,6 +112,24 @@ public static class ThemeConfig
                     [ButtonName.MK] = "4",
                 },
             },
+            ["SoulCalibur 6"] = new()
+            {
+                Name = "soulcalibur6",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "a",
+                    [ButtonName.MP] = "b",
+                    [ButtonName.LK] = "g",
+                    [ButtonName.MK] = "k",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
+                    [ButtonName.PP] = [ButtonName.LP, ButtonName.MP],
+                    [ButtonName.HP] = [ButtonName.MP, ButtonName.LK],
+                    [ButtonName.HK] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
+                }
+            },
             ["Tekken - XBox"] = new()
             {
                 Name = "tekken_xb",
