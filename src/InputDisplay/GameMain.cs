@@ -143,13 +143,23 @@ public class GameMain : Game
 
     void HandleShortcuts()
     {
-        if (!IsInteractable) return;
+        if (!IsActive) return;
 
         if (KeyboardManager.IsKeyPressed(Keys.Escape))
+        {
+            if (configWindow.IsOpen())
+            {
+                configWindow.Close();
+                return;
+            }
+
             if (player is null || PlayerPad.GetConnected().Count() <= 1)
                 Exit();
             else
                 player = null;
+        }
+
+        if (!IsInteractable) return;
 
         if (KeyboardManager.IsKeyPressed(Keys.I))
         {

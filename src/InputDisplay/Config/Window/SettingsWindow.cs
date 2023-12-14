@@ -40,7 +40,7 @@ public sealed class SettingsWindow : IDisposable
         }
     }
 
-    void Close()
+    public void Close()
     {
         if (!IsOpen()) return;
         process.CloseMainWindow();

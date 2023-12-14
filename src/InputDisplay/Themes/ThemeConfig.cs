@@ -32,8 +32,8 @@ public static class ThemeConfig
                 Textures = ForStreetFighter(),
                 MacrosTemplate = new()
                 {
-                  [ButtonName.PP] = [ButtonName.HP, ButtonName.HK],
-                  [ButtonName.KK] = [ButtonName.MP, ButtonName.MK],
+                    [ButtonName.PP] = [ButtonName.HP, ButtonName.HK],
+                    [ButtonName.KK] = [ButtonName.MP, ButtonName.MK],
                 },
             },
             [PlayStation] = new()
@@ -55,8 +55,49 @@ public static class ThemeConfig
                     [ButtonName.MP] = "m",
                     [ButtonName.MK] = "h",
                     [ButtonName.LK] = "s",
-                    [ButtonName.HP] = "a1",
-                    [ButtonName.HK] = "a2",
+                    [ButtonName.PP] = "a1",
+                    [ButtonName.HP] = "a2",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.KK] = [ButtonName.PP, ButtonName.HP],
+                    [ButtonName.HK] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
+                },
+            },
+            ["MVCI"] = new()
+            {
+                Name = "mvci",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "lp",
+                    [ButtonName.MP] = "hp",
+                    [ButtonName.LK] = "lk",
+                    [ButtonName.MK] = "hk",
+                    [ButtonName.HP] = "switch",
+                    [ButtonName.PP] = "surge",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.KK] = [ButtonName.LP, ButtonName.MP],
+                    [ButtonName.HK] = [ButtonName.LK, ButtonName.MK],
+                },
+            },
+            ["DBFZ"] = new()
+            {
+                Name = "dbfz",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "l",
+                    [ButtonName.MP] = "m",
+                    [ButtonName.MK] = "h",
+                    [ButtonName.LK] = "s",
+                    [ButtonName.PP] = "a1",
+                    [ButtonName.KK] = "a2",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.HP] = [ButtonName.LP, ButtonName.MP],
+                    [ButtonName.HK] = [ButtonName.LK, ButtonName.MK],
                 },
             },
             ["Guilty Gear"] = new()
@@ -116,23 +157,20 @@ public static class ThemeConfig
                     [ButtonName.MK] = "4",
                 },
             },
-            ["SoulCalibur 6"] = new()
+            ["Tekken - XBox"] = new()
             {
-                Name = "soulcalibur6",
-                Textures = new()
-                {
-                    [ButtonName.LP] = "a",
-                    [ButtonName.MP] = "b",
-                    [ButtonName.LK] = "g",
-                    [ButtonName.MK] = "k",
-                },
-                MacrosTemplate = new()
-                {
-                    [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
-                    [ButtonName.PP] = [ButtonName.LP, ButtonName.MP],
-                    [ButtonName.HP] = [ButtonName.MP, ButtonName.LK],
-                    [ButtonName.HK] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
-                },
+                Name = "tekken_xb",
+                Textures = ForTekken(),
+            },
+            ["Tekken - PlayStation"] = new()
+            {
+                Name = "tekken_ps",
+                Textures = ForTekken(),
+            },
+            ["Tekken - Steam"] = new()
+            {
+                Name = "tekken_steam",
+                Textures = ForTekken(),
             },
             ["SF6 Modern"] = new()
             {
@@ -152,21 +190,6 @@ public static class ThemeConfig
                     [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
                 },
             },
-            ["Tekken - XBox"] = new()
-            {
-                Name = "tekken_xb",
-                Textures = ForTekken(),
-            },
-            ["Tekken - PlayStation"] = new()
-            {
-                Name = "tekken_ps",
-                Textures = ForTekken(),
-            },
-            ["Tekken - Steam"] = new()
-            {
-                Name = "tekken_steam",
-                Textures = ForTekken(),
-            },
             ["SF5"] = new()
             {
                 Name = "sf5",
@@ -178,6 +201,42 @@ public static class ThemeConfig
                 Name = "sf4",
                 Textures = ForStreetFighter(),
                 MacrosTemplate = DefaultTripleMacro(),
+            },
+            ["SoulCalibur 6"] = new()
+            {
+                Name = "soulcalibur6",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "a",
+                    [ButtonName.MP] = "b",
+                    [ButtonName.LK] = "g",
+                    [ButtonName.MK] = "k",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
+                    [ButtonName.PP] = [ButtonName.LP, ButtonName.MP],
+                    [ButtonName.HP] = [ButtonName.MP, ButtonName.LK],
+                    [ButtonName.HK] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
+                },
+            },
+            ["Virtua Fighter"] = new()
+            {
+                Name = "vf",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "g",
+                    [ButtonName.MP] = "p",
+                    [ButtonName.MK] = "k",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.LK] = [ButtonName.MP],
+                    [ButtonName.PP] = [ButtonName.MP, ButtonName.LP],
+                    [ButtonName.KK] = [ButtonName.MP, ButtonName.MK, ButtonName.LP],
+                    [ButtonName.HP] = [ButtonName.MP, ButtonName.MK],
+                    [ButtonName.HK] = [ButtonName.MK, ButtonName.LP],
+                },
             },
         };
 
