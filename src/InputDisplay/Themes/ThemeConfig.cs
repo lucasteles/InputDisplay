@@ -372,6 +372,9 @@ public static class ThemeConfig
         [ButtonName.LP | ButtonName.MP | ButtonName.MK] = "1_2_4",
         [ButtonName.MP | ButtonName.LK | ButtonName.MK] = "2_3_4",
         [ButtonName.LP | ButtonName.MP | ButtonName.LK | ButtonName.MK] = "1_2_3_4",
+        [ButtonName.HP] = "hp",
+        [ButtonName.HK] = "hk",
+        [ButtonName.PP] = "pp",
     };
 
     static ButtonImage ForStreetFighter() => new()
