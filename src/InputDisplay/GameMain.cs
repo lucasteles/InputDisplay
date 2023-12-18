@@ -101,7 +101,7 @@ public class GameMain : Game
 
     void UpdateTheme()
     {
-        if (IsInteractable && themeManager.Update())
+        if (IsInteractable && Config.ShortcutsEnabled && themeManager.Update())
         {
             Config.Dirty = true;
             Config.CurrentTheme = themeManager.CurrentTheme;
@@ -161,6 +161,12 @@ public class GameMain : Game
 
         if (!IsInteractable) return;
 
+        if (KeyboardManager.IsKeyPressed(Keys.F1) ||
+            (MouseManager.WasDoubleLeftClick && MouseManager.IsOnWindow(Window)))
+            configWindow.Open();
+
+        if (!Config.ShortcutsEnabled) return;
+
         if (KeyboardManager.IsKeyPressed(Keys.I))
         {
             Config.InvertHistory = !Config.InvertHistory;
@@ -182,10 +188,6 @@ public class GameMain : Game
 
         if (KeyboardManager.IsKeyPressed(Keys.Back))
             buffer.Clear();
-
-        if (KeyboardManager.IsKeyPressed(Keys.F1) ||
-            (MouseManager.WasDoubleLeftClick && MouseManager.IsOnWindow(Window)))
-            configWindow.Open();
     }
 
     void HandleMouseWheel()

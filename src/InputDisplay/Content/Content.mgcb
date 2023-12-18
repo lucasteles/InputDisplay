@@ -13,6 +13,13 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin fonts/JustMyType.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/JustMyType.spritefont
+
 #begin fonts/numbers.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

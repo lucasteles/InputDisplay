@@ -465,11 +465,13 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         AddCheck(0, 1, "Show frames", config.ShowFrames, check => config.ShowFrames = check);
         AddCheck(0, 2, "Show neutral", config.ShowNeutralIcon, check => config.ShowNeutralIcon = check);
         AddCheck(0, 3, "Shadow holding", config.ShadowHolding, check => config.ShadowHolding = check);
+        AddNumeric(0, 4, "Icon size: ", config.IconSize, v => config.IconSize = v);
 
         AddCheck(1, 0, "Auto correct", config.AutoCorrectMultiple, check => config.AutoCorrectMultiple = check);
         AddCheck(1, 1, "Invert history", config.InvertHistory, check => config.InvertHistory = check);
-        AddCheck(1, 2, "Hide button release", config.HideButtonRelease, check => config.HideButtonRelease = check);
-        AddNumeric(1, 3, "Icon size: ", config.IconSize, v => config.IconSize = v);
+        AddCheck(1, 2, "Frames after", config.FramesAfter, check => config.FramesAfter = check);
+        AddCheck(1, 3, "Hide button release", config.HideButtonRelease, check => config.HideButtonRelease = check);
+        AddCheck(1, 4, "Use Shortcuts", config.ShortcutsEnabled, check => config.ShortcutsEnabled = check);
 
         AddNumeric(2, 0, "Input space: ", config.SpaceBetweenInputs, v => config.SpaceBetweenInputs = v);
         AddNumeric(2, 1, "Command space: ", config.SpaceBetweenCommands, v => config.SpaceBetweenCommands = v);
@@ -726,8 +728,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         Button button = new()
         {
-            Width = 55,
-            Height = 55,
+            Width = 45,
+            Height = 45,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
             Tag = buttonName,
@@ -777,8 +779,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         Directions[index] = new()
         {
             Renderable = new TextureRegion(texture),
-            Width = 40,
-            Height = 40,
+            Width = 30,
+            Height = 30,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
             Color = darkGray,

@@ -19,9 +19,10 @@ public class Settings
     public bool ShowFrames { get; set; } = true;
     public bool ShowNeutralIcon { get; set; } = true;
     public bool AutoCorrectMultiple { get; set; } = true;
-    public bool InvertHistory { get; set; }
+    public bool InvertHistory { get; set; } = false;
+    public bool FramesAfter { get; set; } = false;
     public bool HideButtonRelease { get; set; }
-
+    public bool ShortcutsEnabled { get; set; } = true;
     public int IconSize { get; set; } = 40;
     public int SpaceBetweenInputs { get; set; } = 2;
     public int SpaceBetweenCommands { get; set; } = 4;
@@ -49,14 +50,14 @@ public class Settings
     public Color ClearColor { get; set; } = Color.DarkOliveGreen;
 
     [JsonIgnore]
-    public bool Horizontal => Width > Height;
+    public bool IsHorizontal => Width > Height;
 
     [JsonIgnore]
     public int MaxEntries
     {
         get
         {
-            var windowSize = Horizontal ? Width : Height;
+            var windowSize = IsHorizontal ? Width : Height;
             var estimateCount = (windowSize - (SpaceBetweenCommands + SpaceBetweenInputs))
                                 / (float)(SpaceBetweenCommands + IconSize);
 
@@ -80,6 +81,7 @@ public class Settings
         SpaceBetweenCommands = config.SpaceBetweenCommands;
         ShadowHolding = config.ShadowHolding;
         ShowFrames = config.ShowFrames;
+        ShortcutsEnabled = config.ShortcutsEnabled;
         ClearColor = config.ClearColor;
         ShowNeutralIcon = config.ShowNeutralIcon;
         Macros = config.Macros;
@@ -87,6 +89,7 @@ public class Settings
         DirectionSpace = config.DirectionSpace;
         AutoCorrectMultiple = config.AutoCorrectMultiple;
         InvertHistory = config.InvertHistory;
+        FramesAfter = config.FramesAfter;
         Borderless = config.Borderless;
         HideButtonRelease = config.HideButtonRelease;
         Width = config.Width;

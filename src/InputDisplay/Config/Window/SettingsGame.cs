@@ -29,12 +29,14 @@ public class SettingsGame : Game
 
     PlayerIndex? playerIndexArg;
 
+    static readonly Point windowSize = new(1080, 720);
+
     public SettingsGame(string? playerIndex = null)
     {
         graphics = new(this)
         {
-            PreferredBackBufferWidth = 1080,
-            PreferredBackBufferHeight = 720,
+            PreferredBackBufferWidth = windowSize.X,
+            PreferredBackBufferHeight = windowSize.Y,
         };
         Content.RootDirectory = "Content";
         IsMouseVisible = true;

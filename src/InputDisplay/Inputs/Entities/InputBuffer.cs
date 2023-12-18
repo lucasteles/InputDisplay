@@ -49,7 +49,7 @@ public class InputBuffer(Settings config)
     public void Draw(SpriteBatch batch, Theme theme, SpriteFont font, in Rectangle window)
     {
         var dir = config.InvertHistory ? -1 : 1;
-        var step = config.Horizontal
+        var step = config.IsHorizontal
             ? new Vector2(config.SpaceBetweenCommands + config.IconSize, 0)
             : new Vector2(0, config.SpaceBetweenCommands + config.IconSize);
 
@@ -57,10 +57,10 @@ public class InputBuffer(Settings config)
 
         Vector2 pos = config switch
         {
-            { Horizontal: true, InvertHistory: true } => new(
+            { IsHorizontal: true, InvertHistory: true } => new(
                 window.Size.X - step.X - padding.X, padding.Y
             ),
-            { Horizontal: false, InvertHistory: true } => new(
+            { IsHorizontal: false, InvertHistory: true } => new(
                 padding.X, window.Size.Y - step.Y - padding.Y
             ),
             _ => padding,
