@@ -246,7 +246,12 @@ public class GameMain : Game
         spriteBatch.Begin();
 
         if (player is null)
-            spriteBatch.DrawString(resources.NumbersFont, "Press any button...", new(20), Color.White);
+        {
+            const string text = "Press any button ... ";
+            var stringSize = resources.NumbersFont.MeasureString(text);
+            var scale = Window.ClientBounds.Size.X / stringSize.Length();
+            spriteBatch.DrawText(resources.NumbersFont, text, new(20), Color.Black, Color.White, scale, 2);
+        }
         else
             buffer.Draw(
                 spriteBatch,

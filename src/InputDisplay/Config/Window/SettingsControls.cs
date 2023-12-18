@@ -320,6 +320,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         Grid.SetColumn(dirCombo, 1);
         Grid.SetRow(dirCombo, 0);
         grid.Widgets.Add(dirCombo);
+        var iconSize = 30;
 
         foreach (var (dirThemeName, dirTheme) in ThemeConfig.DirectionMap)
         {
@@ -344,8 +345,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                 var texture = ThemeManager.GetTexture(dirTheme.GetTexturePath(d));
                 Image icon = new()
                 {
-                    Width = 30,
-                    Height = 30,
+                    Width = iconSize,
+                    Height = iconSize,
                     Renderable = new TextureRegion(texture),
                     VerticalAlignment = VerticalAlignment.Bottom,
                 };
@@ -418,8 +419,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                 var texture = ThemeManager.GetTexture(path);
                 Image icon = new()
                 {
-                    Width = 30,
-                    Height = 30,
+                    Width = iconSize,
+                    Height = iconSize,
                     Renderable = new TextureRegion(texture),
                     VerticalAlignment = VerticalAlignment.Bottom,
                 };

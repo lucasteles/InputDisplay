@@ -52,10 +52,7 @@ public class InputEntry
                 config.IconSize * 0.10f
             );
 
-            batch.DrawString(
-                font, frameString, offset + padding, Color.White, 0,
-                Vector2.Zero, scale, SpriteEffects.None, 0.5f
-            );
+            batch.DrawText(font, frameString, offset + padding, Color.Black, Color.White, scale, 2);
 
             var space = (stringSize * scale) + new Vector2(marginX);
             offset += commandDir * space;

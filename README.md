@@ -39,7 +39,14 @@ window
 ## 📷 Screenshots
 
 ![](assets/img/print.png)
-![](assets/img/themes.png)
+
+## 📷 Themes
+
+- ### Directions
+  ![](assets/img/themes_dir.png)
+
+- ### Buttons
+  ![](assets/img/themes_buttons.png)
 
 License
 =======

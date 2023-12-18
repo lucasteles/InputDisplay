@@ -39,8 +39,8 @@ public class Settings
 
     public string BackgroundColor
     {
-        get => ClearColor.PackedValue.ToString("X");
-        set => ClearColor = new(uint.Parse(value, System.Globalization.NumberStyles.HexNumber));
+        get => ClearColor.ToHex();
+        set => ClearColor = ColorUtil.FromHex(value);
     }
 
     [JsonIgnore]
