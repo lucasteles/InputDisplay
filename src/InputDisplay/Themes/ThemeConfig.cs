@@ -19,6 +19,7 @@ public static class ThemeConfig
             ["Dpad"] = new("dpad", hasNeutral: true),
             ["Dpad2"] = new("dpad2", hasNeutral: true),
             ["Dpad3"] = new("dpad3", hasNeutral: true),
+            ["KOF"] = new("kof", hasNeutral: true),
             ["Stick"] = new("stick", hasNeutral: true),
             ["Stick2"] = new("stick2", hasNeutral: true),
             ["Tekken"] = new("arrows_tekken", hasNeutral: true),
