@@ -35,26 +35,4 @@ public static class Extensions
     public static int IndexOf<T>(this T[] array, T value) => Array.IndexOf(array, value);
     public static bool IsEmpty(this string? value) => string.IsNullOrWhiteSpace(value);
     public static bool IsNonEmpty(this string? value) => value?.IsEmpty() == false;
-
-    public static void DrawText(this SpriteBatch spriteBatch, SpriteFont font, string text,
-        Vector2 position, Color backColor, Color frontColor, float scale, float borderSize = 1
-    )
-    {
-        Vector2 origin = Vector2.Zero;
-
-        spriteBatch.DrawString(font, text, position + new Vector2(borderSize * scale, borderSize * scale), backColor, 0,
-            origin, scale,
-            SpriteEffects.None, 1f);
-        spriteBatch.DrawString(font, text, position + new Vector2(-borderSize * scale, borderSize * scale), backColor,
-            0, origin, scale,
-            SpriteEffects.None, 1f);
-        spriteBatch.DrawString(font, text, position + new Vector2(-borderSize * scale, -borderSize * scale), backColor,
-            0, origin, scale,
-            SpriteEffects.None, 1f);
-        spriteBatch.DrawString(font, text, position + new Vector2(borderSize * scale, -borderSize * scale), backColor,
-            0, origin, scale,
-            SpriteEffects.None, 1f);
-
-        spriteBatch.DrawString(font, text, position, frontColor, 0, origin, scale, SpriteEffects.None, 0f);
-    }
 }

@@ -13,12 +13,35 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin fonts/JustMyType.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
+#begin fonts/monofonto_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:fonts/JustMyType.spritefont
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:fonts/monofonto_0.png
+
+#begin fonts/monofonto_outline_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:fonts/monofonto_outline_0.png
+
+#begin fonts/monofonto_outline.fnt
+/copy:fonts/monofonto_outline.fnt
+
+#begin fonts/monofonto.fnt
+/copy:fonts/monofonto.fnt
 
 #begin fonts/numbers.spritefont
 /importer:FontDescriptionImporter

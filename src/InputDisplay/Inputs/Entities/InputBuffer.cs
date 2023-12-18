@@ -46,7 +46,7 @@ public class InputBuffer(Settings config)
             entries.RemoveAt(0);
     }
 
-    public void Draw(SpriteBatch batch, Theme theme, SpriteFont font, in Rectangle window)
+    public void Draw(SpriteBatch batch, Theme theme, GameResources resources, in Rectangle window)
     {
         var dir = config.InvertHistory ? -1 : 1;
         var step = config.IsHorizontal
@@ -54,6 +54,7 @@ public class InputBuffer(Settings config)
             : new Vector2(0, config.SpaceBetweenCommands + config.IconSize);
 
         var padding = new Vector2(config.SpaceBetweenInputs, config.SpaceBetweenCommands) * 2;
+        var font = resources.Font;
 
         Vector2 pos = config switch
         {

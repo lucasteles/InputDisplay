@@ -6,7 +6,6 @@ namespace InputDisplay.Inputs.Entities;
 public class InputEntry
 {
     const int MaxHoldingFrames = 99;
-    const string MaxFramesString = "99";
 
     public int HoldingFrames { get; private set; } = 1;
 
@@ -22,7 +21,7 @@ public class InputEntry
     public void Draw(
         Settings config,
         Theme theme,
-        SpriteFont font,
+        OutlineBitmapFont font,
         SpriteBatch batch,
         Vector2 position
     )
@@ -43,16 +42,17 @@ public class InputEntry
         {
             if (!config.ShowFrames) return;
             var frameString = HoldingFrames.ToString().PadLeft(2);
-            var stringSize = font.MeasureString(MaxFramesString);
-            var scale = config.IconSize / stringSize.Length();
+            var stringSize = font.MeasureString(frameString);
+            var len = stringSize.Length();
+            var scale = config.IconSize / len;
 
-            var marginX = config.SpaceBetweenInputs * 3;
+            var marginX = config.SpaceBetweenInputs * 3 * scale;
             Vector2 padding = new(
                 config.FramesAfter ? marginX : 0,
-                config.IconSize * 0.10f
+                (config.IconSize - 6 - (stringSize.Y * scale)) / 2f
             );
 
-            batch.DrawText(font, frameString, offset + padding, Color.Black, Color.White, scale, 2);
+            font.Draw(batch, frameString, Color.White, Color.Black, offset + padding, scale);
 
             var space = (stringSize * scale) + new Vector2(marginX);
             offset += commandDir * space;

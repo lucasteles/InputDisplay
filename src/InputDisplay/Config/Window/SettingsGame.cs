@@ -29,14 +29,14 @@ public class SettingsGame : Game
 
     PlayerIndex? playerIndexArg;
 
-    static readonly Point windowSize = new(1080, 720);
+    static readonly Point WindowSize = new(1080, 720);
 
     public SettingsGame(string? playerIndex = null)
     {
         graphics = new(this)
         {
-            PreferredBackBufferWidth = windowSize.X,
-            PreferredBackBufferHeight = windowSize.Y,
+            PreferredBackBufferWidth = WindowSize.X,
+            PreferredBackBufferHeight = WindowSize.Y,
         };
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -140,7 +140,7 @@ public class SettingsGame : Game
         if (player is null)
         {
             spriteBatch.Begin();
-            spriteBatch.DrawString(resources.NumbersFont, "Press any button...", new(20), Color.White);
+            resources.Font.Draw(spriteBatch, "Press any button...", Color.White, Color.Black, new(20), 0.8f);
             spriteBatch.End();
         }
         else

@@ -247,16 +247,16 @@ public class GameMain : Game
 
         if (player is null)
         {
-            const string text = "Press any button ... ";
-            var stringSize = resources.NumbersFont.MeasureString(text);
-            var scale = Window.ClientBounds.Size.X / stringSize.Length();
-            spriteBatch.DrawText(resources.NumbersFont, text, new(20), Color.Black, Color.White, scale, 2);
+            const string text = "Press any button ...";
+            var stringSize = resources.Font.MeasureString(text);
+            var scale = Window.ClientBounds.Size.X / stringSize.X;
+            resources.Font.Draw(spriteBatch, text, Color.White, Color.Black, new(20), scale);
         }
         else
             buffer.Draw(
                 spriteBatch,
                 themeManager.CurrentTheme,
-                resources.NumbersFont,
+                resources,
                 Window.ClientBounds
             );
 
