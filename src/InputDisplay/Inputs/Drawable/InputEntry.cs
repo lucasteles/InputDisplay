@@ -1,7 +1,7 @@
 using InputDisplay.Config;
 using InputDisplay.Themes;
 
-namespace InputDisplay.Inputs.Entities;
+namespace InputDisplay.Inputs.Drawable;
 
 public class InputEntry
 {
@@ -108,12 +108,10 @@ public class InputEntry
 
             if (combined.IsMultiple() && theme.GetTexture(combined) is { } multiTexture)
             {
-                Rectangle btnRect = new(
-                    (int)offset.X, (int)offset.Y,
-                    config.IconSize, config.IconSize
-                );
-                batch.Draw(multiTexture, btnRect,
-                    State.HasNoPressed && config.ShadowHolding ? Color.Gray : Color.White);
+                var scale = config.IconSize / (float)(multiTexture.IsWide() ? multiTexture.Height : multiTexture.Width);
+                var color = State.HasNoPressed && config.ShadowHolding ? Color.Gray : Color.White;
+                batch.Draw(multiTexture, offset, null, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+
                 return;
             }
 
@@ -125,14 +123,11 @@ public class InputEntry
                     else
                         texture = ThemeManager.UnknownButton;
 
-                Rectangle btnRect = new(
-                    (int)offset.X, (int)offset.Y,
-                    config.IconSize, config.IconSize
-                );
-
+                var scale = config.IconSize / (float)(texture.IsWide() ? texture.Height : texture.Width);
                 var color = holding.Contains(btn) && !pressed.Contains(btn) ? Color.Gray : Color.White;
-                batch.Draw(texture, btnRect, color);
-                offset += commandDir * (config.IconSize + config.SpaceBetweenInputs);
+
+                batch.Draw(texture, offset, null, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                offset += commandDir * ((texture.Width * scale) + config.SpaceBetweenInputs);
             }
         }
 
@@ -160,6 +155,10 @@ public class InputEntry
                             break;
                         case GameInput.ButtonStatus.Pressed:
                             pressed.Add(btn);
+                            break;
+                        case GameInput.ButtonStatus.Unpressed:
+                        case GameInput.ButtonStatus.Released:
+                        default:
                             break;
                     }
 

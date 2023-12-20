@@ -320,7 +320,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         Grid.SetColumn(dirCombo, 1);
         Grid.SetRow(dirCombo, 0);
         grid.Widgets.Add(dirCombo);
-        var iconSize = 30;
+        const int iconSize = 30;
 
         foreach (var (dirThemeName, dirTheme) in ThemeConfig.DirectionMap)
         {

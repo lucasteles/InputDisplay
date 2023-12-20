@@ -1,7 +1,7 @@
 using InputDisplay.Config;
 using InputDisplay.Themes;
 
-namespace InputDisplay.Inputs.Entities;
+namespace InputDisplay.Inputs.Drawable;
 
 public class InputBuffer(Settings config)
 {

@@ -1,7 +1,7 @@
 using InputDisplay.Config;
 using InputDisplay.Config.Window;
 using InputDisplay.Inputs;
-using InputDisplay.Inputs.Entities;
+using InputDisplay.Inputs.Drawable;
 using InputDisplay.Themes;
 using Microsoft.Xna.Framework.Input;
 
