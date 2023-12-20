@@ -143,21 +143,6 @@ public static class ThemeConfig
                     [ButtonName.MK] = "4",
                 },
             },
-            ["Tekken - XBox"] = new()
-            {
-                Name = "tekken_xb",
-                Textures = ForTekken(),
-            },
-            ["Tekken - PlayStation"] = new()
-            {
-                Name = "tekken_ps",
-                Textures = ForTekken(),
-            },
-            ["Tekken - Steam"] = new()
-            {
-                Name = "tekken_steam",
-                Textures = ForTekken(),
-            },
             ["SF6 Modern"] = new()
             {
                 Name = "sf_modern",
@@ -187,6 +172,99 @@ public static class ThemeConfig
                 Name = "sf4",
                 Textures = ForStreetFighter(),
                 MacrosTemplate = DefaultTripleMacro(),
+            },
+            ["Tekken - XBox"] = new()
+            {
+                Name = "tekken_xb",
+                Textures = ForTekken(),
+            },
+            ["Tekken - PlayStation"] = new()
+            {
+                Name = "tekken_ps",
+                Textures = ForTekken(),
+            },
+            ["Tekken - Steam"] = new()
+            {
+                Name = "tekken_steam",
+                Textures = ForTekken(),
+            },
+            ["SFxT"] = new()
+            {
+                Name = "sfxt",
+                MacrosTemplate = DefaultTripleMacro(),
+                Textures = new()
+                {
+                    [ButtonName.LP] = "lp",
+                    [ButtonName.MP] = "mp",
+                    [ButtonName.HP] = "hp",
+                    [ButtonName.LK] = "lk",
+                    [ButtonName.MK] = "mk",
+                    [ButtonName.HK] = "hk",
+                    [ButtonName.LP | ButtonName.MP] = "2/lp_mp",
+                    [ButtonName.LP | ButtonName.HP] = "2/lp_hp",
+                    [ButtonName.LP | ButtonName.LK] = "2/lp_lk",
+                    [ButtonName.LP | ButtonName.MK] = "2/lp_mk",
+                    [ButtonName.LP | ButtonName.HK] = "2/lp_hk",
+                    [ButtonName.MP | ButtonName.HP] = "2/mp_hp",
+                    [ButtonName.MP | ButtonName.LK] = "2/mp_lk",
+                    [ButtonName.MP | ButtonName.MK] = "2/mp_mk",
+                    [ButtonName.MP | ButtonName.HK] = "2/mp_hk",
+                    [ButtonName.HP | ButtonName.LK] = "2/hp_lk",
+                    [ButtonName.HP | ButtonName.MK] = "2/hp_mk",
+                    [ButtonName.HP | ButtonName.HK] = "2/hp_hk",
+                    [ButtonName.LK | ButtonName.MK] = "2/lk_mk",
+                    [ButtonName.LK | ButtonName.HK] = "2/lk_hk",
+                    [ButtonName.MK | ButtonName.HK] = "2/mk_hk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.HP] = "3/lp_mp_hp",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.LK] = "3/lp_mp_lk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.MK] = "3/lp_mp_mk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.HK] = "3/lp_mp_hk",
+                    [ButtonName.LP | ButtonName.HP | ButtonName.LK] = "3/lp_hp_lk",
+                    [ButtonName.LP | ButtonName.HP | ButtonName.MK] = "3/lp_hp_mk",
+                    [ButtonName.LP | ButtonName.HP | ButtonName.HK] = "3/lp_hp_hk",
+                    [ButtonName.LP | ButtonName.LK | ButtonName.MK] = "3/lp_lk_mk",
+                    [ButtonName.LP | ButtonName.LK | ButtonName.HK] = "3/lp_lk_hk",
+                    [ButtonName.LP | ButtonName.MK | ButtonName.HK] = "3/lp_mk_hk",
+                    [ButtonName.MP | ButtonName.HP | ButtonName.HK] = "3/mp_hp_hk",
+                    [ButtonName.MP | ButtonName.HP | ButtonName.LK] = "3/mp_hp_lk",
+                    [ButtonName.MP | ButtonName.HP | ButtonName.MK] = "3/mp_hp_mk",
+                    [ButtonName.MP | ButtonName.LK | ButtonName.HK] = "3/mp_lk_hk",
+                    [ButtonName.MP | ButtonName.LK | ButtonName.MK] = "3/mp_lk_mk",
+                    [ButtonName.MP | ButtonName.MK | ButtonName.HK] = "3/mp_mk_hk",
+                    [ButtonName.HP | ButtonName.LK | ButtonName.MK] = "3/hp_lk_mk",
+                    [ButtonName.HP | ButtonName.LK | ButtonName.HK] = "3/hp_lk_hk",
+                    [ButtonName.HP | ButtonName.MK | ButtonName.HK] = "3/hp_mk_hk",
+                    [ButtonName.LK | ButtonName.MK | ButtonName.HK] = "3/lk_mk_hk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.HP | ButtonName.LK] = "4/lp_mp_hp_lk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.HP | ButtonName.MK] = "4/lp_mp_hp_mk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.HP | ButtonName.HK] = "4/lp_mp_hp_hk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.LK | ButtonName.MK] = "4/lp_mp_lk_mk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.LK | ButtonName.HK] = "4/lp_mp_lk_hk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.MK | ButtonName.HK] = "4/lp_mp_mk_hk",
+                    [ButtonName.LP | ButtonName.HP | ButtonName.LK | ButtonName.HK] = "4/lp_hp_lk_hk",
+                    [ButtonName.LP | ButtonName.HP | ButtonName.LK | ButtonName.MK] = "4/lp_hp_lk_mk",
+                    [ButtonName.LP | ButtonName.HP | ButtonName.MK | ButtonName.HK] = "4/lp_hp_mk_hk",
+                    [ButtonName.LP | ButtonName.LK | ButtonName.MK | ButtonName.HK] = "4/lp_lk_mk_hk",
+                    [ButtonName.MP | ButtonName.HP | ButtonName.LK | ButtonName.HK] = "4/mp_hp_lk_hk",
+                    [ButtonName.MP | ButtonName.HP | ButtonName.MK | ButtonName.HK] = "4/mp_hp_mk_hk",
+                    [ButtonName.MP | ButtonName.HP | ButtonName.LK | ButtonName.MK] = "4/mp_hp_lk_mk",
+                    [ButtonName.MP | ButtonName.LK | ButtonName.MK | ButtonName.HK] = "4/mp_lk_mk_hk",
+                    [ButtonName.HP | ButtonName.LK | ButtonName.MK | ButtonName.HK] = "4/hp_lk_mk_hk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.HP | ButtonName.LK | ButtonName.MK] =
+                        "5/lp_mp_hp_lk_mk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.HP | ButtonName.LK | ButtonName.HK] =
+                        "5/lp_mp_hp_lk_hk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.HP | ButtonName.MK | ButtonName.HK] =
+                        "5/lp_mp_hp_mk_hk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.LK | ButtonName.MK | ButtonName.HK] =
+                        "5/lp_mp_lk_mk_hk",
+                    [ButtonName.LP | ButtonName.HP | ButtonName.LK | ButtonName.MK | ButtonName.HK] =
+                        "5/lp_hp_lk_mk_hk",
+                    [ButtonName.MP | ButtonName.HP | ButtonName.LK | ButtonName.MK | ButtonName.HK] =
+                        "5/mp_hp_lk_mk_hk",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.HP | ButtonName.LK | ButtonName.MK | ButtonName.HK] =
+                        "lp_mp_hp_lk_mk_hk",
+                },
             },
             ["SoulCalibur 6"] = new()
             {
