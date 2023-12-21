@@ -83,12 +83,12 @@ public class ThemeManager(Settings.SelectedTheme theme)
         var unknown = content.LoadTexture(Theme.FaceButtons.Unknown);
         textures.Add(unknown.Name, unknown);
         foreach (var dir in ThemeConfig.DirectionMap.Values)
-        foreach (var texture in dir.LoadTextures(content))
-            textures.Add(texture.Name, texture);
+            foreach (var texture in dir.LoadTextures(content))
+                textures.Add(texture.Name, texture);
 
         foreach (var btn in ThemeConfig.ButtonMap.Values)
-        foreach (var texture in btn.LoadTextures(content))
-            textures.Add(texture.Name, texture);
+            foreach (var texture in btn.LoadTextures(content))
+                textures.Add(texture.Name, texture);
     }
 
     public static Theme Get(string buttons = DefaultButtons, string direction = DefaultDirection) =>

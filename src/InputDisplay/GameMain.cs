@@ -22,11 +22,19 @@ public class GameMain : Game
     public GameMain()
     {
         graphics = new(this);
+        graphics.PreparingDeviceSettings += OnPreparingDeviceSettings;
+
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
 
         themeManager = new(Config.CurrentTheme);
         buffer = new(Config);
+    }
+
+    void OnPreparingDeviceSettings(object? sender, PreparingDeviceSettingsEventArgs e)
+    {
+        graphics.PreferMultiSampling = true;
+        e.GraphicsDeviceInformation.PresentationParameters.MultiSampleCount = 16;
     }
 
     protected override void Initialize()
@@ -37,11 +45,11 @@ public class GameMain : Game
         Window.ClientSizeChanged += OnResize;
         SetWindowPosition();
 
+        configManager.StartWatch();
+
         graphics.PreferredBackBufferWidth = Config.Width;
         graphics.PreferredBackBufferHeight = Config.Height;
         graphics.ApplyChanges();
-
-        configManager.StartWatch();
         base.Initialize();
     }
 
@@ -275,6 +283,7 @@ public class GameMain : Game
         if (disposing)
         {
             Window.ClientSizeChanged -= OnResize;
+            graphics.PreparingDeviceSettings -= OnPreparingDeviceSettings;
             configManager.Dispose();
             configWindow.Dispose();
         }

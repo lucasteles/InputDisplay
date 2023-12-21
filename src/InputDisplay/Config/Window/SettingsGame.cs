@@ -33,11 +33,8 @@ public class SettingsGame : Game
 
     public SettingsGame(string? playerIndex = null)
     {
-        graphics = new(this)
-        {
-            PreferredBackBufferWidth = WindowSize.X,
-            PreferredBackBufferHeight = WindowSize.Y,
-        };
+        graphics = new(this);
+        graphics.PreparingDeviceSettings += OnPreparingDeviceSettings;
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
         Window.AllowUserResizing = false;
@@ -47,9 +44,18 @@ public class SettingsGame : Game
             playerIndexArg = index;
     }
 
+    void OnPreparingDeviceSettings(object? sender, PreparingDeviceSettingsEventArgs e)
+    {
+        graphics.PreferMultiSampling = true;
+        e.GraphicsDeviceInformation.PresentationParameters.MultiSampleCount = 16;
+    }
+
     protected override void Initialize()
     {
         Window.Title = "Input Display - Config";
+        graphics.PreferredBackBufferWidth = WindowSize.X;
+        graphics.PreferredBackBufferHeight = WindowSize.Y;
+        graphics.ApplyChanges();
         base.Initialize();
     }
 
@@ -152,6 +158,7 @@ public class SettingsGame : Game
     protected override void UnloadContent()
     {
         controls.Dispose();
+        graphics.PreparingDeviceSettings -= OnPreparingDeviceSettings;
         controls.ResetMapButton.Click -= OnResetMap;
         base.UnloadContent();
     }
