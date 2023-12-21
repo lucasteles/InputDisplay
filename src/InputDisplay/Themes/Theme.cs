@@ -37,19 +37,19 @@ public record Theme
         public bool Neutral { get; } = hasNeutral;
         public string Path { get; } = $"{BasePath}/{name}";
 
-        public IEnumerable<Texture2D> LoadTextures(ContentManager content)
+        public IEnumerable<(string, Lazy<Texture2D>)> GetTextures(ContentManager content)
         {
             if (Neutral)
-                yield return content.LoadTexture(Path, NumpadNotationStr.Neutral);
+                yield return content.LazyLoadTexture(Path, NumpadNotationStr.Neutral);
 
-            yield return content.LoadTexture(Path, NumpadNotationStr.Up);
-            yield return content.LoadTexture(Path, NumpadNotationStr.Down);
-            yield return content.LoadTexture(Path, NumpadNotationStr.Backward);
-            yield return content.LoadTexture(Path, NumpadNotationStr.Forward);
-            yield return content.LoadTexture(Path, NumpadNotationStr.UpForward);
-            yield return content.LoadTexture(Path, NumpadNotationStr.UpBackward);
-            yield return content.LoadTexture(Path, NumpadNotationStr.DownForward);
-            yield return content.LoadTexture(Path, NumpadNotationStr.DownBackward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationStr.Up);
+            yield return content.LazyLoadTexture(Path, NumpadNotationStr.Down);
+            yield return content.LazyLoadTexture(Path, NumpadNotationStr.Backward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationStr.Forward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationStr.UpForward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationStr.UpBackward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationStr.DownForward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationStr.DownBackward);
         }
 
         public string GetTexturePath(StickDirection dir)
@@ -88,10 +88,10 @@ public record Theme
         public InputMacro MacrosTemplate { get; init; } = new();
         public required ButtonImage Textures { get; init; } = new();
 
-        public IEnumerable<Texture2D> LoadTextures(ContentManager content)
+        public IEnumerable<(string, Lazy<Texture2D>)> GetTextures(ContentManager content)
         {
             foreach (var (_, name) in Textures)
-                yield return content.LoadTexture(Path, name);
+                yield return content.LazyLoadTexture(Path, name);
         }
 
         public string? GetTexturePath(ButtonName btn) =>

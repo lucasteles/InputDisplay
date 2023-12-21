@@ -155,6 +155,7 @@ dotnet_diagnostic.S3459.severity = suggestion # Unassigned members should be rem
 dotnet_diagnostic.S1104.severity = suggestion #  Make this field 'private' and encapsulate it in a 'public' property. 
 dotnet_diagnostic.S3878.severity = suggestion #  params array creation
 dotnet_diagnostic.S3267.severity = suggestion # loops simplified LINQ 
+dotnet_diagnostic.S2681.severity = suggestion # loops single line 
 dotnet_diagnostic.S3237.severity = silent # Use the 'value' contextual keyword in this property set accessor declaration.
 dotnet_diagnostic.S1210.severity = silent # When implementing IComparable , you should also override , =, >, and >=. 
 dotnet_diagnostic.S2219.severity = silent # runtime type checking should be simplified

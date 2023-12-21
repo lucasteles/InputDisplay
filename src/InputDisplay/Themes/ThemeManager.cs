@@ -9,13 +9,13 @@ public class ThemeManager(Settings.SelectedTheme theme)
     public const string DefaultButtons = ThemeConfig.StreetFighter;
     public const string DefaultDirection = ThemeConfig.DefaultDirection;
 
-    static readonly Dictionary<string, Texture2D> textures = [];
+    static readonly Dictionary<string, Lazy<Texture2D>> textures = [];
     readonly ThemeCycle cycle = new();
     Theme currentTheme = Get(theme);
     Theme? fallbackTheme;
 
-    public static Texture2D? GetTexture(string name) => textures.GetValueOrDefault(name);
-    public static Texture2D UnknownButton => textures[Theme.FaceButtons.Unknown];
+    public static Texture2D? GetTexture(string name) => textures.GetValueOrDefault(name)?.Value;
+    public static Texture2D UnknownButton => textures[Theme.FaceButtons.Unknown].Value;
 
     public Theme CurrentTheme
     {
@@ -79,16 +79,17 @@ public class ThemeManager(Settings.SelectedTheme theme)
         if (textures.Count > 0) return;
 
         var neutral = content.LoadTexture(Theme.Direction.DefaultNeutral);
-        textures.Add(neutral.Name, neutral);
+        textures.Add(neutral.Name, new(() => neutral));
         var unknown = content.LoadTexture(Theme.FaceButtons.Unknown);
-        textures.Add(unknown.Name, unknown);
+        textures.Add(unknown.Name, new(() => unknown));
+
         foreach (var dir in ThemeConfig.DirectionMap.Values)
-            foreach (var texture in dir.LoadTextures(content))
-                textures.Add(texture.Name, texture);
+            foreach (var (name, texture) in dir.GetTextures(content))
+                textures.Add(name, texture);
 
         foreach (var btn in ThemeConfig.ButtonMap.Values)
-            foreach (var texture in btn.LoadTextures(content))
-                textures.Add(texture.Name, texture);
+            foreach (var (name, texture) in btn.GetTextures(content))
+                textures.Add(name, texture);
     }
 
     public static Theme Get(string buttons = DefaultButtons, string direction = DefaultDirection) =>

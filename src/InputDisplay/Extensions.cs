@@ -7,6 +7,12 @@ public static class Extensions
     public static Texture2D LoadTexture(this ContentManager content, params string[] path) =>
         content.Load<Texture2D>(ContentPath.Combine(path));
 
+    public static (string, Lazy<Texture2D>) LazyLoadTexture(this ContentManager content, params string[] path)
+    {
+        var fullPath = ContentPath.Combine(path);
+        return (fullPath, new(() => content.LoadTexture(fullPath)));
+    }
+
     public static Texture2D LoadTexturePng(this ContentManager content, params string[] path)
     {
         if (content.ServiceProvider.GetService(typeof(IGraphicsDeviceManager)) is not GraphicsDeviceManager
