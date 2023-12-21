@@ -242,6 +242,78 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/dnfd/s.png
 
+#begin themes/btn/doa/ap.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/doa/ap.png
+
+#begin themes/btn/doa/h.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/doa/h.png
+
+#begin themes/btn/doa/k.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/doa/k.png
+
+#begin themes/btn/doa/p.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/doa/p.png
+
+#begin themes/btn/doa/s.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/doa/s.png
+
+#begin themes/btn/doa/t.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/doa/t.png
+
 #begin themes/btn/gbfv/ab.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1442,18 +1514,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/2/hp_hk.png
 
-#begin themes/btn/sfxt/2/hp_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/hp_hk.png
-
 #begin themes/btn/sfxt/2/hp_lk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1465,30 +1525,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/2/hp_lk.png
-
-#begin themes/btn/sfxt/2/hp_lk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/hp_lk.png
-
-#begin themes/btn/sfxt/2/hp_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/hp_mk.png
 
 #begin themes/btn/sfxt/2/hp_mk.png
 /importer:TextureImporter
@@ -1514,18 +1550,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/2/lk_hk.png
 
-#begin themes/btn/sfxt/2/lk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/lk_hk.png
-
 #begin themes/btn/sfxt/2/lk_mk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1537,30 +1561,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/2/lk_mk.png
-
-#begin themes/btn/sfxt/2/lk_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/lk_mk.png
-
-#begin themes/btn/sfxt/2/lp_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/lp_hk.png
 
 #begin themes/btn/sfxt/2/lp_hk.png
 /importer:TextureImporter
@@ -1586,18 +1586,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/2/lp_hp.png
 
-#begin themes/btn/sfxt/2/lp_hp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/lp_hp.png
-
 #begin themes/btn/sfxt/2/lp_lk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1609,30 +1597,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/2/lp_lk.png
-
-#begin themes/btn/sfxt/2/lp_lk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/lp_lk.png
-
-#begin themes/btn/sfxt/2/lp_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/lp_mk.png
 
 #begin themes/btn/sfxt/2/lp_mk.png
 /importer:TextureImporter
@@ -1658,18 +1622,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/2/lp_mp.png
 
-#begin themes/btn/sfxt/2/lp_mp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/lp_mp.png
-
 #begin themes/btn/sfxt/2/mk_hk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1681,30 +1633,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/2/mk_hk.png
-
-#begin themes/btn/sfxt/2/mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/mk_hk.png
-
-#begin themes/btn/sfxt/2/mp_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/mp_hk.png
 
 #begin themes/btn/sfxt/2/mp_hk.png
 /importer:TextureImporter
@@ -1730,18 +1658,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/2/mp_hp.png
 
-#begin themes/btn/sfxt/2/mp_hp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/mp_hp.png
-
 #begin themes/btn/sfxt/2/mp_lk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1753,30 +1669,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/2/mp_lk.png
-
-#begin themes/btn/sfxt/2/mp_lk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/mp_lk.png
-
-#begin themes/btn/sfxt/2/mp_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/2/mp_mk.png
 
 #begin themes/btn/sfxt/2/mp_mk.png
 /importer:TextureImporter
@@ -1802,18 +1694,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/hp_lk_hk.png
 
-#begin themes/btn/sfxt/3/hp_lk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/hp_lk_hk.png
-
 #begin themes/btn/sfxt/3/hp_lk_mk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1825,30 +1705,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/hp_lk_mk.png
-
-#begin themes/btn/sfxt/3/hp_lk_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/hp_lk_mk.png
-
-#begin themes/btn/sfxt/3/hp_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/hp_mk_hk.png
 
 #begin themes/btn/sfxt/3/hp_mk_hk.png
 /importer:TextureImporter
@@ -1874,18 +1730,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/lk_mk_hk.png
 
-#begin themes/btn/sfxt/3/lk_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lk_mk_hk.png
-
 #begin themes/btn/sfxt/3/lp_hp_hk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1897,30 +1741,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/lp_hp_hk.png
-
-#begin themes/btn/sfxt/3/lp_hp_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lp_hp_hk.png
-
-#begin themes/btn/sfxt/3/lp_hp_lk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lp_hp_lk.png
 
 #begin themes/btn/sfxt/3/lp_hp_lk.png
 /importer:TextureImporter
@@ -1946,18 +1766,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/lp_hp_mk.png
 
-#begin themes/btn/sfxt/3/lp_hp_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lp_hp_mk.png
-
 #begin themes/btn/sfxt/3/lp_lk_hk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1969,30 +1777,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/lp_lk_hk.png
-
-#begin themes/btn/sfxt/3/lp_lk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lp_lk_hk.png
-
-#begin themes/btn/sfxt/3/lp_lk_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lp_lk_mk.png
 
 #begin themes/btn/sfxt/3/lp_lk_mk.png
 /importer:TextureImporter
@@ -2018,18 +1802,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/lp_mk_hk.png
 
-#begin themes/btn/sfxt/3/lp_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lp_mk_hk.png
-
 #begin themes/btn/sfxt/3/lp_mp_hk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2041,30 +1813,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/lp_mp_hk.png
-
-#begin themes/btn/sfxt/3/lp_mp_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lp_mp_hk.png
-
-#begin themes/btn/sfxt/3/lp_mp_hp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lp_mp_hp.png
 
 #begin themes/btn/sfxt/3/lp_mp_hp.png
 /importer:TextureImporter
@@ -2090,18 +1838,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/lp_mp_lk.png
 
-#begin themes/btn/sfxt/3/lp_mp_lk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lp_mp_lk.png
-
 #begin themes/btn/sfxt/3/lp_mp_mk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2113,30 +1849,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/lp_mp_mk.png
-
-#begin themes/btn/sfxt/3/lp_mp_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/lp_mp_mk.png
-
-#begin themes/btn/sfxt/3/mp_hp_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/mp_hp_hk.png
 
 #begin themes/btn/sfxt/3/mp_hp_hk.png
 /importer:TextureImporter
@@ -2162,18 +1874,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/mp_hp_lk.png
 
-#begin themes/btn/sfxt/3/mp_hp_lk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/mp_hp_lk.png
-
 #begin themes/btn/sfxt/3/mp_hp_mk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2185,30 +1885,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/mp_hp_mk.png
-
-#begin themes/btn/sfxt/3/mp_hp_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/mp_hp_mk.png
-
-#begin themes/btn/sfxt/3/mp_lk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/mp_lk_hk.png
 
 #begin themes/btn/sfxt/3/mp_lk_hk.png
 /importer:TextureImporter
@@ -2234,18 +1910,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/mp_lk_mk.png
 
-#begin themes/btn/sfxt/3/mp_lk_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/mp_lk_mk.png
-
 #begin themes/btn/sfxt/3/mp_mk_hk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2257,30 +1921,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/3/mp_mk_hk.png
-
-#begin themes/btn/sfxt/3/mp_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/3/mp_mk_hk.png
-
-#begin themes/btn/sfxt/4/hp_lk_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/hp_lk_mk_hk.png
 
 #begin themes/btn/sfxt/4/hp_lk_mk_hk.png
 /importer:TextureImporter
@@ -2306,18 +1946,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/4/lp_hp_lk_hk.png
 
-#begin themes/btn/sfxt/4/lp_hp_lk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/lp_hp_lk_hk.png
-
 #begin themes/btn/sfxt/4/lp_hp_lk_mk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2329,30 +1957,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/4/lp_hp_lk_mk.png
-
-#begin themes/btn/sfxt/4/lp_hp_lk_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/lp_hp_lk_mk.png
-
-#begin themes/btn/sfxt/4/lp_hp_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/lp_hp_mk_hk.png
 
 #begin themes/btn/sfxt/4/lp_hp_mk_hk.png
 /importer:TextureImporter
@@ -2378,18 +1982,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/4/lp_lk_mk_hk.png
 
-#begin themes/btn/sfxt/4/lp_lk_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/lp_lk_mk_hk.png
-
 #begin themes/btn/sfxt/4/lp_mp_hp_hk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2401,30 +1993,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/4/lp_mp_hp_hk.png
-
-#begin themes/btn/sfxt/4/lp_mp_hp_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/lp_mp_hp_hk.png
-
-#begin themes/btn/sfxt/4/lp_mp_hp_lk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/lp_mp_hp_lk.png
 
 #begin themes/btn/sfxt/4/lp_mp_hp_lk.png
 /importer:TextureImporter
@@ -2450,18 +2018,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/4/lp_mp_hp_mk.png
 
-#begin themes/btn/sfxt/4/lp_mp_hp_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/lp_mp_hp_mk.png
-
 #begin themes/btn/sfxt/4/lp_mp_lk_hk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2473,30 +2029,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/4/lp_mp_lk_hk.png
-
-#begin themes/btn/sfxt/4/lp_mp_lk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/lp_mp_lk_hk.png
-
-#begin themes/btn/sfxt/4/lp_mp_lk_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/lp_mp_lk_mk.png
 
 #begin themes/btn/sfxt/4/lp_mp_lk_mk.png
 /importer:TextureImporter
@@ -2522,18 +2054,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/4/lp_mp_mk_hk.png
 
-#begin themes/btn/sfxt/4/lp_mp_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/lp_mp_mk_hk.png
-
 #begin themes/btn/sfxt/4/mp_hp_lk_hk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2545,30 +2065,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/4/mp_hp_lk_hk.png
-
-#begin themes/btn/sfxt/4/mp_hp_lk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/mp_hp_lk_hk.png
-
-#begin themes/btn/sfxt/4/mp_hp_lk_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/mp_hp_lk_mk.png
 
 #begin themes/btn/sfxt/4/mp_hp_lk_mk.png
 /importer:TextureImporter
@@ -2594,18 +2090,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/4/mp_hp_mk_hk.png
 
-#begin themes/btn/sfxt/4/mp_hp_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/mp_hp_mk_hk.png
-
 #begin themes/btn/sfxt/4/mp_lk_mk_hk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2617,30 +2101,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/4/mp_lk_mk_hk.png
-
-#begin themes/btn/sfxt/4/mp_lk_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/4/mp_lk_mk_hk.png
-
-#begin themes/btn/sfxt/5/lp_hp_lk_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/5/lp_hp_lk_mk_hk.png
 
 #begin themes/btn/sfxt/5/lp_hp_lk_mk_hk.png
 /importer:TextureImporter
@@ -2666,18 +2126,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/5/lp_mp_hp_lk_hk.png
 
-#begin themes/btn/sfxt/5/lp_mp_hp_lk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/5/lp_mp_hp_lk_hk.png
-
 #begin themes/btn/sfxt/5/lp_mp_hp_lk_mk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2689,30 +2137,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/5/lp_mp_hp_lk_mk.png
-
-#begin themes/btn/sfxt/5/lp_mp_hp_lk_mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/5/lp_mp_hp_lk_mk.png
-
-#begin themes/btn/sfxt/5/lp_mp_hp_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/5/lp_mp_hp_mk_hk.png
 
 #begin themes/btn/sfxt/5/lp_mp_hp_mk_hk.png
 /importer:TextureImporter
@@ -2738,18 +2162,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/5/lp_mp_lk_mk_hk.png
 
-#begin themes/btn/sfxt/5/lp_mp_lk_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/5/lp_mp_lk_mk_hk.png
-
 #begin themes/btn/sfxt/5/mp_hp_lk_mk_hk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2761,30 +2173,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/5/mp_hp_lk_mk_hk.png
-
-#begin themes/btn/sfxt/5/mp_hp_lk_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/5/mp_hp_lk_mk_hk.png
-
-#begin themes/btn/sfxt/hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/hk.png
 
 #begin themes/btn/sfxt/hk.png
 /importer:TextureImporter
@@ -2810,18 +2198,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/hp.png
 
-#begin themes/btn/sfxt/hp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/hp.png
-
 #begin themes/btn/sfxt/lk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2833,30 +2209,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/lk.png
-
-#begin themes/btn/sfxt/lk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/lk.png
-
-#begin themes/btn/sfxt/lp_mp_hp_lk_mk_hk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/lp_mp_hp_lk_mk_hk.png
 
 #begin themes/btn/sfxt/lp_mp_hp_lk_mk_hk.png
 /importer:TextureImporter
@@ -2882,18 +2234,6 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/lp.png
 
-#begin themes/btn/sfxt/lp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/lp.png
-
 #begin themes/btn/sfxt/mk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2905,30 +2245,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/sfxt/mk.png
-
-#begin themes/btn/sfxt/mk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/mk.png
-
-#begin themes/btn/sfxt/mp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:themes/btn/sfxt/mp.png
 
 #begin themes/btn/sfxt/mp.png
 /importer:TextureImporter

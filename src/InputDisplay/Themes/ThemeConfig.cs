@@ -266,42 +266,6 @@ public static class ThemeConfig
                         "lp_mp_hp_lk_mk_hk",
                 },
             },
-            ["SoulCalibur 6"] = new()
-            {
-                Name = "soulcalibur6",
-                Textures = new()
-                {
-                    [ButtonName.LP] = "a",
-                    [ButtonName.MP] = "b",
-                    [ButtonName.LK] = "g",
-                    [ButtonName.MK] = "k",
-                },
-                MacrosTemplate = new()
-                {
-                    [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
-                    [ButtonName.PP] = [ButtonName.LP, ButtonName.MP],
-                    [ButtonName.HP] = [ButtonName.MP, ButtonName.LK],
-                    [ButtonName.HK] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
-                },
-            },
-            ["Virtua Fighter"] = new()
-            {
-                Name = "vf",
-                Textures = new()
-                {
-                    [ButtonName.LP] = "g",
-                    [ButtonName.MP] = "p",
-                    [ButtonName.MK] = "k",
-                },
-                MacrosTemplate = new()
-                {
-                    [ButtonName.LK] = [ButtonName.MP],
-                    [ButtonName.PP] = [ButtonName.MP, ButtonName.LP],
-                    [ButtonName.KK] = [ButtonName.MP, ButtonName.MK, ButtonName.LP],
-                    [ButtonName.HP] = [ButtonName.MP, ButtonName.MK],
-                    [ButtonName.HK] = [ButtonName.MK, ButtonName.LP],
-                },
-            },
             ["Guilty Gear"] = new()
             {
                 Name = "gg",
@@ -372,6 +336,60 @@ public static class ThemeConfig
                     [ButtonName.PP] = [ButtonName.MP, ButtonName.MK],
                     [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
                 }
+            },
+            ["SoulCalibur 6"] = new()
+            {
+                Name = "soulcalibur6",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "a",
+                    [ButtonName.MP] = "b",
+                    [ButtonName.LK] = "g",
+                    [ButtonName.MK] = "k",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
+                    [ButtonName.PP] = [ButtonName.LP, ButtonName.MP],
+                    [ButtonName.HP] = [ButtonName.MP, ButtonName.LK],
+                    [ButtonName.HK] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
+                },
+            },
+            ["Virtua Fighter"] = new()
+            {
+                Name = "vf",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "g",
+                    [ButtonName.MP] = "p",
+                    [ButtonName.MK] = "k",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.LK] = [ButtonName.MP],
+                    [ButtonName.PP] = [ButtonName.MP, ButtonName.LP],
+                    [ButtonName.KK] = [ButtonName.MP, ButtonName.MK, ButtonName.LP],
+                    [ButtonName.HP] = [ButtonName.MP, ButtonName.MK],
+                    [ButtonName.HK] = [ButtonName.MK, ButtonName.LP],
+                },
+            },
+            ["DOA6"] = new()
+            {
+                Name = "doa",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "h",
+                    [ButtonName.MP] = "p",
+                    [ButtonName.LK] = "t",
+                    [ButtonName.MK] = "k",
+                    [ButtonName.HP] = "s",
+                    [ButtonName.KK] = "ap",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.PP] = [ButtonName.MP, ButtonName.MK],
+                    [ButtonName.HK] = [ButtonName.LP, ButtonName.MK],
+                },
             },
             [PlayStation] = new()
             {
