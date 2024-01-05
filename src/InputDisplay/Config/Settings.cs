@@ -7,6 +7,18 @@ namespace InputDisplay.Config;
 [Serializable]
 public class Settings
 {
+    [Flags]
+    public enum DirectionSources
+    {
+        None = 0,
+        DPad = 1 << 0,
+        LeftAnalog = 1 << 1,
+        RightAnalog = 1 << 2,
+
+        Default = DPad | LeftAnalog,
+    }
+
+
     public record SelectedTheme(
         string Buttons = ThemeManager.DefaultButtons,
         string Direction = ThemeManager.DefaultDirection
@@ -27,7 +39,7 @@ public class Settings
     public int SpaceBetweenInputs { get; set; } = 2;
     public int SpaceBetweenCommands { get; set; } = 4;
     public int DirectionSpace { get; set; } = 10;
-
+    public DirectionSources EnabledDirections { get; set; } = DirectionSources.Default;
     public int Width { get; set; } = 480;
     public int Height { get; set; } = 1024;
     public int Top { get; set; }
@@ -90,6 +102,7 @@ public class Settings
         AutoCorrectMultiple = config.AutoCorrectMultiple;
         InvertHistory = config.InvertHistory;
         FramesAfter = config.FramesAfter;
+        EnabledDirections = config.EnabledDirections;
         Borderless = config.Borderless;
         HideButtonRelease = config.HideButtonRelease;
         Width = config.Width;

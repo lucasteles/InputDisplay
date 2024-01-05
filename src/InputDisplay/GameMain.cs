@@ -171,7 +171,7 @@ public class GameMain : Game
 
         if (KeyboardManager.IsKeyPressed(Keys.F1) ||
             (MouseManager.WasDoubleLeftClick && MouseManager.IsOnWindow(Window)))
-            configWindow.Open();
+            configWindow.Open(player);
 
         if (!Config.ShortcutsEnabled) return;
 

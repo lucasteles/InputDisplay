@@ -11,7 +11,7 @@ public class InputBuffer(Settings config)
 
     public void Update(PlayerPad pad)
     {
-        gameInput.Update(pad, config.InputMap);
+        gameInput.Update(pad, config.InputMap, config.EnabledDirections);
         var controllerState = gameInput.CurrentState;
 
         if (Last is { } last)
@@ -68,9 +68,6 @@ public class InputBuffer(Settings config)
         };
 
         for (var i = entries.Count - 1; i >= 0; i--)
-            DrawButton(i);
-
-        void DrawButton(int i)
         {
             var entry = entries[i];
             if (config.HideButtonRelease && (entry.State.IsNeutralOnly || entry.State.HasNoPressed))

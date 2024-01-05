@@ -14,7 +14,6 @@ public record PlayerPad(
 
     public string Identifier => Capabilities.Identifier;
     public string Name => Capabilities.DisplayName;
-
     public bool IsConnected => currentState?.IsConnected == true;
 
     [MemberNotNull(nameof(currentState))]
@@ -72,6 +71,7 @@ public record PlayerPad(
             if (name.Contains("switch") || name.Contains("nintendo"))
                 return Kind.Nintendo;
         }
+
         return Kind.Xbox;
     }
 

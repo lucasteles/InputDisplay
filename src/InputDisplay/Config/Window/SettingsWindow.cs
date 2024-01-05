@@ -20,7 +20,10 @@ public sealed class SettingsWindow : IDisposable
         var si = process.StartInfo;
         si.UseShellExecute = false;
         si.FileName = Process.GetCurrentProcess().MainModule?.FileName;
-        si.Arguments = $"config {player?.Index.ToString() ?? string.Empty}".Trim();
+        si.Arguments = "config";
+
+        if (player is not null)
+            si.Arguments += $" {player.Index}";
 
         if (IsOpen())
         {

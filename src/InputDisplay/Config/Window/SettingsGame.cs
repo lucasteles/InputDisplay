@@ -29,7 +29,7 @@ public class SettingsGame : Game
 
     PlayerIndex? playerIndexArg;
 
-    static readonly Point WindowSize = new(1080, 720);
+    static readonly Point windowSize = new(1080, 720);
 
     public SettingsGame(string? playerIndex = null)
     {
@@ -53,8 +53,8 @@ public class SettingsGame : Game
     protected override void Initialize()
     {
         Window.Title = "Input Display - Config";
-        graphics.PreferredBackBufferWidth = WindowSize.X;
-        graphics.PreferredBackBufferHeight = WindowSize.Y;
+        graphics.PreferredBackBufferWidth = windowSize.X;
+        graphics.PreferredBackBufferHeight = windowSize.Y;
         graphics.ApplyChanges();
         base.Initialize();
     }
@@ -79,7 +79,7 @@ public class SettingsGame : Game
 
         if (controls.MappingButton is null && controls.MappingMacro is null &&
             KeyboardManager.IsKeyPressed(Keys.Escape))
-            if (player is null || PlayerPad.GetConnected().Count() <= 1)
+            if (player is null || PlayerPad.GetConnected().Count() <= 1 || playerIndexArg is not null)
                 Exit();
             else
                 player = null;
@@ -91,7 +91,7 @@ public class SettingsGame : Game
         }
 
         player.Update();
-        gameInput.Update(player, Config.InputMap);
+        gameInput.Update(player, Config.InputMap, Config.EnabledDirections);
 
         if (controls.MappingButton is null)
         {
@@ -111,23 +111,27 @@ public class SettingsGame : Game
 
     void DetectController()
     {
-        if (playerIndexArg is not null)
+        if (playerIndexArg is not null && player is null)
         {
-            player = new(playerIndexArg.Value);
-
-            if (!player.IsConnected)
+            PlayerPad argPlayer = new(playerIndexArg.Value);
+            if (argPlayer.Capabilities.IsConnected)
             {
-                player = null;
-                playerIndexArg = null;
-            }
-            else
+                SetPlayerPad(argPlayer);
                 return;
+            }
+
+            player = null;
+            playerIndexArg = null;
         }
 
         if (PlayerPad.DetectPress() is not { } playerPad) return;
+        SetPlayerPad(playerPad);
+    }
+
+    public void SetPlayerPad(PlayerPad playerPad)
+    {
         player = playerPad;
         controls.SetPlayer(playerPad);
-
         if (Config.InputMap.TryAddGamePad(player.Capabilities))
             configManager.SaveFile();
     }

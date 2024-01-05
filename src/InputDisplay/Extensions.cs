@@ -1,3 +1,4 @@
+using InputDisplay.Config;
 using InputDisplay.Inputs;
 
 namespace InputDisplay;
@@ -30,6 +31,12 @@ public static class Extensions
         return texture;
     }
 
+    public static string ToFieldLabel(this string text) => $"{text}: ";
+
+    public static Settings.DirectionSources ChangeFlag(this Settings.DirectionSources flags,
+        Settings.DirectionSources flag, bool value = true) =>
+        value ? flags | flag : flags & ~flag;
+
     public static bool IsMultiple(this ButtonName name) =>
         name is not (
             ButtonName.None
@@ -41,6 +48,5 @@ public static class Extensions
     public static int IndexOf<T>(this T[] array, T value) => Array.IndexOf(array, value);
     public static bool IsEmpty(this string? value) => string.IsNullOrWhiteSpace(value);
     public static bool IsNonEmpty(this string? value) => value?.IsEmpty() == false;
-
     public static bool IsWide(this Texture2D tex) => tex.Width > tex.Height;
 }

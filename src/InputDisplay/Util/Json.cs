@@ -13,7 +13,6 @@ public static partial class Json
     public static byte[] SerializeBytes<T>(T value) =>
         JsonSerializer.SerializeToUtf8Bytes(value, options);
 
-
     public static T? DeserializeBytes<T>(ReadOnlySpan<byte> value) =>
         JsonSerializer.Deserialize<T>(value, options);
 
@@ -61,6 +60,7 @@ public static partial class Json
             [
                 typeof(JsonStringEnumConverter<Direction>),
                 typeof(JsonStringEnumConverter<ButtonName>),
+                typeof(JsonStringEnumConverter<Settings.DirectionSources>),
                 typeof(JsonStringEnumConverter<PlayerPad.Kind>),
                 typeof(JsonStringEnumConverter<Buttons>),
             ]),

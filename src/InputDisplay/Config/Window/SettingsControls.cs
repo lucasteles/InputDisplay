@@ -9,6 +9,8 @@ using Myra.Graphics2D.UI.ColorPicker;
 
 namespace InputDisplay.Config.Window;
 
+using WindowDialog = Myra.Graphics2D.UI.Window;
+
 public sealed class SettingsControls(Desktop desktop, SettingsManager configManager) : IDisposable
 {
     public Label SelectedJoystick { get; private set; }
@@ -21,11 +23,13 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
     public ButtonName? MappingButton { get; private set; }
     public ButtonName? MappingMacro { get; private set; }
-    public Myra.Graphics2D.UI.Window CurrentModal { get; private set; }
+    public WindowDialog CurrentModal { get; private set; }
 
     Theme defaultTheme;
 
     static readonly Color darkGray = new(50, 50, 50);
+
+    Settings config => configManager.CurrentConfig;
 
     public Widget BuildUI()
     {
@@ -79,7 +83,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         SelectedJoystick.Text = pad.Name;
 
-        var currentType = configManager.CurrentConfig.InputMap.GetPadKind(pad);
+        var currentType = config.InputMap.GetPadKind(pad);
         ControllerTypeCombo.SelectedIndex = ThemeConfig.ControllerTypes.Keys.ToArray().IndexOf(currentType);
         player = pad;
     }
@@ -102,7 +106,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                 HorizontalAlignment = HorizontalAlignment.Left,
             });
 
-            var config = configManager.CurrentConfig;
             var theme = ThemeManager.Get(config.CurrentTheme);
             var macros = theme.GetMacro(buttonName, config.Macros);
             if (macros.Length is 0)
@@ -157,7 +160,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             Spacing = 15,
         };
         MappingMacro = buttonName;
-        var config = configManager.CurrentConfig;
         var theme = ThemeManager.Get(config.CurrentTheme);
         var macros = theme.GetMacro(buttonName, config.Macros);
         var selected = macros.ToList();
@@ -232,7 +234,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         root.RowsProportions.Add(new(ProportionType.Auto));
         root.RowsProportions.Add(new(ProportionType.Auto));
 
-
         Label title = new()
         {
             Text = "Macros:",
@@ -256,7 +257,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         };
         resetMapButton.Click += (_, _) =>
         {
-            configManager.CurrentConfig.Macros.Clear();
+            config.Macros.Clear();
             SaveConfig();
             RebuildMacroButtons();
         };
@@ -355,7 +356,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
             dirCombo.Widgets.Add(item);
 
-            if (dirThemeName == configManager.CurrentConfig.CurrentTheme.Direction)
+            if (dirThemeName == config.CurrentTheme.Direction)
                 dirCombo.SelectedItem = item;
         }
 
@@ -363,7 +364,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         {
             var newTheme = (string)dirCombo.SelectedItem.Tag;
 
-            var config = configManager.CurrentConfig;
 
             config.CurrentTheme = config.CurrentTheme with
             {
@@ -429,7 +429,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
             btnCombo.Widgets.Add(item);
 
-            if (btnThemeName == configManager.CurrentConfig.CurrentTheme.Buttons)
+            if (btnThemeName == config.CurrentTheme.Buttons)
                 btnCombo.SelectedItem = item;
         }
 
@@ -437,7 +437,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         {
             var newTheme = (string)btnCombo.SelectedItem.Tag;
 
-            var config = configManager.CurrentConfig;
 
             config.CurrentTheme = config.CurrentTheme with
             {
@@ -454,40 +453,97 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         Grid grid = new()
         {
-            RowSpacing = 2,
-            ColumnSpacing = 4,
             Margin = new(20),
             VerticalAlignment = VerticalAlignment.Center,
+            ColumnSpacing = 8,
+            RowSpacing = 4,
         };
 
-        var config = configManager.CurrentConfig;
+        grid.ColumnsProportions.Add(new Proportion
+        {
+            Type = ProportionType.Part,
+            Value = .7f,
+        });
+        grid.ColumnsProportions.Add(new Proportion
+        {
+            Type = ProportionType.Part,
+            Value = 1.3f,
+        });
+        grid.ColumnsProportions.Add(new Proportion
+        {
+            Type = ProportionType.Part,
+            Value = 1f,
+        });
 
         AddCheck(0, 0, "Borderless", config.Borderless, check => config.Borderless = check);
         AddCheck(0, 1, "Show frames", config.ShowFrames, check => config.ShowFrames = check);
         AddCheck(0, 2, "Show neutral", config.ShowNeutralIcon, check => config.ShowNeutralIcon = check);
         AddCheck(0, 3, "Shadow holding", config.ShadowHolding, check => config.ShadowHolding = check);
-        AddNumeric(0, 4, "Icon size: ", config.IconSize, v => config.IconSize = v);
+        AddCheck(0, 4, "Auto correct", config.AutoCorrectMultiple, check => config.AutoCorrectMultiple = check);
 
-        AddCheck(1, 0, "Auto correct", config.AutoCorrectMultiple, check => config.AutoCorrectMultiple = check);
-        AddCheck(1, 1, "Invert history", config.InvertHistory, check => config.InvertHistory = check);
-        AddCheck(1, 2, "Frames after", config.FramesAfter, check => config.FramesAfter = check);
-        AddCheck(1, 3, "Hide button release", config.HideButtonRelease, check => config.HideButtonRelease = check);
-        AddCheck(1, 4, "Use Shortcuts", config.ShortcutsEnabled, check => config.ShortcutsEnabled = check);
+        AddCheck(1, 0, "Invert history", config.InvertHistory, check => config.InvertHistory = check);
+        AddCheck(1, 1, "Frames after", config.FramesAfter, check => config.FramesAfter = check);
+        AddCheck(1, 2, "Hide button release", config.HideButtonRelease, check => config.HideButtonRelease = check);
+        AddCheck(1, 3, "Use Shortcuts", config.ShortcutsEnabled, check => config.ShortcutsEnabled = check);
+        CreateDirectionsSourceBox(1, 4, "Dir.Sources");
 
-        AddNumeric(2, 0, "Input space: ", config.SpaceBetweenInputs, v => config.SpaceBetweenInputs = v);
-        AddNumeric(2, 1, "Command space: ", config.SpaceBetweenCommands, v => config.SpaceBetweenCommands = v);
-        AddNumeric(2, 2, "Direction space: ", config.DirectionSpace, v => config.DirectionSpace = v);
+        AddNumeric(2, 0, "Input space", config.SpaceBetweenInputs, v => config.SpaceBetweenInputs = v);
+        AddNumeric(2, 1, "Command space", config.SpaceBetweenCommands, v => config.SpaceBetweenCommands = v);
+        AddNumeric(2, 2, "Direction space", config.DirectionSpace, v => config.DirectionSpace = v);
+        AddNumeric(2, 3, "Icon size", config.IconSize, v => config.IconSize = v);
 
-        var backgroundColor = ColorPicker("Background color: ", config.ClearColor, c =>
+        var backgroundColor = ColorPicker("Background color", config.ClearColor, c =>
         {
             config.ClearColor = c;
             SaveConfig();
         });
         Grid.SetColumn(backgroundColor, 2);
-        Grid.SetRow(backgroundColor, 3);
+        Grid.SetRow(backgroundColor, 4);
         grid.Widgets.Add(backgroundColor);
 
         return grid;
+
+        void CreateDirectionsSourceBox(int col, int row, string labelText)
+        {
+            HorizontalStackPanel panel = new()
+            {
+                Padding = new(2),
+                Spacing = 4,
+            };
+
+            Label label = new()
+            {
+                Text = labelText.ToFieldLabel(),
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            panel.Widgets.Add(label);
+
+            var dirSources = config.EnabledDirections;
+            var chkDpad = InputCheck("DPad", dirSources.HasFlag(Settings.DirectionSources.DPad), check =>
+                config.EnabledDirections =
+                    config.EnabledDirections.ChangeFlag(Settings.DirectionSources.DPad, check));
+
+            var chkLAnalog = InputCheck("L.Analog", dirSources.HasFlag(Settings.DirectionSources.LeftAnalog), check =>
+                config.EnabledDirections =
+                    config.EnabledDirections.ChangeFlag(Settings.DirectionSources.LeftAnalog, check));
+
+            var chkRAnalog = InputCheck("R.Analog", dirSources.HasFlag(Settings.DirectionSources.RightAnalog), check =>
+                config.EnabledDirections =
+                    config.EnabledDirections.ChangeFlag(Settings.DirectionSources.RightAnalog, check));
+
+            HorizontalStackPanel checksPanel = new()
+            {
+                Spacing = 4,
+            };
+            panel.Widgets.Add(checksPanel);
+            checksPanel.Widgets.Add(chkDpad);
+            checksPanel.Widgets.Add(chkLAnalog);
+            checksPanel.Widgets.Add(chkRAnalog);
+
+            Grid.SetColumn(panel, col);
+            Grid.SetRow(panel, row);
+            grid.Widgets.Add(panel);
+        }
 
         void AddCheck(int col, int row, string labelText, bool isChecked, Action<bool> onClick)
         {
@@ -499,33 +555,28 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
         void AddNumeric(int col, int row, string labelText, int value, Action<int> onChange)
         {
-            var chk = InputNumber(labelText, value, onChange);
+            var chk = InputNumber(labelText.ToFieldLabel(), value, onChange);
             Grid.SetColumn(chk, col);
             Grid.SetRow(chk, row);
             grid.Widgets.Add(chk);
         }
     }
 
-    HorizontalStackPanel InputCheck(string labelText, bool isChecked, Action<bool> onClick)
+    CheckButton InputCheck(string labelText, bool isChecked, Action<bool> onClick)
     {
-        HorizontalStackPanel panel = new()
-        {
-            Padding = new(2),
-        };
-
         Label label = new()
         {
             Text = labelText,
             VerticalAlignment = VerticalAlignment.Center,
-            Margin = new(0, 0, 10, 0),
         };
-
-        panel.Widgets.Add(label);
 
         CheckButton button = new()
         {
             VerticalAlignment = VerticalAlignment.Center,
             IsChecked = isChecked,
+            Padding = new(2),
+            CheckContentSpacing = 10,
+            Content = label,
         };
 
         button.IsCheckedChanged += (sender, _) =>
@@ -535,8 +586,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             SaveConfig();
         };
 
-        panel.Widgets.Add(button);
-        return panel;
+        return button;
     }
 
     HorizontalStackPanel InputNumber(string labelText, int value, Action<int> onChange)
@@ -550,7 +600,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         {
             Text = labelText,
             VerticalAlignment = VerticalAlignment.Center,
-            Margin = new(0, 0, 10, 0),
+            Margin = new(0, 0, 5, 0),
         };
 
         panel.Widgets.Add(label);
@@ -562,9 +612,9 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             Width = 50,
             Value = value,
             Padding = new(2),
+            Minimum = 1,
         };
 
-        textBox.Minimum = 1;
         textBox.ValueChanged += (sender, _) =>
         {
             var input = (SpinButton)sender;
@@ -870,7 +920,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     void OnChangeControllerType(object sender, EventArgs e)
     {
         if (sender is not ListView { SelectedItem: Label { Tag: PlayerPad.Kind kind } }
-            || player is null || configManager.CurrentConfig.InputMap.GetMapping(player) is not { } mapping)
+            || player is null || config.InputMap.GetMapping(player) is not { } mapping)
             return;
 
         mapping.Kind = kind;
@@ -881,7 +931,9 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         var index = NumpadNotation.From(dir) - 1;
         for (var i = 0; i < Directions.Length; i++)
-            Directions[i].Color = index == i ? Color.White : darkGray;
+            Directions[i].Color = index == i && config.EnabledDirections is not Settings.DirectionSources.None
+                ? Color.White
+                : darkGray;
     }
 
     public void HighLightButtons(ButtonName buttons)
@@ -893,7 +945,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                     : (IBrush)null;
     }
 
-    Myra.Graphics2D.UI.Window BuildButtonMapModal(string title)
+    WindowDialog BuildButtonMapModal(string title)
     {
         Label label = new()
         {

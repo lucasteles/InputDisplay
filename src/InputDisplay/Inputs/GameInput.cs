@@ -1,3 +1,4 @@
+using InputDisplay.Config;
 using Microsoft.Xna.Framework.Input;
 
 namespace InputDisplay.Inputs;
@@ -154,21 +155,44 @@ public class GameInput
         }
     }
 
-    public void UpdateStick(GamePadState state)
+    public void UpdateDirections(GamePadState state, Settings.DirectionSources sources)
     {
-        var direction = Direction.Neutral;
+        if (sources is Settings.DirectionSources.None)
+        {
+            currentState.Stick.Direction = Direction.Neutral;
+            currentState.Stick.Holding = false;
+            return;
+        }
 
-        if (state.IsButtonDown(Buttons.DPadUp) || state.IsButtonDown(Buttons.LeftThumbstickUp))
+        var direction = Direction.Neutral;
+        if (
+            (sources.HasFlag(Settings.DirectionSources.DPad) && state.IsButtonDown(Buttons.DPadUp))
+            || (sources.HasFlag(Settings.DirectionSources.LeftAnalog) && state.IsButtonDown(Buttons.LeftThumbstickUp))
+            || (sources.HasFlag(Settings.DirectionSources.RightAnalog) && state.IsButtonDown(Buttons.RightThumbstickUp))
+        )
             direction |= Direction.Up;
 
-        if (state.IsButtonDown(Buttons.DPadDown) || state.IsButtonDown(Buttons.LeftThumbstickDown))
+        if (
+            (sources.HasFlag(Settings.DirectionSources.DPad) && state.IsButtonDown(Buttons.DPadDown))
+            || (sources.HasFlag(Settings.DirectionSources.LeftAnalog) && state.IsButtonDown(Buttons.LeftThumbstickDown))
+            || (sources.HasFlag(Settings.DirectionSources.RightAnalog) &&
+                state.IsButtonDown(Buttons.RightThumbstickDown))
+        )
             direction |= Direction.Down;
 
-        if (state.IsButtonDown(Buttons.DPadLeft) || state.IsButtonDown(Buttons.LeftThumbstickLeft))
+        if (
+            (sources.HasFlag(Settings.DirectionSources.DPad) && state.IsButtonDown(Buttons.DPadLeft))
+            || (sources.HasFlag(Settings.DirectionSources.LeftAnalog) && state.IsButtonDown(Buttons.LeftThumbstickLeft))
+            || (sources.HasFlag(Settings.DirectionSources.RightAnalog) &&
+                state.IsButtonDown(Buttons.RightThumbstickLeft))
+        )
             direction |= Direction.Backward;
 
-        if (state.IsButtonDown(Buttons.DPadRight) ||
-            state.IsButtonDown(Buttons.LeftThumbstickRight))
+        if (
+            (sources.HasFlag(Settings.DirectionSources.DPad) && state.IsButtonDown(Buttons.DPadRight)) ||
+            (sources.HasFlag(Settings.DirectionSources.LeftAnalog) && state.IsButtonDown(Buttons.LeftThumbstickRight))
+            || (sources.HasFlag(Settings.DirectionSources.RightAnalog) &&
+                state.IsButtonDown(Buttons.RightThumbstickRight)))
             direction |= Direction.Forward;
 
         currentState.Stick.Holding = currentState.Stick.Direction == direction
@@ -176,10 +200,14 @@ public class GameInput
         currentState.Stick.Direction = direction;
     }
 
-    public void Update(PlayerPad pad, InputMap mapper)
+    public void Update(
+        PlayerPad pad,
+        InputMap mapper,
+        Settings.DirectionSources directionSources = Settings.DirectionSources.Default
+    )
     {
         var state = pad.State;
-        UpdateStick(state);
+        UpdateDirections(state, directionSources);
 
         var map = mapper.GetMappingOrDefault(pad.Identifier);
         UpdateButton(state, map.LP, ref currentState.LP);
