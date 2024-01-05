@@ -70,8 +70,11 @@ public class InputBuffer(Settings config)
         for (var i = entries.Count - 1; i >= 0; i--)
         {
             var entry = entries[i];
-            if (config.HideButtonRelease && (entry.State.IsNeutralOnly || entry.State.HasNoPressed))
-                return;
+            if (config.HideButtonRelease && (
+                    entry.State.IsNeutralOnly
+                    || entry.State.HasNoPressed
+                    || (config.EnabledDirections is Settings.DirectionSources.None && entry.State.IsDirectionOnly)))
+                continue;
 
             entry.Draw(config, theme, font, batch, pos);
             pos += step * dir;

@@ -71,6 +71,20 @@ public class GameInput
                 KK.Active: false,
             };
 
+        public bool IsDirectionOnly =>
+            this is
+            {
+                Stick.Direction: not Direction.Neutral,
+                LP.Active: false,
+                MP.Active: false,
+                HP.Active: false,
+                PP.Active: false,
+                LK.Active: false,
+                MK.Active: false,
+                HK.Active: false,
+                KK.Active: false,
+            };
+
         public bool HasPressed => !HasNoPressed;
 
         public bool HasNoPressed =>

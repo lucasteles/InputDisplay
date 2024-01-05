@@ -60,7 +60,11 @@ public class InputEntry
 
         void DrawDirection()
         {
-            if (config.EnabledDirections is Settings.DirectionSources.None) return;
+            if (config.EnabledDirections is Settings.DirectionSources.None)
+            {
+                offset += commandDir * (config.SpaceBetweenInputs + config.DirectionSpace);
+                return;
+            }
 
             var step = commandDir * (config.IconSize + config.SpaceBetweenInputs + config.DirectionSpace);
             if (
