@@ -88,6 +88,8 @@ public record Theme
         public InputMacro MacrosTemplate { get; init; } = new();
         public required ButtonImage Textures { get; init; } = new();
 
+        public bool HasEmptyImage => Textures.ContainsKey(ButtonName.None);
+
         public IEnumerable<(string, Lazy<Texture2D>)> GetTextures(ContentManager content)
         {
             foreach (var (_, name) in Textures)

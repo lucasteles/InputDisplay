@@ -417,10 +417,13 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                     continue;
 
                 var texture = ThemeManager.GetTexture(path);
+                if (texture is null) continue;
+
+                var scale = texture.GetRatioScale(iconSize);
                 Image icon = new()
                 {
-                    Width = iconSize,
-                    Height = iconSize,
+                    Width = (int)(texture.Width * scale),
+                    Height = (int)(texture.Height * scale),
                     Renderable = new TextureRegion(texture),
                     VerticalAlignment = VerticalAlignment.Bottom,
                 };

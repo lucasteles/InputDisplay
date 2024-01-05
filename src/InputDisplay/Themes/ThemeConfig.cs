@@ -337,6 +337,36 @@ public static class ThemeConfig
                     [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
                 }
             },
+            ["Melty Blood"] = new()
+            {
+                Name = "melty_blood",
+                Textures = new()
+                {
+                    [ButtonName.None] = "none",
+                    [ButtonName.LP] = "a",
+                    [ButtonName.MP] = "b",
+                    [ButtonName.MK] = "c",
+                    [ButtonName.LK] = "d",
+                    [ButtonName.LP | ButtonName.MP] = "ab",
+                    [ButtonName.LP | ButtonName.LK] = "ac",
+                    [ButtonName.LP | ButtonName.MK] = "ad",
+                    [ButtonName.MP | ButtonName.LK] = "bc",
+                    [ButtonName.MP | ButtonName.MK] = "bd",
+                    [ButtonName.LK | ButtonName.MK] = "cd",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.LK] = "abc",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.MK] = "abd",
+                    [ButtonName.LP | ButtonName.LK | ButtonName.MK] = "acd",
+                    [ButtonName.MP | ButtonName.LK | ButtonName.MK] = "bcd",
+                    [ButtonName.LP | ButtonName.MP | ButtonName.LK | ButtonName.MK] = "abcd",
+                },
+                MacrosTemplate = new()
+                {
+                    [ButtonName.HP] = [ButtonName.MP, ButtonName.MK],
+                    [ButtonName.HK] = [ButtonName.LP, ButtonName.MP],
+                    [ButtonName.PP] = [ButtonName.LP, ButtonName.LK],
+                    [ButtonName.KK] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
+                }
+            },
             ["SoulCalibur 6"] = new()
             {
                 Name = "soulcalibur6",
@@ -453,6 +483,12 @@ public static class ThemeConfig
             [PlayerPad.Kind.Nintendo] = Nintendo,
         };
 
+    static InputMacro DefaultTripleMacro() => new()
+    {
+        [ButtonName.PP] = [ButtonName.LP, ButtonName.MP, ButtonName.HP],
+        [ButtonName.KK] = [ButtonName.LK, ButtonName.MK, ButtonName.HK],
+    };
+
     static ButtonImage ForTekken() => new()
     {
         [ButtonName.LP] = "1",
@@ -467,6 +503,7 @@ public static class ThemeConfig
         [ButtonName.LK | ButtonName.MK] = "3_4",
         [ButtonName.LP | ButtonName.MP | ButtonName.LK] = "1_2_3",
         [ButtonName.LP | ButtonName.MP | ButtonName.MK] = "1_2_4",
+        [ButtonName.LP | ButtonName.LK | ButtonName.MK] = "1_3_4",
         [ButtonName.MP | ButtonName.LK | ButtonName.MK] = "2_3_4",
         [ButtonName.LP | ButtonName.MP | ButtonName.LK | ButtonName.MK] = "1_2_3_4",
         [ButtonName.HP] = "hp",
@@ -506,11 +543,5 @@ public static class ThemeConfig
         [ButtonName.MK] = "b",
         [ButtonName.HK] = "rt",
         [ButtonName.KK] = "lt",
-    };
-
-    static InputMacro DefaultTripleMacro() => new()
-    {
-        [ButtonName.PP] = [ButtonName.LP, ButtonName.MP, ButtonName.HP],
-        [ButtonName.KK] = [ButtonName.LK, ButtonName.MK, ButtonName.HK],
     };
 }

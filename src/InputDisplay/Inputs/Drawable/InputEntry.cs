@@ -16,7 +16,7 @@ public class InputEntry
     readonly HashSet<ButtonName> holding = new();
     readonly HashSet<ButtonName> pressed = new();
     readonly HashSet<ButtonName> fallback = new();
-    readonly HashSet<ButtonName> currentButtons = new();
+    readonly SortedSet<ButtonName> currentButtons = new();
 
     public void Draw(
         Settings config,
@@ -105,8 +105,16 @@ public class InputEntry
 
 #pragma warning disable S2583
             if (currentButtons.Count is 0)
+            {
 #pragma warning restore S2583
+                if (!theme.Buttons.HasEmptyImage || theme.GetTexture(ButtonName.None) is not { } emptyTexture)
+                    return;
+
+                var scale = emptyTexture.GetRatioScale(config.IconSize);
+                batch.Draw(emptyTexture, offset, null, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+
                 return;
+            }
 
             var combined = ButtonName.None;
             foreach (var b in currentButtons)
@@ -114,14 +122,14 @@ public class InputEntry
 
             if (combined.IsMultiple() && theme.GetTexture(combined) is { } multiTexture)
             {
-                var scale = config.IconSize / (float)(multiTexture.IsWide() ? multiTexture.Height : multiTexture.Width);
+                var scale = multiTexture.GetRatioScale(config.IconSize);
                 var color = State.HasNoPressed && config.ShadowHolding ? Color.Gray : Color.White;
                 batch.Draw(multiTexture, offset, null, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
 
                 return;
             }
 
-            foreach (var btn in currentButtons.Order().Distinct())
+            foreach (var btn in currentButtons)
             {
                 if (fallback.Contains(btn) || theme.GetTexture(btn) is not { } texture)
                     if (theme.Fallback?.GetTexture(btn) is { } fallbackTexture)
@@ -129,7 +137,7 @@ public class InputEntry
                     else
                         texture = ThemeManager.UnknownButton;
 
-                var scale = config.IconSize / (float)(texture.IsWide() ? texture.Height : texture.Width);
+                var scale = texture.GetRatioScale(config.IconSize);
                 var color = holding.Contains(btn) && !pressed.Contains(btn) ? Color.Gray : Color.White;
 
                 batch.Draw(texture, offset, null, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);

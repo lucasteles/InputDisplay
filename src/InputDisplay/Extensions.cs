@@ -49,4 +49,7 @@ public static class Extensions
     public static bool IsEmpty(this string? value) => string.IsNullOrWhiteSpace(value);
     public static bool IsNonEmpty(this string? value) => value?.IsEmpty() == false;
     public static bool IsWide(this Texture2D tex) => tex.Width > tex.Height;
+
+    public static float GetRatioScale(this Texture2D tex, float size) =>
+        size / (tex.IsWide() ? tex.Height : tex.Width);
 }
