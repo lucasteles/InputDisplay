@@ -209,9 +209,17 @@ public class GameInput
                 state.IsButtonDown(Buttons.RightThumbstickRight)))
             direction |= Direction.Forward;
 
+        direction = CleanSOCD(direction);
+
         currentState.Stick.Holding = currentState.Stick.Direction == direction
                                      && direction != Direction.Neutral;
         currentState.Stick.Direction = direction;
+    }
+
+    Direction CleanSOCD(Direction direction)
+    {
+
+        return direction;
     }
 
     public void Update(
