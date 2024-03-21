@@ -52,6 +52,7 @@ public static partial class Json
     [JsonSerializable(typeof(InputMap))]
     [JsonSerializable(typeof(PlayerPad.Kind))]
     [JsonSerializable(typeof(Buttons))]
+    [JsonSerializable(typeof(SOCD))]
     [JsonSourceGenerationOptions(
             GenerationMode = JsonSourceGenerationMode.Serialization | JsonSourceGenerationMode.Metadata,
             WriteIndented = true,
@@ -63,6 +64,7 @@ public static partial class Json
                 typeof(JsonStringEnumConverter<Settings.DirectionSources>),
                 typeof(JsonStringEnumConverter<PlayerPad.Kind>),
                 typeof(JsonStringEnumConverter<Buttons>),
+                typeof(JsonStringEnumConverter<SOCD>),
             ]),
     ]
     public partial class JsonContext : JsonSerializerContext;

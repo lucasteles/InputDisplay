@@ -34,6 +34,7 @@ public class Settings
     public bool InvertHistory { get; set; } = false;
     public bool FramesAfter { get; set; } = false;
     public bool HideButtonRelease { get; set; }
+    public SOCD SOCD { get; set; } = SOCD.Neutral;
     public bool ShortcutsEnabled { get; set; } = true;
     public int IconSize { get; set; } = 40;
     public int SpaceBetweenInputs { get; set; } = 2;
@@ -100,6 +101,7 @@ public class Settings
         InputMap = config.InputMap;
         DirectionSpace = config.DirectionSpace;
         AutoCorrectMultiple = config.AutoCorrectMultiple;
+        SOCD = config.SOCD;
         InvertHistory = config.InvertHistory;
         FramesAfter = config.FramesAfter;
         EnabledDirections = config.EnabledDirections;
