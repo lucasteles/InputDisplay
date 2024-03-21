@@ -34,7 +34,7 @@ public class Settings
     public bool InvertHistory { get; set; } = false;
     public bool FramesAfter { get; set; } = false;
     public bool HideButtonRelease { get; set; }
-    public SOCD SOCD { get; set; } = SOCD.Neutral;
+    public SOCDMode SOCD { get; set; } = SOCDMode.Neutral;
     public bool ShortcutsEnabled { get; set; } = true;
     public int IconSize { get; set; } = 40;
     public int SpaceBetweenInputs { get; set; } = 2;

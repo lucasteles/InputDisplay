@@ -1,11 +1,12 @@
-﻿namespace InputDisplay.Inputs;
+namespace InputDisplay.Inputs;
 
 /// <summary>
 /// Simultaneous Opposing Cardinal Directions.
 /// </summary>
-public enum SOCD
+public enum SOCDMode
 {
     Neutral,
-    HitBox,
-    Natural,
+    UpPriority,
+    LastPriority,
+    Bypass,
 }

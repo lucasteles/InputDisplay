@@ -11,7 +11,7 @@ public class InputBuffer(Settings config)
 
     public void Update(PlayerPad pad)
     {
-        gameInput.Update(pad, config.InputMap, config.EnabledDirections);
+        gameInput.Update(pad, config);
         var controllerState = gameInput.CurrentState;
 
         if (Last is { } last)

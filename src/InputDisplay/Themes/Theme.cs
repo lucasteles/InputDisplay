@@ -56,10 +56,7 @@ public record Theme
         {
             var dirName = dir switch
             {
-                StickDirection.Neutral
-                    or (StickDirection.Up | StickDirection.Down)
-                    or (StickDirection.Forward | StickDirection.Backward) =>
-                    Neutral ? NumpadNotationStr.Neutral : null,
+                StickDirection.Neutral => Neutral ? NumpadNotationStr.Neutral : null,
                 StickDirection.UpForward => NumpadNotationStr.UpForward,
                 StickDirection.UpBackward => NumpadNotationStr.UpBackward,
                 StickDirection.DownForward => NumpadNotationStr.DownForward,
@@ -68,7 +65,7 @@ public record Theme
                 StickDirection.Up => NumpadNotationStr.Up,
                 StickDirection.Forward => NumpadNotationStr.Forward,
                 StickDirection.Backward => NumpadNotationStr.Backward,
-                _ => Neutral ? NumpadNotationStr.Neutral : null,
+                _ => null,
             };
 
             return string.IsNullOrWhiteSpace(dirName)

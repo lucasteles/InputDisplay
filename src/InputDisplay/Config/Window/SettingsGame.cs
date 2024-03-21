@@ -91,7 +91,7 @@ public class SettingsGame : Game
         }
 
         player.Update();
-        gameInput.Update(player, Config.InputMap, Config.EnabledDirections);
+        gameInput.Update(player, Config);
 
         if (controls.MappingButton is null)
         {

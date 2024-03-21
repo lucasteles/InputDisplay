@@ -169,7 +169,7 @@ public class GameInput
         }
     }
 
-    public void UpdateDirections(GamePadState state, Settings.DirectionSources sources)
+    public void UpdateDirections(GamePadState state, SOCDMode socd, Settings.DirectionSources sources)
     {
         if (sources is Settings.DirectionSources.None)
         {
@@ -209,29 +209,64 @@ public class GameInput
                 state.IsButtonDown(Buttons.RightThumbstickRight)))
             direction |= Direction.Forward;
 
-        direction = CleanSOCD(direction);
+        direction = CleanSOCD(socd, direction, currentState.Stick.Direction);
 
         currentState.Stick.Holding = currentState.Stick.Direction == direction
                                      && direction != Direction.Neutral;
         currentState.Stick.Direction = direction;
     }
 
-    Direction CleanSOCD(Direction direction)
+    Direction CleanSOCD(SOCDMode socd, Direction direction, Direction last)
     {
+        if (socd == SOCDMode.Bypass)
+            return direction;
+
+        if (direction.HasFlag(Direction.Backward) && direction.HasFlag(Direction.Forward))
+            switch (socd)
+            {
+                case SOCDMode.Neutral or SOCDMode.UpPriority:
+                    direction &= ~Direction.Forward;
+                    direction &= ~Direction.Backward;
+                    break;
+
+                case SOCDMode.LastPriority:
+                    if (last.HasFlag(Direction.Backward) && !last.HasFlag(Direction.Forward))
+                        direction &= ~Direction.Backward;
+                    else if (last.HasFlag(Direction.Forward) && !last.HasFlag(Direction.Backward))
+                        direction &= ~Direction.Forward;
+                    break;
+            }
+
+        if (direction.HasFlag(Direction.Up) && direction.HasFlag(Direction.Down))
+            switch (socd)
+            {
+                case SOCDMode.Neutral:
+                    direction &= ~Direction.Up;
+                    direction &= ~Direction.Down;
+                    break;
+                case SOCDMode.UpPriority:
+                    direction &= ~Direction.Down;
+                    break;
+                case SOCDMode.LastPriority:
+                    if (last.HasFlag(Direction.Up) && !last.HasFlag(Direction.Down))
+                        direction &= ~Direction.Up;
+                    else if (last.HasFlag(Direction.Down) && !last.HasFlag(Direction.Up))
+                        direction &= ~Direction.Down;
+                    break;
+            }
 
         return direction;
     }
 
     public void Update(
         PlayerPad pad,
-        InputMap mapper,
-        Settings.DirectionSources directionSources = Settings.DirectionSources.Default
+        Settings config
     )
     {
         var state = pad.State;
-        UpdateDirections(state, directionSources);
+        UpdateDirections(state, config.SOCD, config.EnabledDirections);
 
-        var map = mapper.GetMappingOrDefault(pad.Identifier);
+        var map = config.InputMap.GetMappingOrDefault(pad.Identifier);
         UpdateButton(state, map.LP, ref currentState.LP);
         UpdateButton(state, map.MP, ref currentState.MP);
         UpdateButton(state, map.HP, ref currentState.HP);
