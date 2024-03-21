@@ -101,32 +101,16 @@ static class SOCD
         if (mode is not SOCDMode.Bypass)
             yield return direction;
 
-        if (direction.HasFlag(Direction.DownBackward) &&
-            !direction.HasFlag(Direction.DownForward) &&
-            !direction.HasFlag(Direction.UpBackward))
-            yield return Direction.DownBackward;
-        else if (direction.HasFlag(Direction.UpBackward) &&
-                 !direction.HasFlag(Direction.DownBackward) &&
-                 !direction.HasFlag(Direction.UpForward))
-            yield return Direction.UpBackward;
-        else if (direction.HasFlag(Direction.Backward))
+        if (direction.HasFlag(Direction.Backward))
             yield return Direction.Backward;
 
-        if (direction.HasFlag(Direction.Up) && HasVerticalOpposingDirections(direction))
+        if (direction.HasFlag(Direction.Up))
             yield return Direction.Up;
 
-        if (direction.HasFlag(Direction.Down) && HasHorizontalOpposingDirections(direction))
+        if (direction.HasFlag(Direction.Down))
             yield return Direction.Down;
 
-        if (direction.HasFlag(Direction.DownForward) &&
-            !direction.HasFlag(Direction.UpForward) &&
-            !direction.HasFlag(Direction.DownBackward))
-            yield return Direction.DownForward;
-        else if (direction.HasFlag(Direction.UpForward) &&
-                 !direction.HasFlag(Direction.DownForward) &&
-                 !direction.HasFlag(Direction.UpBackward))
-            yield return Direction.UpForward;
-        else if (direction.HasFlag(Direction.Forward))
+        if (direction.HasFlag(Direction.Forward))
             yield return Direction.Forward;
     }
 }
