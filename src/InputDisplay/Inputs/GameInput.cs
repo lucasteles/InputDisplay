@@ -32,7 +32,11 @@ public class GameInput
         );
     }
 
-    public record struct Stick(Direction Direction, bool Holding);
+    public record struct Stick(
+        Direction Direction,
+        Direction Raw,
+        bool Holding
+    );
 
     public record struct State
     {
@@ -174,6 +178,7 @@ public class GameInput
         if (sources is Settings.DirectionSources.None)
         {
             currentState.Stick.Direction = Direction.Neutral;
+            currentState.Stick.Raw = Direction.Neutral;
             currentState.Stick.Holding = false;
             return;
         }
@@ -209,53 +214,9 @@ public class GameInput
                 state.IsButtonDown(Buttons.RightThumbstickRight)))
             direction |= Direction.Forward;
 
-        direction = CleanSOCD(socd, direction, currentState.Stick.Direction);
-
-        currentState.Stick.Holding = currentState.Stick.Direction == direction
-                                     && direction != Direction.Neutral;
-        currentState.Stick.Direction = direction;
-    }
-
-    Direction CleanSOCD(SOCDMode socd, Direction direction, Direction last)
-    {
-        if (socd == SOCDMode.Bypass)
-            return direction;
-
-        if (direction.HasFlag(Direction.Backward) && direction.HasFlag(Direction.Forward))
-            switch (socd)
-            {
-                case SOCDMode.Neutral or SOCDMode.UpPriority:
-                    direction &= ~Direction.Forward;
-                    direction &= ~Direction.Backward;
-                    break;
-
-                case SOCDMode.LastPriority:
-                    if (last.HasFlag(Direction.Backward) && !last.HasFlag(Direction.Forward))
-                        direction &= ~Direction.Backward;
-                    else if (last.HasFlag(Direction.Forward) && !last.HasFlag(Direction.Backward))
-                        direction &= ~Direction.Forward;
-                    break;
-            }
-
-        if (direction.HasFlag(Direction.Up) && direction.HasFlag(Direction.Down))
-            switch (socd)
-            {
-                case SOCDMode.Neutral:
-                    direction &= ~Direction.Up;
-                    direction &= ~Direction.Down;
-                    break;
-                case SOCDMode.UpPriority:
-                    direction &= ~Direction.Down;
-                    break;
-                case SOCDMode.LastPriority:
-                    if (last.HasFlag(Direction.Up) && !last.HasFlag(Direction.Down))
-                        direction &= ~Direction.Up;
-                    else if (last.HasFlag(Direction.Down) && !last.HasFlag(Direction.Up))
-                        direction &= ~Direction.Down;
-                    break;
-            }
-
-        return direction;
+        currentState.Stick.Holding = currentState.Stick.Raw == direction && direction != Direction.Neutral;
+        currentState.Stick.Direction = SOCD.Clean(socd, direction, currentState.Stick);
+        currentState.Stick.Raw = direction;
     }
 
     public void Update(

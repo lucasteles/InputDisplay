@@ -66,15 +66,29 @@ public class InputEntry
                 return;
             }
 
-            var step = commandDir * (config.IconSize + config.SpaceBetweenInputs + config.DirectionSpace);
+            var step = commandDir * (config.IconSize + config.SpaceBetweenInputs);
+
             if (
-                (
-                    (config.ShowNeutralIcon && State.Stick.Direction is Direction.Neutral)
-                    || State.Stick.Direction is not Direction.Neutral
-                )
-                && theme.GetTexture(State.Stick.Direction) is { } dirTexture
+                (config.ShowNeutralIcon && State.Stick.Direction is Direction.Neutral)
+                || State.Stick.Direction is not Direction.Neutral
             )
             {
+                if (SOCD.IsSingle(config.SOCD, State.Stick.Direction))
+                    DrawDirectionComponent(State.Stick.Direction);
+                else
+                {
+                    foreach (var stickDir in SOCD.GetComponents(config.SOCD, State.Stick))
+                        DrawDirectionComponent(stickDir);
+                }
+
+                offset += commandDir * config.DirectionSpace;
+            }
+
+            void DrawDirectionComponent(Direction stickDirection)
+            {
+                if (theme.GetTexture(stickDirection) is not { } dirTexture)
+                    return;
+
                 var dirColor = State.Stick.Holding && config.ShadowHolding ? Color.LightGray : Color.White;
                 Rectangle dirRect = new(
                     (int)offset.X, (int)offset.Y,
