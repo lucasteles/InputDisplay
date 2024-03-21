@@ -288,7 +288,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         }
     }
 
-
     Widget BuildThemes()
     {
         Grid grid = new()
@@ -440,11 +439,11 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         {
             var newTheme = (string)btnCombo.SelectedItem.Tag;
 
-
             config.CurrentTheme = config.CurrentTheme with
             {
                 Buttons = newTheme,
             };
+
             SaveConfig();
             RebuildMacroButtons();
         };
@@ -456,7 +455,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         Grid grid = new()
         {
-            Margin = new(20),
+            Margin = new(20, 10, 20, 15),
             VerticalAlignment = VerticalAlignment.Center,
             ColumnSpacing = 8,
             RowSpacing = 4,
@@ -490,19 +489,12 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         AddCheck(1, 3, "Use Shortcuts", config.ShortcutsEnabled, check => config.ShortcutsEnabled = check);
         CreateDirectionsSourceBox(1, 4, "Dir.Sources");
 
-        AddNumeric(2, 0, "Input space", config.SpaceBetweenInputs, v => config.SpaceBetweenInputs = v);
-        AddNumeric(2, 1, "Command space", config.SpaceBetweenCommands, v => config.SpaceBetweenCommands = v);
-        AddNumeric(2, 2, "Direction space", config.DirectionSpace, v => config.DirectionSpace = v);
-        AddNumeric(2, 3, "Icon size", config.IconSize, v => config.IconSize = v);
-
-        var backgroundColor = ColorPicker("Background color", config.ClearColor, c =>
-        {
-            config.ClearColor = c;
-            SaveConfig();
-        });
-        Grid.SetColumn(backgroundColor, 2);
-        Grid.SetRow(backgroundColor, 4);
-        grid.Widgets.Add(backgroundColor);
+        AddEnumCombo(2, 0, "SOCD", config.SOCD, item => config.SOCD = item);
+        AddNumeric(2, 1, "Input space", config.SpaceBetweenInputs, v => config.SpaceBetweenInputs = v);
+        AddNumeric(2, 2, "Command space", config.SpaceBetweenCommands, v => config.SpaceBetweenCommands = v);
+        AddNumeric(2, 3, "Direction space", config.DirectionSpace, v => config.DirectionSpace = v);
+        AddNumeric(2, 4, "Icon size", config.IconSize, v => config.IconSize = v);
+        AddColorPicker(2, 5, "Background color", config.ClearColor, c => config.ClearColor = c);
 
         return grid;
 
@@ -563,6 +555,80 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             Grid.SetRow(chk, row);
             grid.Widgets.Add(chk);
         }
+
+        void AddEnumCombo<T>(int col, int row, string labelText, T value, Action<T> onChange) where T : struct, Enum
+        {
+            var panel = EnumComboView(value, labelText, onChange);
+            Grid.SetColumn(panel, col);
+            Grid.SetRow(panel, row);
+            grid.Widgets.Add(panel);
+        }
+
+        void AddColorPicker(int col, int row, string labelText, Color value, Action<Color> onChange)
+        {
+            var backgroundColor = ColorPicker(labelText.ToFieldLabel(), value, newColor =>
+            {
+                onChange(newColor);
+                SaveConfig();
+            });
+            Grid.SetColumn(backgroundColor, col);
+            Grid.SetRow(backgroundColor, row);
+
+            grid.Widgets.Add(backgroundColor);
+        }
+    }
+
+    HorizontalStackPanel EnumComboView<T>(T value, string labelText, Action<T> onChange) where T : struct, Enum
+    {
+        ComboView enumCombo = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+        };
+
+        var enums = Enum.GetValues<T>();
+        for (var index = 0; index < enums.Length; index++)
+        {
+            var enumValue = enums[index];
+
+            enumCombo.Widgets.Add(
+                new Label
+                {
+                    Text = enumValue.ToString(),
+                    Tag = enumValue,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new(5, 0),
+                }
+            );
+
+            if (enumValue.Equals(value))
+                enumCombo.SelectedIndex = index;
+        }
+
+        HorizontalStackPanel panel = new()
+        {
+            Padding = new(4),
+        };
+
+        Label label = new()
+        {
+            Text = labelText.ToFieldLabel(),
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new(0, 0, 5, 0),
+        };
+
+        panel.Widgets.Add(label);
+
+        enumCombo.SelectedIndexChanged += (_, _) =>
+        {
+            if (enumCombo is not { SelectedItem.Tag: T newValue })
+                return;
+
+            onChange(newValue);
+            SaveConfig();
+        };
+
+        panel.Widgets.Add(enumCombo);
+        return panel;
     }
 
     CheckButton InputCheck(string labelText, bool isChecked, Action<bool> onClick)
@@ -672,7 +738,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                 Color = current,
             };
 
-            dialog.Closed += (s, a) =>
+            dialog.Closed += (_, _) =>
             {
                 if (!dialog.Result) return;
                 image.Tag = dialog.Color;

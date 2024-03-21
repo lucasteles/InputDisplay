@@ -32,7 +32,11 @@ public class GameInput
         );
     }
 
-    public record struct Stick(Direction Direction, bool Holding);
+    public record struct Stick(
+        Direction Direction,
+        Direction Raw,
+        bool Holding
+    );
 
     public record struct State
     {
@@ -169,11 +173,12 @@ public class GameInput
         }
     }
 
-    public void UpdateDirections(GamePadState state, Settings.DirectionSources sources)
+    public void UpdateDirections(GamePadState state, SOCDMode socd, Settings.DirectionSources sources)
     {
         if (sources is Settings.DirectionSources.None)
         {
             currentState.Stick.Direction = Direction.Neutral;
+            currentState.Stick.Raw = Direction.Neutral;
             currentState.Stick.Holding = false;
             return;
         }
@@ -209,21 +214,20 @@ public class GameInput
                 state.IsButtonDown(Buttons.RightThumbstickRight)))
             direction |= Direction.Forward;
 
-        currentState.Stick.Holding = currentState.Stick.Direction == direction
-                                     && direction != Direction.Neutral;
-        currentState.Stick.Direction = direction;
+        currentState.Stick.Holding = currentState.Stick.Raw == direction && direction != Direction.Neutral;
+        currentState.Stick.Direction = SOCD.Clean(socd, direction, currentState.Stick);
+        currentState.Stick.Raw = direction;
     }
 
     public void Update(
         PlayerPad pad,
-        InputMap mapper,
-        Settings.DirectionSources directionSources = Settings.DirectionSources.Default
+        Settings config
     )
     {
         var state = pad.State;
-        UpdateDirections(state, directionSources);
+        UpdateDirections(state, config.SOCD, config.EnabledDirections);
 
-        var map = mapper.GetMappingOrDefault(pad.Identifier);
+        var map = config.InputMap.GetMappingOrDefault(pad.Identifier);
         UpdateButton(state, map.LP, ref currentState.LP);
         UpdateButton(state, map.MP, ref currentState.MP);
         UpdateButton(state, map.HP, ref currentState.HP);
