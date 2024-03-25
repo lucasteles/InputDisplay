@@ -35,8 +35,8 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303"/>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303"/>
-    <PackageReference Include="Myra" Version="1.5.4"/>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.14.0.81108">
+    <PackageReference Include="Myra" Version="1.5.5" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.23.0.88079">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

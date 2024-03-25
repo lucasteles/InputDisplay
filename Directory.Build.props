@@ -2,11 +2,10 @@
   <PropertyGroup>
     <Authors>Lucas Teles</Authors>
     <Company>lucasteles.dev</Company>
-    <RepositoryType>GitHub</RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/lucasteles/InputDisplay</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/lucasteles/InputDisplay</RepositoryUrl>
+    <RepositoryUrl>https://github.com/lucasteles/InputDisplay.git</RepositoryUrl>
     <PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
-
     <UseArtifactsOutput>false</UseArtifactsOutput>
     <PublishRelease>true</PublishRelease>
 

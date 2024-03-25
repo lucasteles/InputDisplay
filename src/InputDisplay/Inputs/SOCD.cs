@@ -21,8 +21,11 @@ static class SOCD
     public static bool HasVerticalOpposingDirections(Direction direction) =>
         direction.HasFlag(Direction.Up) && direction.HasFlag(Direction.Down);
 
+    public static bool HasOpposingDirections(Direction direction) =>
+        HasHorizontalOpposingDirections(direction) || HasVerticalOpposingDirections(direction);
+
     public static bool IsSingle(SOCDMode mode, Direction dir) =>
-        !(mode is SOCDMode.Bypass && (HasHorizontalOpposingDirections(dir) || HasVerticalOpposingDirections(dir)));
+        !(mode is SOCDMode.Bypass && HasOpposingDirections(dir));
 
     public static Direction Clean(SOCDMode mode, Direction direction, GameInput.Stick last)
     {
