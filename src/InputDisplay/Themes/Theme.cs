@@ -82,8 +82,8 @@ public record Theme
         public string Name { get; init; } = "";
         public bool IsPad { get; init; } = false;
         public string Path => ContentPath.Combine(BasePath, Name);
-        public InputMacro MacrosTemplate { get; init; } = new();
-        public required ButtonImage Textures { get; init; } = new();
+        public InputMacro MacrosTemplate { get; init; } = [];
+        public required ButtonImage Textures { get; init; } = [];
 
         public bool HasEmptyImage => Textures.ContainsKey(ButtonName.None);
 

@@ -14,6 +14,7 @@ public static class ThemeConfig
         new(StringComparer.InvariantCultureIgnoreCase)
         {
             [DefaultDirection] = new("arrows"),
+            ["Arrows"] = new("arrows2", hasNeutral: true),
             ["Small"] = new("arrows_sm"),
             ["Numpad"] = new("numpad", hasNeutral: true),
             ["Dpad"] = new("dpad", hasNeutral: true),
@@ -73,6 +74,22 @@ public static class ThemeConfig
                     [ButtonName.KK] = [ButtonName.LP, ButtonName.MP],
                     [ButtonName.HK] = [ButtonName.LK, ButtonName.MK],
                 },
+            },
+            ["2XKO"] = new()
+            {
+                Name = "2xko",
+                Textures = new()
+                {
+                    [ButtonName.LP] = "l",
+                    [ButtonName.MP] = "m",
+                    [ButtonName.HP] = "h",
+                    [ButtonName.PP] = "dash",
+                    [ButtonName.LK] = "s1",
+                    [ButtonName.MK] = "s2",
+                    [ButtonName.HK] = "tag",
+                    [ButtonName.KK] = "parry",
+                },
+                MacrosTemplate = [],
             },
             ["DBFZ"] = new()
             {
