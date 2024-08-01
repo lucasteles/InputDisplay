@@ -15,6 +15,9 @@ Download the latest version 👉 [**HERE**](https://github.com/lucasteles/InputD
 
 ## ⌨️ Shortcuts:
 
+> [!IMPORTANT]
+> Some shortcuts are disabled if you are in **Keyboard** mode
+
 - ️**Double Click** / **F1**: Open configuration window
 - ️**ESC**: Disconnect/Exit
 - ⬇️/⬆️: Change directions theme
@@ -29,8 +32,7 @@ Download the latest version 👉 [**HERE**](https://github.com/lucasteles/InputD
 
 ## ⚙️ Configuration:
 
-You can configure the layout, themes and mapping running the `config.cmd`, pressing **F1** or double click on the input
-window
+You can configure the layout, themes, and mapping by running the `config.cmd`, pressing **F1**, or double-clicking on the window
 
 ![](assets/img/config.png)
 
