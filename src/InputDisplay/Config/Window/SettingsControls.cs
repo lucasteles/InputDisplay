@@ -13,23 +13,21 @@ using WindowDialog = Myra.Graphics2D.UI.Window;
 
 public sealed class SettingsControls(Desktop desktop, SettingsManager configManager) : IDisposable
 {
-    public Label SelectedJoystick { get; private set; }
-
-    public ComboView ControllerTypeCombo = new();
-    public Button ResetMapButton { get; private set; }
-    public Image[] Directions { get; private set; } = new Image[9];
-    public Dictionary<ButtonName, Button> Buttons { get; private set; } = new();
-    public Dictionary<ButtonName, Button> Macros { get; private set; } = new();
-
     public ButtonName? MappingButton { get; private set; }
     public ButtonName? MappingMacro { get; private set; }
-    public WindowDialog CurrentModal { get; private set; }
+    public Button ResetMapButton { get; private set; }
+    Label SelectedJoystick { get; set; }
+    Image[] Directions { get; } = new Image[9];
+    Dictionary<ButtonName, Button> Buttons { get; } = [];
+    Dictionary<ButtonName, Button> Macros { get; } = [];
 
+    WindowDialog currentModal;
+    ComboView controllerTypeCombo = new();
     Theme defaultTheme;
 
     static readonly Color darkGray = new(50, 50, 50);
 
-    Settings config => configManager.CurrentConfig;
+    Settings Config => configManager.CurrentConfig;
 
     public Widget BuildUI()
     {
@@ -83,8 +81,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         SelectedJoystick.Text = pad.Name;
 
-        var currentType = config.InputMap.GetPadKind(pad);
-        ControllerTypeCombo.SelectedIndex = ThemeConfig.ControllerTypes.Keys.ToArray().IndexOf(currentType);
+        var currentType = Config.InputMap.GetPadKind(pad);
+        controllerTypeCombo.SelectedIndex = ThemeConfig.ControllerTypes.Keys.ToArray().IndexOf(currentType);
         player = pad;
     }
 
@@ -106,8 +104,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                 HorizontalAlignment = HorizontalAlignment.Left,
             });
 
-            var theme = ThemeManager.Get(config.CurrentTheme);
-            var macros = theme.GetMacro(buttonName, config.Macros);
+            var theme = ThemeManager.Get(Config.CurrentTheme);
+            var macros = theme.GetMacro(buttonName, Config.Macros);
             if (macros.Length is 0)
                 content.Widgets.Add(new Image
                 {
@@ -160,8 +158,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             Spacing = 15,
         };
         MappingMacro = buttonName;
-        var theme = ThemeManager.Get(config.CurrentTheme);
-        var macros = theme.GetMacro(buttonName, config.Macros);
+        var theme = ThemeManager.Get(Config.CurrentTheme);
+        var macros = theme.GetMacro(buttonName, Config.Macros);
         var selected = macros.ToList();
 
         foreach (var b in allButtonNames)
@@ -203,10 +201,10 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             MappingMacro = null;
             if (!dialog.Result) return;
 
-            if (config.Macros.ContainsKey(buttonName))
-                config.Macros[buttonName] = [.. selected];
+            if (Config.Macros.ContainsKey(buttonName))
+                Config.Macros[buttonName] = [.. selected];
             else
-                config.Macros.Add(buttonName, [.. selected]);
+                Config.Macros.Add(buttonName, [.. selected]);
 
             selected.Clear();
             SaveConfig();
@@ -218,7 +216,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         return dialog;
     }
 
-    Widget BuildMacroMap()
+    Grid BuildMacroMap()
     {
         var root = new Grid
         {
@@ -257,7 +255,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         };
         resetMapButton.Click += (_, _) =>
         {
-            config.Macros.Clear();
+            Config.Macros.Clear();
             SaveConfig();
             RebuildMacroButtons();
         };
@@ -355,7 +353,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
             dirCombo.Widgets.Add(item);
 
-            if (dirThemeName == config.CurrentTheme.Direction)
+            if (dirThemeName == Config.CurrentTheme.Direction)
                 dirCombo.SelectedItem = item;
         }
 
@@ -364,7 +362,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             var newTheme = (string)dirCombo.SelectedItem.Tag;
 
 
-            config.CurrentTheme = config.CurrentTheme with
+            Config.CurrentTheme = Config.CurrentTheme with
             {
                 Direction = newTheme,
             };
@@ -431,7 +429,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
             btnCombo.Widgets.Add(item);
 
-            if (btnThemeName == config.CurrentTheme.Buttons)
+            if (btnThemeName == Config.CurrentTheme.Buttons)
                 btnCombo.SelectedItem = item;
         }
 
@@ -439,7 +437,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         {
             var newTheme = (string)btnCombo.SelectedItem.Tag;
 
-            config.CurrentTheme = config.CurrentTheme with
+            Config.CurrentTheme = Config.CurrentTheme with
             {
                 Buttons = newTheme,
             };
@@ -461,41 +459,41 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             RowSpacing = 4,
         };
 
-        grid.ColumnsProportions.Add(new Proportion
+        grid.ColumnsProportions.Add(new()
         {
             Type = ProportionType.Part,
             Value = .7f,
         });
-        grid.ColumnsProportions.Add(new Proportion
+        grid.ColumnsProportions.Add(new()
         {
             Type = ProportionType.Part,
             Value = 1.3f,
         });
-        grid.ColumnsProportions.Add(new Proportion
+        grid.ColumnsProportions.Add(new()
         {
             Type = ProportionType.Part,
             Value = 1f,
         });
 
-        AddCheck(0, 0, "Borderless", config.Borderless, check => config.Borderless = check);
-        AddCheck(0, 1, "Show frames", config.ShowFrames, check => config.ShowFrames = check);
-        AddCheck(0, 2, "Show neutral", config.ShowNeutralIcon, check => config.ShowNeutralIcon = check);
-        AddCheck(0, 3, "Shadow holding", config.ShadowHolding, check => config.ShadowHolding = check);
-        AddCheck(0, 4, "Hide holding", config.HideHolding, check => config.HideHolding = check);
-        AddCheck(0, 5, "Auto correct", config.AutoCorrectMultiple, check => config.AutoCorrectMultiple = check);
+        AddCheck(0, 0, "Borderless", Config.Borderless, check => Config.Borderless = check);
+        AddCheck(0, 1, "Show frames", Config.ShowFrames, check => Config.ShowFrames = check);
+        AddCheck(0, 2, "Show neutral", Config.ShowNeutralIcon, check => Config.ShowNeutralIcon = check);
+        AddCheck(0, 3, "Shadow holding", Config.ShadowHolding, check => Config.ShadowHolding = check);
+        AddCheck(0, 4, "Hide holding", Config.HideHolding, check => Config.HideHolding = check);
+        AddCheck(0, 5, "Auto correct", Config.AutoCorrectMultiple, check => Config.AutoCorrectMultiple = check);
 
-        AddCheck(1, 0, "Invert history", config.InvertHistory, check => config.InvertHistory = check);
-        AddCheck(1, 1, "Frames after", config.FramesAfter, check => config.FramesAfter = check);
-        AddCheck(1, 2, "Hide button release", config.HideButtonRelease, check => config.HideButtonRelease = check);
-        AddCheck(1, 3, "Use Shortcuts", config.ShortcutsEnabled, check => config.ShortcutsEnabled = check);
+        AddCheck(1, 0, "Invert history", Config.InvertHistory, check => Config.InvertHistory = check);
+        AddCheck(1, 1, "Frames after", Config.FramesAfter, check => Config.FramesAfter = check);
+        AddCheck(1, 2, "Hide button release", Config.HideButtonRelease, check => Config.HideButtonRelease = check);
+        AddCheck(1, 3, "Use Shortcuts", Config.ShortcutsEnabled, check => Config.ShortcutsEnabled = check);
         CreateDirectionsSourceBox(1, 4, "Dir.Sources");
 
-        AddEnumCombo(2, 0, "SOCD", config.SOCD, item => config.SOCD = item);
-        AddNumeric(2, 1, "Input space", config.SpaceBetweenInputs, v => config.SpaceBetweenInputs = v);
-        AddNumeric(2, 2, "Command space", config.SpaceBetweenCommands, v => config.SpaceBetweenCommands = v);
-        AddNumeric(2, 3, "Direction space", config.DirectionSpace, v => config.DirectionSpace = v);
-        AddNumeric(2, 4, "Icon size", config.IconSize, v => config.IconSize = v);
-        AddColorPicker(2, 5, "Background color", config.ClearColor, c => config.ClearColor = c);
+        AddEnumCombo(2, 0, "SOCD", Config.SOCD, item => Config.SOCD = item);
+        AddNumeric(2, 1, "Input space", Config.SpaceBetweenInputs, v => Config.SpaceBetweenInputs = v);
+        AddNumeric(2, 2, "Command space", Config.SpaceBetweenCommands, v => Config.SpaceBetweenCommands = v);
+        AddNumeric(2, 3, "Direction space", Config.DirectionSpace, v => Config.DirectionSpace = v);
+        AddNumeric(2, 4, "Icon size", Config.IconSize, v => Config.IconSize = v);
+        AddColorPicker(2, 5, "Background color", Config.ClearColor, c => Config.ClearColor = c);
 
         return grid;
 
@@ -514,18 +512,18 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             };
             panel.Widgets.Add(label);
 
-            var dirSources = config.EnabledDirections;
+            var dirSources = Config.EnabledDirections;
             var chkDpad = InputCheck("DPad", dirSources.HasFlag(Settings.DirectionSources.DPad), check =>
-                config.EnabledDirections =
-                    config.EnabledDirections.ChangeFlag(Settings.DirectionSources.DPad, check));
+                Config.EnabledDirections =
+                    Config.EnabledDirections.ChangeFlag(Settings.DirectionSources.DPad, check));
 
             var chkLAnalog = InputCheck("L.Analog", dirSources.HasFlag(Settings.DirectionSources.LeftAnalog), check =>
-                config.EnabledDirections =
-                    config.EnabledDirections.ChangeFlag(Settings.DirectionSources.LeftAnalog, check));
+                Config.EnabledDirections =
+                    Config.EnabledDirections.ChangeFlag(Settings.DirectionSources.LeftAnalog, check));
 
             var chkRAnalog = InputCheck("R.Analog", dirSources.HasFlag(Settings.DirectionSources.RightAnalog), check =>
-                config.EnabledDirections =
-                    config.EnabledDirections.ChangeFlag(Settings.DirectionSources.RightAnalog, check));
+                Config.EnabledDirections =
+                    Config.EnabledDirections.ChangeFlag(Settings.DirectionSources.RightAnalog, check));
 
             HorizontalStackPanel checksPanel = new()
             {
@@ -880,15 +878,15 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         var name = (ButtonName)button.Tag;
 
         MappingButton = name;
-        CurrentModal = BuildButtonMapModal($"Mapping {name}");
-        CurrentModal.ShowModal(desktop);
+        currentModal = BuildButtonMapModal($"Mapping {name}");
+        currentModal.ShowModal(desktop);
     }
 
     public void ButtonMapped()
     {
-        CurrentModal?.Close();
+        currentModal?.Close();
         MappingButton = null;
-        CurrentModal = null;
+        currentModal = null;
     }
 
     void InitNumpadDirection(int numpad, (int Row, int Collumn) pos, Grid grid)
@@ -912,15 +910,15 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         grid.Widgets.Add(Directions[index]);
     }
 
-    static Widget Line() =>
-        new Panel
+    static Panel Line() =>
+        new()
         {
             BorderThickness = new(0, 1),
             Border = new SolidBrush(Color.White),
             Margin = new(0, 5),
         };
 
-    Widget BuildSelectedController()
+    Panel BuildSelectedController()
     {
         Panel root = new();
 
@@ -969,13 +967,13 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         };
         right.Widgets.Add(labelType);
 
-        ControllerTypeCombo = new()
+        controllerTypeCombo = new()
         {
             VerticalAlignment = VerticalAlignment.Center,
         };
-        right.Widgets.Add(ControllerTypeCombo);
+        right.Widgets.Add(controllerTypeCombo);
         foreach (var (typeName, text) in ThemeConfig.ControllerTypes)
-            ControllerTypeCombo.Widgets.Add(new Label
+            controllerTypeCombo.Widgets.Add(new Label
             {
                 VerticalAlignment = VerticalAlignment.Center,
                 Padding = new(5),
@@ -983,14 +981,14 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                 Tag = typeName,
             });
 
-        ControllerTypeCombo.SelectedIndexChanged += OnChangeControllerType;
+        controllerTypeCombo.SelectedIndexChanged += OnChangeControllerType;
         return root;
     }
 
     void OnChangeControllerType(object sender, EventArgs e)
     {
         if (sender is not ListView { SelectedItem: Label { Tag: PlayerPad.Kind kind } }
-            || player is null || config.InputMap.GetMapping(player) is not { } mapping)
+            || player is null || Config.InputMap.GetMapping(player) is not { } mapping)
             return;
 
         mapping.Kind = kind;
@@ -1001,7 +999,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         var index = NumpadNotation.From(dir) - 1;
         for (var i = 0; i < Directions.Length; i++)
-            Directions[i].Color = index == i && config.EnabledDirections is not Settings.DirectionSources.None
+            Directions[i].Color = index == i && Config.EnabledDirections is not Settings.DirectionSources.None
                 ? Color.White
                 : darkGray;
     }
@@ -1015,7 +1013,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                     : (IBrush)null;
     }
 
-    WindowDialog BuildButtonMapModal(string title)
+    static Dialog BuildButtonMapModal(string title)
     {
         Label label = new()
         {
@@ -1030,13 +1028,13 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         return buttonMapModal;
     }
 
-    public void SaveConfig() => configManager.SaveFile();
+    void SaveConfig() => configManager.SaveFile();
 
     public void Dispose()
     {
         foreach (var btn in Buttons.Values)
             btn.Click -= OnButtonMapClick;
 
-        ControllerTypeCombo.SelectedIndexChanged -= OnChangeControllerType;
+        controllerTypeCombo.SelectedIndexChanged -= OnChangeControllerType;
     }
 }

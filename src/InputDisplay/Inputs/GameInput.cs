@@ -50,7 +50,7 @@ public class GameInput
         public Button HK;
         public Button KK;
 
-        public bool EquivalentTo(State other) =>
+        public readonly bool EquivalentTo(State other) =>
             Stick.Direction == other.Stick.Direction
             && LP.Active == other.LP.Active
             && MP.Active == other.MP.Active
@@ -61,7 +61,7 @@ public class GameInput
             && HK.Active == other.HK.Active
             && KK.Active == other.KK.Active;
 
-        public bool IsNeutralOnly =>
+        public readonly bool IsNeutralOnly =>
             this is
             {
                 Stick.Direction: Direction.Neutral,
@@ -75,7 +75,7 @@ public class GameInput
                 KK.Active: false,
             };
 
-        public bool IsDirectionOnly =>
+        public readonly bool IsDirectionOnly =>
             this is
             {
                 Stick.Direction: not Direction.Neutral,
@@ -89,9 +89,9 @@ public class GameInput
                 KK.Active: false,
             };
 
-        public bool HasPressed => !HasNoPressed;
+        public readonly bool HasPressed => !HasNoPressed;
 
-        public bool HasNoPressed =>
+        public readonly bool HasNoPressed =>
             this is
             {
                 Stick: { Direction: Direction.Neutral } or { Holding: true },
@@ -118,7 +118,7 @@ public class GameInput
             KK = KK.Combine(other.KK);
         }
 
-        public ButtonName GetActiveButtons()
+        public readonly ButtonName GetActiveButtons()
         {
             var result = ButtonName.None;
             if (LP.Active) result |= ButtonName.LP;
@@ -136,7 +136,7 @@ public class GameInput
     State currentState;
     public State CurrentState => currentState;
 
-    void UpdateButton(GamePadState state, Buttons padButton, ref Button button)
+    static void UpdateButton(GamePadState state, Buttons padButton, ref Button button)
     {
         if (padButton is Buttons.None)
         {
@@ -173,7 +173,7 @@ public class GameInput
         }
     }
 
-    public void UpdateDirections(GamePadState state, SOCDMode socd, Settings.DirectionSources sources)
+    void UpdateDirections(GamePadState state, SOCDMode socd, Settings.DirectionSources sources)
     {
         if (sources is Settings.DirectionSources.None)
         {

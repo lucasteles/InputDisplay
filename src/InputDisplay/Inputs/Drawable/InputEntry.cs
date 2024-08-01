@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using InputDisplay.Config;
 using InputDisplay.Themes;
 
@@ -18,7 +17,6 @@ public class InputEntry
     readonly HashSet<ButtonName> pressed = [];
     readonly HashSet<ButtonName> fallback = [];
     readonly SortedSet<ButtonName> currentButtons = [];
-
 
     public void Draw(
         Settings config,
@@ -207,14 +205,4 @@ public class InputEntry
             }
         }
     }
-}
-
-sealed class TimeEntry<T>(T value) : IComparable<TimeEntry<T>>
-{
-    public T Value { get; } = value;
-    public long Time { get; set; }
-
-    public void Update() => Time = Stopwatch.GetTimestamp();
-
-    public int CompareTo(TimeEntry<T>? other) => Time.CompareTo(other?.Time);
 }
