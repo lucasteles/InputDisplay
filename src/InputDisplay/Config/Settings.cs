@@ -25,7 +25,6 @@ public class Settings
     );
 
     public SelectedTheme CurrentTheme { get; set; } = new();
-
     public bool Borderless { get; set; }
     public bool ShadowHolding { get; set; } = true;
     public bool HideHolding { get; set; }
@@ -35,6 +34,7 @@ public class Settings
     public bool InvertHistory { get; set; }
     public bool FramesAfter { get; set; }
     public bool HideButtonRelease { get; set; }
+    public bool AutoSelectSinglePad { get; set; } = true;
     public SOCDMode SOCD { get; set; } = SOCDMode.Neutral;
     public bool ShortcutsEnabled { get; set; } = true;
     public int IconSize { get; set; } = 40;
@@ -48,8 +48,8 @@ public class Settings
     public int Left { get; set; }
 
     public InputMap InputMap { get; set; } = new();
-
-    public InputMacro Macros { get; set; } = new();
+    public InputMacro Macros { get; set; } = [];
+    public KeyboardToPadMap KeyboardMap { get; set; } = new();
 
     public string BackgroundColor
     {
@@ -109,6 +109,8 @@ public class Settings
         EnabledDirections = config.EnabledDirections;
         Borderless = config.Borderless;
         HideButtonRelease = config.HideButtonRelease;
+        AutoSelectSinglePad = config.AutoSelectSinglePad;
+        KeyboardMap = config.KeyboardMap;
         Width = config.Width;
         Height = config.Height;
         Top = config.Top;

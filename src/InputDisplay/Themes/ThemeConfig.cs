@@ -300,7 +300,7 @@ public static class ThemeConfig
                 MacrosTemplate = new()
                 {
                     [ButtonName.HK] = [],
-                }
+                },
             },
             ["BlazBlue"] = new()
             {
@@ -316,7 +316,7 @@ public static class ThemeConfig
                 {
                     [ButtonName.HP] = [ButtonName.LP, ButtonName.MP],
                     [ButtonName.PP] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
-                }
+                },
             },
             ["DNF Duel"] = new()
             {
@@ -334,7 +334,7 @@ public static class ThemeConfig
                 {
                     [ButtonName.PP] = [ButtonName.LP, ButtonName.MP],
                     [ButtonName.HP] = [ButtonName.MP, ButtonName.MK],
-                }
+                },
             },
             ["GranBlue"] = new()
             {
@@ -352,7 +352,7 @@ public static class ThemeConfig
                 {
                     [ButtonName.PP] = [ButtonName.MP, ButtonName.MK],
                     [ButtonName.KK] = [ButtonName.LP, ButtonName.LK],
-                }
+                },
             },
             ["Melty Blood"] = new()
             {
@@ -382,7 +382,7 @@ public static class ThemeConfig
                     [ButtonName.HK] = [ButtonName.LP, ButtonName.MP],
                     [ButtonName.PP] = [ButtonName.LP, ButtonName.LK],
                     [ButtonName.KK] = [ButtonName.LP, ButtonName.MP, ButtonName.MK],
-                }
+                },
             },
             ["SoulCalibur 6"] = new()
             {
@@ -488,16 +488,17 @@ public static class ThemeConfig
                     [ButtonName.MK] = "a",
                     [ButtonName.PP] = "l",
                     [ButtonName.KK] = "zl",
-                }
+                },
             },
         };
 
-    public static readonly IReadOnlyDictionary<PlayerPad.Kind, string> ControllerTypes =
-        new Dictionary<PlayerPad.Kind, string>
+    public static readonly IReadOnlyDictionary<PlayerInputDevice.Kind, string> ControllerTypes =
+        new Dictionary<PlayerInputDevice.Kind, string>
         {
-            [PlayerPad.Kind.PlayStation] = PlayStation,
-            [PlayerPad.Kind.Xbox] = Xbox,
-            [PlayerPad.Kind.Nintendo] = Nintendo,
+            [PlayerInputDevice.Kind.PlayStation] = PlayStation,
+            [PlayerInputDevice.Kind.Xbox] = Xbox,
+            [PlayerInputDevice.Kind.Nintendo] = Nintendo,
+            [PlayerInputDevice.Kind.Keyboard] = Xbox,
         };
 
     static InputMacro DefaultTripleMacro() => new()

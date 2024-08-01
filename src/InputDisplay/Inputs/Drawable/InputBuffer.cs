@@ -9,7 +9,7 @@ public class InputBuffer(Settings config)
     readonly List<InputEntry> entries = new(config.MaxEntries);
     public InputEntry? Last => entries.LastOrDefault();
 
-    public void Update(PlayerPad pad)
+    public void Update(PlayerInputDevice pad)
     {
         gameInput.Update(pad, config);
         var controllerState = gameInput.CurrentState;

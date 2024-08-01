@@ -12,7 +12,7 @@ public sealed class SettingsWindow : IDisposable
 
     public bool IsOpen() => state is not WindowState.Closed && process is { Responding: true, HasExited: false };
 
-    public void Open(PlayerPad? player = null)
+    public void Open(PlayerInputDevice? player = null)
     {
         if (state is WindowState.Starting) return;
 
@@ -22,8 +22,15 @@ public sealed class SettingsWindow : IDisposable
         si.FileName = Process.GetCurrentProcess().MainModule?.FileName;
         si.Arguments = "config";
 
-        if (player is not null)
-            si.Arguments += $" {player.Index}";
+        switch (player)
+        {
+            case { IsKeyboard: true }:
+                si.Arguments += " keyboard";
+                break;
+            case { Index: var index }:
+                si.Arguments += $" {index}";
+                break;
+        }
 
         if (IsOpen())
         {

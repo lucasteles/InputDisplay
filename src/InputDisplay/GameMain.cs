@@ -17,7 +17,7 @@ public class GameMain : Game
 
     SpriteBatch spriteBatch = default!;
     GameResources resources = default!;
-    PlayerPad? player;
+    PlayerInputDevice? player;
 
     public GameMain()
     {
@@ -109,14 +109,14 @@ public class GameMain : Game
 
     void UpdateTheme()
     {
-        if (IsInteractable && Config.ShortcutsEnabled && themeManager.Update())
+        if (IsInteractable && player?.IsKeyboard is not true && Config.ShortcutsEnabled && themeManager.Update())
         {
             Config.Dirty = true;
             Config.CurrentTheme = themeManager.CurrentTheme;
         }
 
         if (player is null) return;
-        var kind = Config.InputMap.GetMapping(player)?.Kind ?? player.GetPadKind();
+        var kind = Config.InputMap.GetMapping(player)?.Kind ?? player.GetKind();
         themeManager.SetFallback(kind);
     }
 
@@ -161,7 +161,7 @@ public class GameMain : Game
                 return;
             }
 
-            if (player is null || PlayerPad.GetConnected().Count() <= 1)
+            if (player is null || (Config.AutoSelectSinglePad && !PlayerInputDevice.HasMultiplePads()))
                 Exit();
             else
                 player = null;
@@ -173,7 +173,7 @@ public class GameMain : Game
             (MouseManager.WasDoubleLeftClick && MouseManager.IsOnWindow(Window)))
             configWindow.Open(player);
 
-        if (!Config.ShortcutsEnabled) return;
+        if (!Config.ShortcutsEnabled || player?.IsKeyboard is true) return;
 
         if (KeyboardManager.IsKeyPressed(Keys.I))
         {
@@ -200,7 +200,10 @@ public class GameMain : Game
 
     void HandleMouseWheel()
     {
-        if (player?.IsConnected is false || !IsInteractable || !MouseManager.IsOnWindow(Window))
+        if (player?.IsConnected is false
+            || !IsInteractable
+            || !Config.ShortcutsEnabled
+            || !MouseManager.IsOnWindow(Window))
             return;
 
         var wheel = MouseManager.DeltaWheelValue;
@@ -239,11 +242,11 @@ public class GameMain : Game
 
     void DetectController()
     {
-        if (PlayerPad.DetectPress() is not { } playerPad) return;
+        if (PlayerInputDevice.DetectPress(Config.AutoSelectSinglePad, Config.KeyboardMap) is not { } playerPad) return;
 
         player = playerPad;
 
-        if (Config.InputMap.TryAddGamePad(player.Capabilities))
+        if (Config.InputMap.TryAddGamePad(player))
             configManager.Save();
     }
 

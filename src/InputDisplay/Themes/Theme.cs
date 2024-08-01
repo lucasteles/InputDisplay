@@ -40,31 +40,31 @@ public record Theme
         public IEnumerable<(string, Lazy<Texture2D>)> GetTextures(ContentManager content)
         {
             if (Neutral)
-                yield return content.LazyLoadTexture(Path, NumpadNotationStr.Neutral);
+                yield return content.LazyLoadTexture(Path, NumpadNotationString.Neutral);
 
-            yield return content.LazyLoadTexture(Path, NumpadNotationStr.Up);
-            yield return content.LazyLoadTexture(Path, NumpadNotationStr.Down);
-            yield return content.LazyLoadTexture(Path, NumpadNotationStr.Backward);
-            yield return content.LazyLoadTexture(Path, NumpadNotationStr.Forward);
-            yield return content.LazyLoadTexture(Path, NumpadNotationStr.UpForward);
-            yield return content.LazyLoadTexture(Path, NumpadNotationStr.UpBackward);
-            yield return content.LazyLoadTexture(Path, NumpadNotationStr.DownForward);
-            yield return content.LazyLoadTexture(Path, NumpadNotationStr.DownBackward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationString.Up);
+            yield return content.LazyLoadTexture(Path, NumpadNotationString.Down);
+            yield return content.LazyLoadTexture(Path, NumpadNotationString.Backward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationString.Forward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationString.UpForward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationString.UpBackward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationString.DownForward);
+            yield return content.LazyLoadTexture(Path, NumpadNotationString.DownBackward);
         }
 
         public string GetTexturePath(StickDirection dir)
         {
             var dirName = dir switch
             {
-                StickDirection.Neutral => Neutral ? NumpadNotationStr.Neutral : null,
-                StickDirection.UpForward => NumpadNotationStr.UpForward,
-                StickDirection.UpBackward => NumpadNotationStr.UpBackward,
-                StickDirection.DownForward => NumpadNotationStr.DownForward,
-                StickDirection.DownBackward => NumpadNotationStr.DownBackward,
-                StickDirection.Down => NumpadNotationStr.Down,
-                StickDirection.Up => NumpadNotationStr.Up,
-                StickDirection.Forward => NumpadNotationStr.Forward,
-                StickDirection.Backward => NumpadNotationStr.Backward,
+                StickDirection.Neutral => Neutral ? NumpadNotationString.Neutral : null,
+                StickDirection.UpForward => NumpadNotationString.UpForward,
+                StickDirection.UpBackward => NumpadNotationString.UpBackward,
+                StickDirection.DownForward => NumpadNotationString.DownForward,
+                StickDirection.DownBackward => NumpadNotationString.DownBackward,
+                StickDirection.Down => NumpadNotationString.Down,
+                StickDirection.Up => NumpadNotationString.Up,
+                StickDirection.Forward => NumpadNotationString.Forward,
+                StickDirection.Backward => NumpadNotationString.Backward,
                 _ => null,
             };
 

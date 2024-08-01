@@ -69,7 +69,7 @@ public static class NumpadNotation
     };
 }
 
-public static class NumpadNotationStr
+public static class NumpadNotationString
 {
     public static readonly string DownBackward = $"{NumpadNotation.DownBackward}";
     public static readonly string Down = NumpadNotation.Down.ToString();

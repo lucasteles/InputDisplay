@@ -220,7 +220,7 @@ public class GameInput
     }
 
     public void Update(
-        PlayerPad pad,
+        PlayerInputDevice pad,
         Settings config
     )
     {

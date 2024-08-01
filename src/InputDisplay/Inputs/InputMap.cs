@@ -8,7 +8,7 @@ public record InputMap
     public record ButtonMap
     {
         public required string Name { get; init; }
-        public PlayerPad.Kind Kind { get; set; }
+        public PlayerInputDevice.Kind Kind { get; set; }
 
         public Buttons LP { get; set; } = Buttons.X;
         public Buttons MP { get; set; } = Buttons.Y;
@@ -29,6 +29,7 @@ public record InputMap
             ButtonName.MK => MK,
             ButtonName.HK => HK,
             ButtonName.KK => KK,
+            ButtonName.None => Buttons.None,
             _ => throw new ArgumentOutOfRangeException(nameof(button), button, null),
         };
 
@@ -110,21 +111,21 @@ public record InputMap
 
     public bool Contains(string id) => Pads.ContainsKey(id);
 
-    public void AddGamePad(GamePadCapabilities caps) =>
+    public void AddGamePad(PlayerInputDevice caps) =>
         Pads.Add(caps.Identifier, new()
         {
-            Name = caps.DisplayName,
-            Kind = PlayerPad.GetPadKind(caps),
+            Name = caps.Name,
+            Kind = caps.GetKind(),
         });
 
-    public bool TryAddGamePad(GamePadCapabilities caps)
+    public bool TryAddGamePad(PlayerInputDevice caps)
     {
         if (Contains(caps.Identifier)) return false;
         AddGamePad(caps);
         return true;
     }
 
-    public ButtonMap? GetMapping(GamePadCapabilities pad) =>
+    public ButtonMap? GetMapping(PlayerInputDevice pad) =>
         GetMapping(pad.Identifier);
 
     public ButtonMap? GetMapping(string identifier) =>
@@ -135,6 +136,15 @@ public record InputMap
     public ButtonMap GetMappingOrDefault(string identifier) =>
         GetMapping(identifier) ?? ButtonMap.Default;
 
-    public PlayerPad.Kind GetPadKind(PlayerPad player) =>
-        GetMapping(player)?.Kind ?? player.GetPadKind();
+    public PlayerInputDevice.Kind GetPadKind(PlayerInputDevice player) =>
+        GetMapping(player)?.Kind ?? player.GetKind();
+
+    public static Buttons DirectionToPadButton(Direction dir) => dir switch
+    {
+        Direction.Up => Buttons.DPadUp,
+        Direction.Down => Buttons.DPadDown,
+        Direction.Forward => Buttons.DPadRight,
+        Direction.Backward => Buttons.DPadLeft,
+        _ => Buttons.None,
+    };
 }

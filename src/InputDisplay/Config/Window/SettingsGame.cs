@@ -23,11 +23,12 @@ public class SettingsGame : Game
 #pragma warning restore S1450
 
     readonly SettingsManager configManager = new();
-    PlayerPad? player;
+    PlayerInputDevice? player;
 
     Settings Config => configManager.CurrentConfig;
 
     PlayerIndex? playerIndexArg;
+    readonly bool fromPlayerUsingKeyboard;
 
     static readonly Point windowSize = new(1080, 720);
 
@@ -40,7 +41,12 @@ public class SettingsGame : Game
         Window.AllowUserResizing = false;
         graphics.ApplyChanges();
 
-        if (playerIndex.IsNonEmpty() && Enum.TryParse(playerIndex, out PlayerIndex index))
+        if (playerIndex is "keyboard")
+        {
+            fromPlayerUsingKeyboard = true;
+            playerIndexArg = PlayerIndex.One;
+        }
+        else if (playerIndex.IsNonEmpty() && Enum.TryParse(playerIndex, out PlayerIndex index))
             playerIndexArg = index;
     }
 
@@ -77,12 +83,21 @@ public class SettingsGame : Game
     {
         KeyboardManager.Update();
 
-        if (controls.MappingButton is null && controls.MappingMacro is null &&
-            KeyboardManager.IsKeyPressed(Keys.Escape))
-            if (player is null || PlayerPad.GetConnected().Count() <= 1 || playerIndexArg is not null)
+        if (KeyboardManager.IsKeyPressed(Keys.Escape))
+        {
+            if (controls.MappingButton is not null || controls.MappingMacro is not null)
+            {
+                controls.ButtonMapped();
+                return;
+            }
+
+            if (player is null
+                || (!PlayerInputDevice.HasMultiplePads() && Config.AutoSelectSinglePad)
+                || playerIndexArg is not null)
                 Exit();
             else
                 player = null;
+        }
 
         if (player is null)
         {
@@ -93,17 +108,42 @@ public class SettingsGame : Game
         player.Update();
         gameInput.Update(player, Config);
 
-        if (controls.MappingButton is null)
+        if (controls.MappingButton is null && controls.MappingDirection is null)
         {
             var input = gameInput.CurrentState;
             controls.HighLightDirection(input.Stick.Direction);
             controls.HighLightButtons(input.GetActiveButtons());
         }
-        else if (player.GetAnyButton() is { } padButton && Config.InputMap.GetMapping(player.Identifier) is { } map)
+        else if (controls.MappingButton is not null && Config.InputMap.GetMapping(player.Identifier) is { } map)
         {
-            map.Set(controls.MappingButton.Value, padButton);
+            var found = false;
+            if (!player.IsKeyboard && player.GetAnyButton() is { } padButton)
+            {
+                map.Set(controls.MappingButton.Value, padButton);
+                found = true;
+            }
+
+            if (player.IsKeyboard &&
+                player.TryRemapKeyboardFor(InputMap.ButtonMap.Default.Get(controls.MappingButton.Value))
+               )
+                found = true;
+
+            if (found)
+            {
+                controls.ButtonMapped();
+                configManager.SaveFile();
+            }
+        }
+        else if (controls.MappingDirection is not null &&
+                 player.IsKeyboard &&
+                 player.TryRemapKeyboardFor(InputMap.DirectionToPadButton(controls.MappingDirection.Value)))
+        {
             controls.ButtonMapped();
             configManager.SaveFile();
+        }
+        else if (controls.MappingDirection is not null && !player.IsKeyboard)
+        {
+            controls.ButtonMapped();
         }
 
         base.Update(gameTime);
@@ -113,8 +153,14 @@ public class SettingsGame : Game
     {
         if (playerIndexArg is not null && player is null)
         {
-            PlayerPad argPlayer = new(playerIndexArg.Value);
-            if (argPlayer.Capabilities.IsConnected)
+            PlayerInputDevice argPlayer =
+                fromPlayerUsingKeyboard
+                    ? new(Config.KeyboardMap)
+                    : new(playerIndexArg.Value);
+
+            argPlayer.Update();
+
+            if (argPlayer.IsConnected)
             {
                 SetPlayerPad(argPlayer);
                 return;
@@ -124,20 +170,21 @@ public class SettingsGame : Game
             playerIndexArg = null;
         }
 
-        if (PlayerPad.DetectPress() is not { } playerPad) return;
+        if (PlayerInputDevice.DetectPress(Config.AutoSelectSinglePad, Config.KeyboardMap) is not { } playerPad) return;
         SetPlayerPad(playerPad);
     }
 
-    public void SetPlayerPad(PlayerPad playerPad)
+    public void SetPlayerPad(PlayerInputDevice playerPad)
     {
         player = playerPad;
         controls.SetPlayer(playerPad);
-        if (Config.InputMap.TryAddGamePad(player.Capabilities))
+        if (Config.InputMap.TryAddGamePad(player))
             configManager.SaveFile();
     }
 
     void OnResetMap(object? sender, EventArgs e)
     {
+        Config.KeyboardMap.Reset();
         if (player is null || Config.InputMap.GetMapping(player.Identifier) is not { } map) return;
         map.Reset();
         configManager.SaveFile();

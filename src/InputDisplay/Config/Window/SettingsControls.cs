@@ -15,9 +15,10 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 {
     public ButtonName? MappingButton { get; private set; }
     public ButtonName? MappingMacro { get; private set; }
+    public Direction? MappingDirection { get; private set; }
     public Button ResetMapButton { get; private set; }
     Label SelectedJoystick { get; set; }
-    Image[] Directions { get; } = new Image[9];
+    Button[] Directions { get; } = new Button[9];
     Dictionary<ButtonName, Button> Buttons { get; } = [];
     Dictionary<ButtonName, Button> Macros { get; } = [];
 
@@ -26,6 +27,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     Theme defaultTheme;
 
     static readonly Color darkGray = new(50, 50, 50);
+    static readonly Color slateGray = Color.SlateGray;
 
     Settings Config => configManager.CurrentConfig;
 
@@ -75,15 +77,29 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         ButtonName.KK,
     ];
 
-    PlayerPad player;
+    PlayerInputDevice player;
 
-    public void SetPlayer(PlayerPad pad)
+    public void SetPlayer(PlayerInputDevice pad)
     {
         SelectedJoystick.Text = pad.Name;
 
         var currentType = Config.InputMap.GetPadKind(pad);
         controllerTypeCombo.SelectedIndex = ThemeConfig.ControllerTypes.Keys.ToArray().IndexOf(currentType);
         player = pad;
+
+        foreach (var button in Directions)
+            if (!player.IsKeyboard ||
+                button.Tag is Direction
+                    and not (Direction.Up or Direction.Down or Direction.Backward or Direction.Forward))
+            {
+                button.Enabled = false;
+                button.OverBackground = null;
+            }
+            else
+            {
+                button.Enabled = true;
+                button.OverBackground = new SolidBrush(Color.DarkSlateGray);
+            }
     }
 
     void RebuildMacroButtons()
@@ -486,7 +502,9 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         AddCheck(1, 1, "Frames after", Config.FramesAfter, check => Config.FramesAfter = check);
         AddCheck(1, 2, "Hide button release", Config.HideButtonRelease, check => Config.HideButtonRelease = check);
         AddCheck(1, 3, "Use Shortcuts", Config.ShortcutsEnabled, check => Config.ShortcutsEnabled = check);
-        CreateDirectionsSourceBox(1, 4, "Dir.Sources");
+        AddCheck(1, 4, "Auto select when single pad", Config.AutoSelectSinglePad,
+            check => Config.AutoSelectSinglePad = check);
+        CreateDirectionsSourceBox(1, 5, "Dir.Sources");
 
         AddEnumCombo(2, 0, "SOCD", Config.SOCD, item => Config.SOCD = item);
         AddNumeric(2, 1, "Input space", Config.SpaceBetweenInputs, v => Config.SpaceBetweenInputs = v);
@@ -860,7 +878,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
                     HorizontalAlignment = HorizontalAlignment.Center,
                     TextColor = Color.White,
                     Text = buttonName.ToString(),
-                }
+                },
         };
 
         button.Click += OnButtonMapClick;
@@ -875,10 +893,19 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     void OnButtonMapClick(object sender, EventArgs e)
     {
         var button = (Button)sender;
-        var name = (ButtonName)button.Tag;
 
-        MappingButton = name;
-        currentModal = BuildButtonMapModal($"Mapping {name}");
+        if (button.Tag is ButtonName name)
+            MappingButton = name;
+
+        if (button.Tag is Direction dir)
+        {
+            if (player?.IsKeyboard is not true)
+                return;
+
+            MappingDirection = dir;
+        }
+
+        currentModal = BuildButtonMapModal($"Mapping {button.Tag}");
         currentModal.ShowModal(desktop);
     }
 
@@ -886,6 +913,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     {
         currentModal?.Close();
         MappingButton = null;
+        MappingDirection = null;
         currentModal = null;
     }
 
@@ -895,15 +923,28 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         var texture = defaultTheme.GetTexture(dir);
         var index = numpad - 1;
 
-        Directions[index] = new()
+        Image image = new()
         {
             Renderable = new TextureRegion(texture),
+            Color = darkGray,
             Width = 30,
             Height = 30,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
-            Color = darkGray,
         };
+
+        Button button = new()
+        {
+            Tag = dir,
+            Background = null,
+            FocusedBackground = null,
+            DisabledBackground = null,
+            Content = image,
+        };
+
+        button.Click += OnButtonMapClick;
+
+        Directions[index] = button;
 
         Grid.SetColumn(Directions[index], pos.Collumn - 1);
         Grid.SetRow(Directions[index], pos.Row - 1);
@@ -950,7 +991,6 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         left.Widgets.Add(labelJoyStick);
         left.Widgets.Add(SelectedJoystick);
 
-
         HorizontalStackPanel right = new()
         {
             VerticalAlignment = VerticalAlignment.Center,
@@ -987,7 +1027,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
     void OnChangeControllerType(object sender, EventArgs e)
     {
-        if (sender is not ListView { SelectedItem: Label { Tag: PlayerPad.Kind kind } }
+        if (sender is not ListView { SelectedItem: Label { Tag: PlayerInputDevice.Kind kind } }
             || player is null || Config.InputMap.GetMapping(player) is not { } mapping)
             return;
 
@@ -998,10 +1038,23 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     public void HighLightDirection(Direction dir)
     {
         var index = NumpadNotation.From(dir) - 1;
+
         for (var i = 0; i < Directions.Length; i++)
-            Directions[i].Color = index == i && Config.EnabledDirections is not Settings.DirectionSources.None
-                ? Color.White
+        {
+            ref var btn = ref Directions[i];
+
+            var backcolor = player?.IsKeyboard is true &&
+                            btn.Tag is Direction.Up or Direction.Down or Direction.Backward or Direction.Forward
+                ? slateGray
                 : darkGray;
+
+            var color = index == i && Config.EnabledDirections is not Settings.DirectionSources.None
+                ? Color.White
+                : backcolor;
+
+            if (btn is { Content: Image img })
+                img.Color = color;
+        }
     }
 
     public void HighLightButtons(ButtonName buttons)

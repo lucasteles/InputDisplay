@@ -40,7 +40,7 @@ public class ThemeManager(Settings.SelectedTheme theme)
 
     public void SetFallback(string themeName) => FallbackTheme = Get(themeName);
 
-    public void SetFallback(PlayerPad.Kind kind)
+    public void SetFallback(PlayerInputDevice.Kind kind)
     {
         var themeName =
             ThemeConfig.ControllerTypes.GetValueOrDefault(kind, ThemeConfig.Xbox);

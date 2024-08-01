@@ -50,8 +50,10 @@ public static partial class Json
     [JsonSerializable(typeof(Settings.SelectedTheme))]
     [JsonSerializable(typeof(InputMacro))]
     [JsonSerializable(typeof(InputMap))]
-    [JsonSerializable(typeof(PlayerPad.Kind))]
+    [JsonSerializable(typeof(KeyboardToPadMap))]
+    [JsonSerializable(typeof(PlayerInputDevice.Kind))]
     [JsonSerializable(typeof(Buttons))]
+    [JsonSerializable(typeof(Keys))]
     [JsonSerializable(typeof(SOCDMode))]
     [JsonSourceGenerationOptions(
             GenerationMode = JsonSourceGenerationMode.Serialization | JsonSourceGenerationMode.Metadata,
@@ -62,8 +64,9 @@ public static partial class Json
                 typeof(JsonStringEnumConverter<Direction>),
                 typeof(JsonStringEnumConverter<ButtonName>),
                 typeof(JsonStringEnumConverter<Settings.DirectionSources>),
-                typeof(JsonStringEnumConverter<PlayerPad.Kind>),
+                typeof(JsonStringEnumConverter<PlayerInputDevice.Kind>),
                 typeof(JsonStringEnumConverter<Buttons>),
+                typeof(JsonStringEnumConverter<Keys>),
                 typeof(JsonStringEnumConverter<SOCDMode>),
             ]),
     ]
