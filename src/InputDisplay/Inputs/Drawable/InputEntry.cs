@@ -88,6 +88,9 @@ public class InputEntry
 
             void DrawDirectionComponent(Direction stickDirection)
             {
+                if (State.Stick.Holding && config.HideHolding)
+                    return;
+
                 if (theme.GetTexture(stickDirection) is not { } dirTexture)
                     return;
 
@@ -138,6 +141,9 @@ public class InputEntry
 
             if (combined.IsMultiple() && theme.GetTexture(combined) is { } multiTexture)
             {
+                if (State.HasNoPressed && config.HideHolding)
+                    return;
+
                 var scale = multiTexture.GetRatioScale(config.IconSize);
                 var color = State.HasNoPressed && config.ShadowHolding ? Color.Gray : Color.White;
                 batch.Draw(multiTexture, offset, null, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
@@ -154,7 +160,9 @@ public class InputEntry
                         texture = ThemeManager.UnknownButton;
 
                 var scale = texture.GetRatioScale(config.IconSize);
-                var color = holding.Contains(btn) && !pressed.Contains(btn) ? Color.Gray : Color.White;
+
+                var isHolding = holding.Contains(btn) && !pressed.Contains(btn);
+                var color = isHolding && config.ShadowHolding ? Color.Gray : Color.White;
 
                 batch.Draw(texture, offset, null, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
                 offset += commandDir * ((texture.Width * scale) + config.SpaceBetweenInputs);
@@ -176,6 +184,9 @@ public class InputEntry
             for (var index = 0; index < buttons.Length; index++)
             {
                 var btn = buttons[index];
+
+                if (button.Status is GameInput.ButtonStatus.Holding && config.HideHolding)
+                    continue;
 
                 if (config.ShadowHolding)
                     switch (button.Status)

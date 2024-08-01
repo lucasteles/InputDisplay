@@ -11,7 +11,6 @@ insert_final_newline = true
 # XML project files
 [*.{csproj,fsproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
 indent_size = 2
-
 # XML config files
 [*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
 indent_size = 2
@@ -52,28 +51,32 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 
 # Style Definitions
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+dotnet_naming_style.pascal_case_style.required_prefix =
+
 dotnet_naming_style.camel_case_style.capitalization = camel_case
+dotnet_naming_style.camel_case_style.required_prefix =
 
 # constant case preferences
 dotnet_naming_symbols.constant_fields.applicable_kinds = field
 dotnet_naming_symbols.constant_fields.applicable_accessibilities = *
 dotnet_naming_symbols.constant_fields.required_modifiers = const
-
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols = constant_fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
 
 # fields case preferences
-dotnet_naming_symbols.private_field_symbols.applicable_kinds = field
-dotnet_naming_symbols.private_field_symbols.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
 
-dotnet_naming_rule.private_field_symbols_should_be_camel_case.symbols = private_field_symbols
+dotnet_naming_rule.private_field_symbols_should_be_camel_case.symbols = private_fields
 dotnet_naming_rule.private_field_symbols_should_be_camel_case.severity = warning
 dotnet_naming_rule.private_field_symbols_should_be_camel_case.style = camel_case_style
 
-dotnet_naming_symbols.protected_field_symbols.applicable_kinds = field, property
-dotnet_naming_symbols.protected_field_symbols.applicable_accessibilities = protected
-dotnet_naming_rule.protected_field_symbols_should_be_camel_case.symbols = protected_field_symbols
+
+dotnet_naming_symbols.protected_fields.applicable_kinds = field
+dotnet_naming_symbols.protected_fields.applicable_accessibilities = protected
+
+dotnet_naming_rule.protected_field_symbols_should_be_camel_case.symbols = protected_fields
 dotnet_naming_rule.protected_field_symbols_should_be_camel_case.severity = suggestion
 dotnet_naming_rule.protected_field_symbols_should_be_camel_case.style = camel_case_style
 
@@ -81,7 +84,6 @@ dotnet_naming_rule.protected_field_symbols_should_be_camel_case.style = camel_ca
 csharp_style_var_for_built_in_types = true:silent
 csharp_style_var_when_type_is_apparent = true:silent
 csharp_style_var_elsewhere = true:silent
-
 # Expression-bodied members
 csharp_style_expression_bodied_methods = true:suggestion
 csharp_style_expression_bodied_constructors = true:suggestion
@@ -91,24 +93,19 @@ csharp_style_expression_bodied_indexers = true:suggestion
 csharp_style_expression_bodied_accessors = true:suggestion
 csharp_style_expression_bodied_lambdas = true:suggestion
 csharp_style_expression_bodied_local_functions = true:suggestion
-
 # Pattern matching preferences
 csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
-
 # Null-checking preferences
 csharp_style_throw_expression = true:suggestion
 csharp_style_conditional_delegate_call = true:suggestion
-
 # Modifier preferences
 csharp_preferred_modifier_order = public, private, protected, internal, static, extern, new, virtual, abstract, sealed, override, readonly, unsafe, volatile, async:suggestion
-
 # Expression-level preferences
 csharp_prefer_braces = false
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
-
 # New line preferences
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
@@ -117,12 +114,10 @@ csharp_new_line_before_finally = true
 csharp_new_line_before_members_in_object_initializers = true
 csharp_new_line_before_members_in_anonymous_types = true
 csharp_new_line_between_query_expression_clauses = true
-
 # Indentation preferences
 csharp_indent_case_contents = true
 csharp_indent_switch_labels = true
 csharp_indent_labels = flush_left
-
 # Space preferences
 csharp_space_after_cast = false
 csharp_space_after_keywords_in_control_flow_statements = true
@@ -138,36 +133,43 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
-
-# Analysers
+# Analyzers
 ## dotnet
 dotnet_diagnostic.IDE0011.severity = suggestion # require braces
 dotnet_diagnostic.IDE0005.severity = warning # Using directive is unnecessary.
-dotnet_diagnostic.IDE0005.severity = warning # Using directive is unnecessary.
-dotnet_diagnostic.CA1860.severity = silent # Prefer comparing 'Length' to 0 rather than using 'Any()'
-
+dotnet_diagnostic.IDE0251.severity = warning # member can be readonly
+dotnet_diagnostic.CA1860.severity = warning # Prefer comparing 'Length' to 0 rather than using 'Any()'
 ## Sonar
 dotnet_diagnostic.S1481.severity = warning # variable never used
 dotnet_diagnostic.S1144.severity = suggestion # Remove the unused private constructor 'AddAuthorizationHeaderOperationFilter'.
 dotnet_diagnostic.S1118.severity = suggestion # Add a 'protected' constructor or the 'static' keyword to the class declaration.
 dotnet_diagnostic.S1075.severity = suggestion # hardcoded URIs
 dotnet_diagnostic.S3459.severity = suggestion # Unassigned members should be removed
-dotnet_diagnostic.S1104.severity = suggestion #  Make this field 'private' and encapsulate it in a 'public' property. 
-dotnet_diagnostic.S3878.severity = suggestion #  params array creation
-dotnet_diagnostic.S3267.severity = suggestion # loops simplified LINQ 
-dotnet_diagnostic.S2681.severity = suggestion # loops single line 
+dotnet_diagnostic.S1210.severity = suggestion # When implementing IComparable , you should also override , =, >, and >=. 
+dotnet_diagnostic.S2344.severity = suggestion # remove Enum suffix
+dotnet_diagnostic.S6603.severity = suggestion
+dotnet_diagnostic.S6602.severity = suggestion # prefer array exists
 dotnet_diagnostic.S3237.severity = silent # Use the 'value' contextual keyword in this property set accessor declaration.
-dotnet_diagnostic.S1210.severity = silent # When implementing IComparable , you should also override , =, >, and >=. 
-dotnet_diagnostic.S2219.severity = silent # runtime type checking should be simplified
-dotnet_diagnostic.S2094.severity = silent # empty class (false positive)
-dotnet_diagnostic.S3973.severity = silent # braces
-dotnet_diagnostic.S2346.severity = silent # enum None flags
-
+dotnet_diagnostic.S1104.severity = silent # encapsulate fields
+dotnet_diagnostic.S3877.severity = silent # Remove this 'throw' expression.
+dotnet_diagnostic.S2699.severity = silent # add assert to test (not working with FsCheck)
+dotnet_diagnostic.S1117.severity = silent # hiding field
+## AsyncFixer
+dotnet_diagnostic.AsyncFixer01.severity = suggestion # The method dont needs async
 # Resharper 
 resharper_space_within_single_line_array_initializer_braces = true
 resharper_keep_existing_attribute_arrangement = true
+resharper_csharp_default_private_modifier = implicit
+resharper_csharp_default_internal_modifier = implicit
+resharper_csharp_object_creation_when_type_not_evident = target_typed
 resharper_max_array_initializer_elements_on_line = 10
 resharper_max_initializer_elements_on_line = 1
 resharper_trailing_comma_in_multiline_lists = true
 resharper_wrap_array_initializer_style = chop_if_long
 resharper_empty_block_style = together_same_line
+# FALSE POSITIVES
+dotnet_diagnostic.S2094.severity = silent # empty class (false positive)
+dotnet_diagnostic.S3925.severity = silent # Update this implementation of 'ISerializable' to conform to the recommended serialization pattern.
+
+[Usings.cs]
+dotnet_diagnostic.IDE0005.severity = silent # Using directive is unnecessary.

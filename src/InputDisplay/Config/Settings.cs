@@ -28,11 +28,12 @@ public class Settings
 
     public bool Borderless { get; set; }
     public bool ShadowHolding { get; set; } = true;
+    public bool HideHolding { get; set; }
     public bool ShowFrames { get; set; } = true;
     public bool ShowNeutralIcon { get; set; } = true;
     public bool AutoCorrectMultiple { get; set; } = true;
-    public bool InvertHistory { get; set; } = false;
-    public bool FramesAfter { get; set; } = false;
+    public bool InvertHistory { get; set; }
+    public bool FramesAfter { get; set; }
     public bool HideButtonRelease { get; set; }
     public SOCDMode SOCD { get; set; } = SOCDMode.Neutral;
     public bool ShortcutsEnabled { get; set; } = true;
@@ -93,6 +94,7 @@ public class Settings
         CurrentTheme = config.CurrentTheme;
         SpaceBetweenCommands = config.SpaceBetweenCommands;
         ShadowHolding = config.ShadowHolding;
+        HideHolding = config.HideHolding;
         ShowFrames = config.ShowFrames;
         ShortcutsEnabled = config.ShortcutsEnabled;
         ClearColor = config.ClearColor;

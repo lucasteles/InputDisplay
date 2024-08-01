@@ -288,7 +288,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         }
     }
 
-    Widget BuildThemes()
+    Grid BuildThemes()
     {
         Grid grid = new()
         {
@@ -373,15 +373,15 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
 
         // buttons
-        Label btnLabal = new()
+        Label btnLabel = new()
         {
             Text = "Buttons theme:",
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new(0, 0, 10, 0),
         };
-        Grid.SetColumn(btnLabal, 0);
-        Grid.SetRow(btnLabal, 1);
-        grid.Widgets.Add(btnLabal);
+        Grid.SetColumn(btnLabel, 0);
+        Grid.SetRow(btnLabel, 1);
+        grid.Widgets.Add(btnLabel);
 
         ComboView btnCombo = new()
         {
@@ -451,7 +451,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         return grid;
     }
 
-    Widget BuildSettings()
+    Grid BuildSettings()
     {
         Grid grid = new()
         {
@@ -481,7 +481,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         AddCheck(0, 1, "Show frames", config.ShowFrames, check => config.ShowFrames = check);
         AddCheck(0, 2, "Show neutral", config.ShowNeutralIcon, check => config.ShowNeutralIcon = check);
         AddCheck(0, 3, "Shadow holding", config.ShadowHolding, check => config.ShadowHolding = check);
-        AddCheck(0, 4, "Auto correct", config.AutoCorrectMultiple, check => config.AutoCorrectMultiple = check);
+        AddCheck(0, 4, "Hide holding", config.HideHolding, check => config.HideHolding = check);
+        AddCheck(0, 5, "Auto correct", config.AutoCorrectMultiple, check => config.AutoCorrectMultiple = check);
 
         AddCheck(1, 0, "Invert history", config.InvertHistory, check => config.InvertHistory = check);
         AddCheck(1, 1, "Frames after", config.FramesAfter, check => config.FramesAfter = check);
