@@ -2,9 +2,9 @@
 
 ![](assets/img/social_preview.png)
 
-Display your gamepad inputs in a fighting game training mode style! ⬇️↘️➡️+👊
+Display your game inputs in a fighting game training mode style! ⬇️↘️➡️+👊
 
-It is amazing to be used as a streaming
+It is amazing to be used as an overlay for streaming
 widget ([see here](https://github.com/lucasteles/InputDisplay/blob/master/how_to_obs.md)) or any video content.
 
 💡 **Oficial successor** of [FGInputLogger](https://github.com/lucasteles/FGInputLogger)
@@ -36,7 +36,7 @@ You can configure the layout, themes, and mapping by running the `config.cmd`, p
 
 ![](assets/img/config.png)
 
-[How to configure Input Display on OBS Studio](https://github.com/lucasteles/InputDisplay/blob/master/how_to_obs.md)
+[How to set-up **Input Display** on OBS Studio](https://github.com/lucasteles/InputDisplay/blob/master/how_to_obs.md)
 
 ## 📷 Screenshots
 
