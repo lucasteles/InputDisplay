@@ -28,15 +28,15 @@ Download the latest version 👉 [**HERE**](https://github.com/lucasteles/InputD
 - ️**DEL** : Disconnect controller
 - ️**I**: Invert input order
 
-## 🎥 Setting up [OBS Studio](https://obsproject.com)
+## 🎥 Using with [OBS Studio](https://obsproject.com)
+
+Check How to set-up **Input Display** on OBS Studio [**here**](https://github.com/lucasteles/InputDisplay/blob/master/how_to_obs.md)
 
 ## ⚙️ Configuration:
 
 You can configure the layout, themes, and mapping by running the `config.cmd`, pressing **F1**, or double-clicking on the window
 
 ![](assets/img/config.png)
-
-[How to set-up **Input Display** on OBS Studio](https://github.com/lucasteles/InputDisplay/blob/master/how_to_obs.md)
 
 ## 📷 Screenshots
 
