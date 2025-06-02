@@ -49,6 +49,8 @@ public class GameInput
         public Button MK;
         public Button HK;
         public Button KK;
+        public Button LS;
+        public Button RS;
 
         public readonly bool EquivalentTo(State other) =>
             Stick.Direction == other.Stick.Direction
@@ -59,7 +61,9 @@ public class GameInput
             && LK.Active == other.LK.Active
             && MK.Active == other.MK.Active
             && HK.Active == other.HK.Active
-            && KK.Active == other.KK.Active;
+            && KK.Active == other.KK.Active
+            && LS.Active == other.LS.Active
+            && RS.Active == other.RS.Active;
 
         public readonly bool IsNeutralOnly =>
             this is
@@ -73,6 +77,8 @@ public class GameInput
                 MK.Active: false,
                 HK.Active: false,
                 KK.Active: false,
+                LS.Active: false,
+                RS.Active: false,
             };
 
         public readonly bool IsDirectionOnly =>
@@ -87,6 +93,8 @@ public class GameInput
                 MK.Active: false,
                 HK.Active: false,
                 KK.Active: false,
+                LS.Active: false,
+                RS.Active: false,
             };
 
         public readonly bool HasPressed => !HasNoPressed;
@@ -103,6 +111,8 @@ public class GameInput
                 MK.Pressed: false,
                 HK.Pressed: false,
                 KK.Pressed: false,
+                LS.Active: false,
+                RS.Active: false,
             };
 
         public void Combine(State other)
@@ -116,6 +126,9 @@ public class GameInput
             MK = MK.Combine(other.MK);
             HK = HK.Combine(other.HK);
             KK = KK.Combine(other.KK);
+
+            LS = LS.Combine(other.LS);
+            RS = RS.Combine(other.RS);
         }
 
         public readonly ButtonName GetActiveButtons()
@@ -129,6 +142,8 @@ public class GameInput
             if (MK.Active) result |= ButtonName.MK;
             if (HK.Active) result |= ButtonName.HK;
             if (KK.Active) result |= ButtonName.KK;
+            if (LS.Active) result |= ButtonName.LS;
+            if (RS.Active) result |= ButtonName.RS;
             return result;
         }
     }
@@ -236,5 +251,7 @@ public class GameInput
         UpdateButton(state, map.MK, ref currentState.MK);
         UpdateButton(state, map.HK, ref currentState.HK);
         UpdateButton(state, map.KK, ref currentState.KK);
+        UpdateButton(state, map.LS, ref currentState.LS);
+        UpdateButton(state, map.RS, ref currentState.RS);
     }
 }

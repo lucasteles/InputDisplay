@@ -18,6 +18,8 @@ public record InputMap
         public Buttons MK { get; set; } = Buttons.B;
         public Buttons HK { get; set; } = Buttons.RightTrigger;
         public Buttons KK { get; set; } = Buttons.LeftTrigger;
+        public Buttons LS { get; set; } = Buttons.LeftStick;
+        public Buttons RS { get; set; } = Buttons.RightStick;
 
         public Buttons Get(ButtonName button) => button switch
         {

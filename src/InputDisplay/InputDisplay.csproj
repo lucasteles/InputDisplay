@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <PublishReadyToRun>false</PublishReadyToRun>
     <PublishSingleFile>true</PublishSingleFile>
     <TieredCompilation>false</TieredCompilation>
@@ -33,16 +33,16 @@
     <!--    <None Include="$(ProjectDir)Content\themes\**" CopyToOutputDirectory="PreserveNewest" />-->
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303"/>
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303"/>
-    <PackageReference Include="Myra" Version="1.5.5" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.23.0.88079">
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4"/>
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4"/>
+    <PackageReference Include="Myra" Version="1.5.9" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.8.*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-  <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
-    <Message Text="Restoring dotnet tools" Importance="High"/>
-    <Exec Command="dotnet tool restore"/>
+  <Target Name="RestoreDotnetTools" BeforeTargets="CollectPackageReferences">
+    <Message Text="Restoring dotnet tools (this might take a while depending on your internet speed and should only happen upon building your project for the first time, or after upgrading MonoGame, or clearing your nuget cache)" Importance="High" />
+    <Exec Command="dotnet tool restore" />
   </Target>
 </Project>

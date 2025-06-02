@@ -23,6 +23,7 @@
     "top": 568,
     "left": 1680,
     "socd": "Neutral",
+    "backgroundColor": "556B2F",
     "inputMap": {
         "pads": {}
     },
@@ -39,7 +40,8 @@
         "a": "Z",
         "b": "X",
         "rightTrigger": "C",
-        "leftTrigger": "V"
-    },
-    "backgroundColor": "556B2F"
+        "leftTrigger": "V",
+        "leftStick": "G",
+        "rightStick": "B"
+    }
 }

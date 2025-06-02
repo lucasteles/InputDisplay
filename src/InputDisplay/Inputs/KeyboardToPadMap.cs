@@ -17,6 +17,10 @@ public class KeyboardToPadMap
     public Keys B { get; set; } = Keys.X;
     public Keys RightTrigger { get; set; } = Keys.C;
     public Keys LeftTrigger { get; set; } = Keys.V;
+    public Keys LeftStick { get; set; } = Keys.G;
+    public Keys RightStick { get; set; } = Keys.B;
+
+    static readonly KeyboardToPadMap @default = new();
 
     public Buttons GetButtons(KeyboardState state)
     {
@@ -54,6 +58,8 @@ public class KeyboardToPadMap
         if (state.IsKeyDown(B)) buttons |= Buttons.B;
         if (state.IsKeyDown(RightTrigger)) buttons |= Buttons.RightTrigger;
         if (state.IsKeyDown(LeftTrigger)) buttons |= Buttons.LeftTrigger;
+        if (state.IsKeyDown(LeftStick)) buttons |= Buttons.LeftStick;
+        if (state.IsKeyDown(RightStick)) buttons |= Buttons.RightStick;
 
         return buttons;
     }
@@ -72,7 +78,9 @@ public class KeyboardToPadMap
         state.IsKeyDown(A) ||
         state.IsKeyDown(B) ||
         state.IsKeyDown(RightTrigger) ||
-        state.IsKeyDown(LeftTrigger);
+        state.IsKeyDown(LeftTrigger) ||
+        state.IsKeyDown(RightStick) ||
+        state.IsKeyDown(LeftStick);
 
     public bool DetectUpdate(Buttons button) => DetectUpdate(button, Keyboard.GetState());
 
@@ -101,6 +109,8 @@ public class KeyboardToPadMap
         if (button.HasFlag(Buttons.B)) B = pressed;
         if (button.HasFlag(Buttons.RightTrigger)) RightTrigger = pressed;
         if (button.HasFlag(Buttons.LeftTrigger)) LeftTrigger = pressed;
+        if (button.HasFlag(Buttons.RightStick)) RightStick = pressed;
+        if (button.HasFlag(Buttons.LeftStick)) LeftStick = pressed;
 
         return true;
     }
@@ -135,17 +145,19 @@ public class KeyboardToPadMap
 
     public void Reset()
     {
-        Up = Keys.Up;
-        Down = Keys.Down;
-        Left = Keys.Left;
-        Right = Keys.Right;
-        X = Keys.A;
-        Y = Keys.S;
-        RightShoulder = Keys.D;
-        LeftShoulder = Keys.F;
-        A = Keys.Z;
-        B = Keys.X;
-        RightTrigger = Keys.C;
-        LeftTrigger = Keys.V;
+        Up = @default.Up;
+        Down = @default.Down;
+        Left = @default.Left;
+        Right = @default.Right;
+        X = @default.X;
+        Y = @default.Y;
+        RightShoulder = @default.RightShoulder;
+        LeftShoulder = @default.LeftShoulder;
+        A = @default.A;
+        B = @default.B;
+        RightTrigger = @default.RightTrigger;
+        LeftTrigger = @default.LeftTrigger;
+        RightStick = @default.RightStick;
+        LeftStick = @default.LeftStick;
     }
 }

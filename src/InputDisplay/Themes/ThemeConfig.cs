@@ -488,6 +488,8 @@ public static class ThemeConfig
                     [ButtonName.MK] = "a",
                     [ButtonName.PP] = "l",
                     [ButtonName.KK] = "zl",
+                    [ButtonName.LS] = "ls",
+                    [ButtonName.RS] = "rs",
                 },
             },
         };
@@ -549,6 +551,8 @@ public static class ThemeConfig
         [ButtonName.MK] = "circle",
         [ButtonName.HK] = "r2",
         [ButtonName.KK] = "l2",
+        [ButtonName.LS] = "l3",
+        [ButtonName.RS] = "r3",
     };
 
     static ButtonImage ForXBox() => new()
@@ -561,5 +565,7 @@ public static class ThemeConfig
         [ButtonName.MK] = "b",
         [ButtonName.HK] = "rt",
         [ButtonName.KK] = "lt",
+        [ButtonName.LS] = "ls",
+        [ButtonName.RS] = "rs",
     };
 }
