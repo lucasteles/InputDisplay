@@ -51,6 +51,12 @@ public class ThemeManager(Settings.SelectedTheme theme)
         SetFallback(themeName);
     }
 
+    public static Theme GetFallback(PlayerInputDevice.Kind kind)
+    {
+        var themeName = ThemeConfig.ControllerTypes.GetValueOrDefault(kind, ThemeConfig.Xbox);
+        return Get(themeName);
+    }
+
     public bool Update()
     {
         var previousTheme = CurrentTheme;
@@ -84,12 +90,16 @@ public class ThemeManager(Settings.SelectedTheme theme)
         textures.Add(unknown.Name, new(() => unknown));
 
         foreach (var dir in ThemeConfig.DirectionMap.Values)
+        {
             foreach (var (name, texture) in dir.GetTextures(content))
                 textures.Add(name, texture);
+        }
 
         foreach (var btn in ThemeConfig.ButtonMap.Values)
+        {
             foreach (var (name, texture) in btn.GetTextures(content))
                 textures.Add(name, texture);
+        }
     }
 
     public static Theme Get(string buttons = DefaultButtons, string direction = DefaultDirection) =>

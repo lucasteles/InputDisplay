@@ -49,9 +49,9 @@ public class InputHistory(Settings config)
     public void Draw(SpriteBatch batch, Theme theme, GameResources resources, in Rectangle window)
     {
         var dir = config.InvertHistory ? -1 : 1;
-        var step = config.IsHorizontal
-            ? new Vector2(config.SpaceBetweenCommands + config.IconSize, 0)
-            : new Vector2(0, config.SpaceBetweenCommands + config.IconSize);
+        Vector2 step = config.IsHorizontal
+            ? new(config.SpaceBetweenCommands + config.IconSize, 0)
+            : new(0, config.SpaceBetweenCommands + config.IconSize);
 
         var padding = new Vector2(config.SpaceBetweenInputs, config.SpaceBetweenCommands) * 2;
         var font = resources.Font;

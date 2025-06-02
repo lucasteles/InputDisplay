@@ -27,19 +27,5 @@
         "pads": {}
     },
     "macros": {},
-    "keyboardMap": {
-        "up": "Up",
-        "down": "Down",
-        "left": "Left",
-        "right": "Right",
-        "x": "A",
-        "y": "S",
-        "rightShoulder": "D",
-        "leftShoulder": "F",
-        "a": "Z",
-        "b": "X",
-        "rightTrigger": "C",
-        "leftTrigger": "V"
-    },
     "backgroundColor": "556B2F"
 }

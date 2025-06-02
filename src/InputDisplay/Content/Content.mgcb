@@ -1154,6 +1154,18 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/ps/l2.png
 
+#begin themes/btn/ps/l3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/ps/l3.png;themes/btn/ps/l3
+
 #begin themes/btn/ps/r1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1177,6 +1189,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/ps/r2.png
+
+#begin themes/btn/ps/r3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/ps/r3.png;themes/btn/ps/r3
 
 #begin themes/btn/ps/square.png
 /importer:TextureImporter
@@ -1250,6 +1274,18 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/ps3/l2.png
 
+#begin themes/btn/ps3/l3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/ps3/l3.png;themes/btn/ps3/l3
+
 #begin themes/btn/ps3/r1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1273,6 +1309,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/ps3/r2.png
+
+#begin themes/btn/ps3/r3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/ps3/r3.png;themes/btn/ps3/r3
 
 #begin themes/btn/ps3/square.png
 /importer:TextureImporter
@@ -1346,6 +1394,18 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/ps5/l2.png
 
+#begin themes/btn/ps5/l3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/ps5/l3.png;themes/btn/ps5/l3
+
 #begin themes/btn/ps5/r1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1369,6 +1429,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/ps5/r2.png
+
+#begin themes/btn/ps5/r3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/ps5/r3.png;themes/btn/ps5/r3
 
 #begin themes/btn/ps5/square.png
 /importer:TextureImporter
@@ -2642,6 +2714,18 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/switch/l.png
 
+#begin themes/btn/switch/ls.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/switch/ls.png;themes/btn/switch/ls
+
 #begin themes/btn/switch/r.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2653,6 +2737,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/switch/r.png
+
+#begin themes/btn/switch/rs.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/switch/rs.png;themes/btn/switch/rs
 
 #begin themes/btn/switch/x.png
 /importer:TextureImporter
@@ -3458,6 +3554,18 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/xbox_s/lb.png
 
+#begin themes/btn/xbox_s/ls.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/xbox_s/ls.png;themes/btn/xbox_s/ls
+
 #begin themes/btn/xbox_s/lt.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3481,6 +3589,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/xbox_s/rb.png
+
+#begin themes/btn/xbox_s/rs.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/xbox_s/rs.png;themes/btn/xbox_s/rs
 
 #begin themes/btn/xbox_s/rt.png
 /importer:TextureImporter
@@ -3554,6 +3674,18 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/xbox/lb.png
 
+#begin themes/btn/xbox/ls.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/xbox/ls.png;themes/btn/xbox/ls
+
 #begin themes/btn/xbox/lt.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3577,6 +3709,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/xbox/rb.png
+
+#begin themes/btn/xbox/rs.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/xbox/rs.png;themes/btn/xbox/rs
 
 #begin themes/btn/xbox/rt.png
 /importer:TextureImporter
@@ -3650,6 +3794,18 @@
 /processorParam:TextureFormat=Color
 /build:themes/btn/xbox360/lb.png
 
+#begin themes/btn/xbox360/ls.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/xbox360/ls.png;themes/btn/xbox360/ls
+
 #begin themes/btn/xbox360/lt.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3673,6 +3829,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:themes/btn/xbox360/rb.png
+
+#begin themes/btn/xbox360/rs.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:themes/btn/xbox360/rs.png;themes/btn/xbox360/rs
 
 #begin themes/btn/xbox360/rt.png
 /importer:TextureImporter

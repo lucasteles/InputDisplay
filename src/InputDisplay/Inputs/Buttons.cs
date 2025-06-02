@@ -12,16 +12,20 @@ public enum ButtonName : short
     MK = 1 << 6,
     HK = 1 << 7,
     KK = 1 << 8,
+    LS = 1 << 9,
+    RS = 1 << 10,
 }
 
 [Flags]
 public enum Direction : byte
 {
+#pragma warning disable S2346
     Neutral = 0,
     Up = 1 << 0,
     Down = 1 << 1,
     Forward = 1 << 2,
     Backward = 1 << 3,
+#pragma warning restore S2346
 
     UpForward = Up | Forward,
     UpBackward = Up | Backward,

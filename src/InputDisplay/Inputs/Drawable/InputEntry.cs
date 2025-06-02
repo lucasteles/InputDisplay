@@ -119,6 +119,8 @@ public class InputEntry
             CheckButton(State.MK, ButtonName.MK);
             CheckButton(State.HK, ButtonName.HK);
             CheckButton(State.KK, ButtonName.KK);
+            CheckButton(State.LS, ButtonName.LS);
+            CheckButton(State.RS, ButtonName.RS);
 
 #pragma warning disable S2583
             if (currentButtons.Count is 0)

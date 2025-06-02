@@ -22,6 +22,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     Dictionary<ButtonName, Button> Buttons { get; } = [];
     Dictionary<ButtonName, Button> Macros { get; } = [];
 
+    Theme fallbackTheme;
     WindowDialog currentModal;
     ComboView controllerTypeCombo = new();
     Theme defaultTheme;
@@ -75,6 +76,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         ButtonName.MK,
         ButtonName.HK,
         ButtonName.KK,
+        ButtonName.LS,
+        ButtonName.RS,
     ];
 
     PlayerInputDevice player;
@@ -86,6 +89,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         var currentType = Config.InputMap.GetPadKind(pad);
         controllerTypeCombo.SelectedIndex = ThemeConfig.ControllerTypes.Keys.ToArray().IndexOf(currentType);
         player = pad;
+        RefreshFallbackTheme();
 
         foreach (var button in Directions)
             if (!player.IsKeyboard ||
@@ -123,18 +127,27 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             var theme = ThemeManager.Get(Config.CurrentTheme);
             var macros = theme.GetMacro(buttonName, Config.Macros);
             if (macros.Length is 0)
+            {
+                var texture = theme.GetTexture(buttonName)
+                              ?? fallbackTheme?.GetTexture(buttonName)
+                              ?? ThemeManager.UnknownButton;
+
                 content.Widgets.Add(new Image
                 {
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Right,
-                    Renderable = new TextureRegion(ThemeManager.UnknownButton),
+                    Renderable = new TextureRegion(texture),
                     Width = 30,
                     Height = 30,
                 });
+            }
             else
                 foreach (var part in macros)
                 {
-                    var texture = theme.GetTexture(part) ?? ThemeManager.UnknownButton;
+                    var texture = theme.GetTexture(part)
+                                  ?? fallbackTheme?.GetTexture(part)
+                                  ?? ThemeManager.UnknownButton;
+
                     content.Widgets.Add(new Image
                     {
                         VerticalAlignment = VerticalAlignment.Center,
@@ -180,7 +193,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
 
         foreach (var b in allButtonNames)
         {
-            var texture = theme.GetTexture(b);
+            var texture = theme.GetTexture(b) ?? fallbackTheme?.GetTexture(b);
             if (texture is null) continue;
 
             Image icon = new()
@@ -245,6 +258,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         root.ColumnsProportions.Add(new(ProportionType.Auto));
         root.ColumnsProportions.Add(new(ProportionType.Auto));
         root.ColumnsProportions.Add(new(ProportionType.Auto));
+        root.ColumnsProportions.Add(new(ProportionType.Auto));
         root.RowsProportions.Add(new(ProportionType.Auto));
         root.RowsProportions.Add(new(ProportionType.Auto));
 
@@ -276,7 +290,7 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
             RebuildMacroButtons();
         };
 
-        Grid.SetColumn(resetMapButton, 3);
+        Grid.SetColumn(resetMapButton, 4);
         Grid.SetRow(resetMapButton, 0);
         root.Widgets.Add(resetMapButton);
 
@@ -290,6 +304,8 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         SetMacroButton(ButtonName.MK, (2, 1));
         SetMacroButton(ButtonName.HK, (2, 2));
         SetMacroButton(ButtonName.KK, (2, 3));
+        SetMacroButton(ButtonName.LS, (1, 4));
+        SetMacroButton(ButtonName.RS, (2, 4));
 
         return root;
 
@@ -852,11 +868,13 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
         InitButton(ButtonName.MP, (1, 2), buttonsGrid);
         InitButton(ButtonName.HP, (1, 3), buttonsGrid);
         InitButton(ButtonName.PP, (1, 4), buttonsGrid);
+        InitButton(ButtonName.LS, (1, 5), buttonsGrid);
 
         InitButton(ButtonName.LK, (2, 1), buttonsGrid);
         InitButton(ButtonName.MK, (2, 2), buttonsGrid);
         InitButton(ButtonName.HK, (2, 3), buttonsGrid);
         InitButton(ButtonName.KK, (2, 4), buttonsGrid);
+        InitButton(ButtonName.RS, (2, 5), buttonsGrid);
 
         return root;
     }
@@ -1028,11 +1046,27 @@ public sealed class SettingsControls(Desktop desktop, SettingsManager configMana
     void OnChangeControllerType(object sender, EventArgs e)
     {
         if (sender is not ListView { SelectedItem: Label { Tag: PlayerInputDevice.Kind kind } }
-            || player is null || Config.InputMap.GetMapping(player) is not { } mapping)
+            || player is null
+            || Config.InputMap.GetMapping(player) is not { } mapping
+           )
             return;
 
         mapping.Kind = kind;
+        RefreshFallbackTheme();
         SaveConfig();
+    }
+
+    void RefreshFallbackTheme()
+    {
+        if (player is null) return;
+
+        var kind = Config.InputMap.GetPadKind(player);
+        var theme = ThemeManager.GetFallback(kind);
+
+        if (fallbackTheme == theme) return;
+
+        fallbackTheme = theme;
+        RebuildMacroButtons();
     }
 
     public void HighLightDirection(Direction dir)
