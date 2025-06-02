@@ -3,7 +3,7 @@ using InputDisplay.Themes;
 
 namespace InputDisplay.Inputs.Drawable;
 
-public class InputBuffer(Settings config)
+public class InputHistory(Settings config)
 {
     readonly GameInput gameInput = new();
     readonly List<InputEntry> entries = new(config.MaxEntries);

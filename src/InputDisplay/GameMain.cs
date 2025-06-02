@@ -12,7 +12,7 @@ public class GameMain : Game
     readonly GraphicsDeviceManager graphics;
     readonly SettingsWindow configWindow = new();
     readonly SettingsManager configManager = new();
-    readonly InputBuffer buffer;
+    readonly InputHistory history;
     readonly ThemeManager themeManager;
 
     SpriteBatch spriteBatch = default!;
@@ -28,7 +28,7 @@ public class GameMain : Game
         IsMouseVisible = true;
 
         themeManager = new(Config.CurrentTheme);
-        buffer = new(Config);
+        history = new(Config);
     }
 
     void OnPreparingDeviceSettings(object? sender, PreparingDeviceSettingsEventArgs e)
@@ -97,7 +97,7 @@ public class GameMain : Game
             return;
         }
 
-        buffer.Update(player);
+        history.Update(player);
     }
 
     public void SetWindowPosition()
@@ -195,7 +195,7 @@ public class GameMain : Game
         }
 
         if (KeyboardManager.IsKeyPressed(Keys.Back))
-            buffer.Clear();
+            history.Clear();
     }
 
     void HandleMouseWheel()
@@ -264,7 +264,7 @@ public class GameMain : Game
             resources.Font.Draw(spriteBatch, text, Color.White, Color.Black, new(20), scale);
         }
         else
-            buffer.Draw(
+            history.Draw(
                 spriteBatch,
                 themeManager.CurrentTheme,
                 resources,
