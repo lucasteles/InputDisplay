@@ -31,14 +31,16 @@ jobs:
                 with:
                     global-json-file: global.json
                     
-            - name: Install GitVersion
-              uses: gittools/actions/gitversion/setup@v0.10.2
-              with:
-                  versionSpec: 5.x
+            -   name: Install GitVersion
+                uses: gittools/actions/gitversion/setup@v3.1.11
+                with:
+                    versionSpec: 6.0.x
 
-            - name: Determine Version
-              uses: gittools/actions/gitversion/execute@v0.10.2
-              id: gitversion
+            -   name: Determine Version
+                uses: gittools/actions/gitversion/execute@v3.1.11
+                id: gitversion
+                with:
+                    useConfigFile: true
 
             - name: Display GitVersion outputs
               run: |
@@ -70,7 +72,7 @@ jobs:
               run: cd ./Artifacts; zip -r ../artifacts.zip *
 
             - name: Upload artifact
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: app
                   path: artifacts.zip
@@ -81,7 +83,7 @@ jobs:
         if: github.event.inputs.sign == 'true' && github.ref == 'refs/heads/master' && needs.build.outputs.CommitsSinceVersionSource > 0
         steps:
             - name: Download artifacts
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v4
               with:
                   name: app
 
@@ -119,7 +121,7 @@ jobs:
             && (needs.sign.result == 'success' || needs.sign.result == 'skipped')
         steps:
             - name: Download artifacts
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v4
               with:
                   name: app
 
