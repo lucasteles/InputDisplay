@@ -23,9 +23,25 @@
     "top": 568,
     "left": 1680,
     "socd": "Neutral",
+    "backgroundColor": "556B2F",
     "inputMap": {
         "pads": {}
     },
     "macros": {},
-    "backgroundColor": "556B2F"
+    "keyboardMap": {
+        "up": "Up",
+        "down": "Down",
+        "left": "Left",
+        "right": "Right",
+        "x": "A",
+        "y": "S",
+        "rightShoulder": "D",
+        "leftShoulder": "F",
+        "a": "Z",
+        "b": "X",
+        "rightTrigger": "C",
+        "leftTrigger": "V",
+        "leftStick": "G",
+        "rightStick": "B"
+    }
 }
